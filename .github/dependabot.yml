@@ -1,0 +1,45 @@
+version: 2
+
+# Minor and patch updates arrive as one grouped PR per ecosystem; majors stay separate so breaking changes get their own review.
+# The cooldown skips versions younger than a few days, which keeps freshly published (and possibly compromised) releases out.
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    cooldown:
+      default-days: 3
+      semver-major-days: 7
+    open-pull-requests-limit: 5
+    labels: [dependencies]
+    commit-message:
+      prefix: "⬆️"
+    groups:
+      npm-minor-and-patch:
+        update-types: [minor, patch]
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    cooldown:
+      default-days: 3
+    labels: [dependencies]
+    commit-message:
+      prefix: "⬆️"
+    groups:
+      actions:
+        patterns: ["*"]
+
+  - package-ecosystem: docker
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    cooldown:
+      default-days: 3
+    labels: [dependencies]
+    commit-message:
+      prefix: "⬆️"
