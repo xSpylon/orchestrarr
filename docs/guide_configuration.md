@@ -28,16 +28,18 @@ Authentication is configured with **Settings → Access** or with environment va
 | Mode | Required values | Client behavior |
 | --- | --- | --- |
 | <code>none</code> | None | Local API access without login |
-| <code>apikey</code> | <code>ORCHESTRARR_API_KEY</code> | Browser login with the key; API clients send <code>X-Orchestrarr-Key</code> |
+| <code>apikey</code> | <code>ORCHESTRARR_API_KEY</code>, or a key generated on first start | Browser login with the key; API clients send <code>X-Orchestrarr-Key</code> |
 | <code>basic</code> | <code>AUTH_USERNAME</code>, <code>AUTH_PASSWORD</code> | API clients send an <code>Authorization: Basic ...</code> header |
 
 Only <code>none</code>, <code>apikey</code> and <code>basic</code> are valid modes. Docker Compose uses <code>apikey</code> by default.
+
+In <code>apikey</code> mode without a key from the environment or the JSON file, Orchestrarr generates a random key on first start. It prints the key once, stores it with owner-only permissions in <code>api_key.json</code> in the state folder (<code>/app/.data</code> in Docker) and reuses it on later starts. A key from <code>ORCHESTRARR_API_KEY</code> or Settings takes precedence.
 
 Browser clients use <code>POST /api/auth/login</code> with a JSON body containing the API key. A successful login creates an HttpOnly session cookie. <code>POST /api/auth/logout</code> invalidates that session. API-key login attempts are rate-limited in memory. Browser writes also require a same-origin request.
 
 The dashboard does not store a Basic Auth password in plain text when it is saved through Settings; it stores a salted scrypt hash. Environment variables remain the deployment authority when they are present.
 
-If a native installation locks you out, stop the server and update the <code>auth.mode</code> value in the configured JSON file to <code>none</code>, then restart it. For Docker, replace <code>ORCHESTRARR_API_KEY</code> in <code>.env</code> and recreate the container.
+If a native installation locks you out, stop the server and update the <code>auth.mode</code> value in the configured JSON file to <code>none</code>, then restart it. For Docker, read the generated key with <code>docker exec orchestrarr cat /app/.data/api_key.json</code>, or set <code>ORCHESTRARR_API_KEY</code> in <code>.env</code> and recreate the container.
 
 ## Demo mode
 

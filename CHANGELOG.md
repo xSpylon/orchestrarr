@@ -4,7 +4,7 @@ All notable changes to Orchestrarr are documented here. The format follows [Keep
 
 ## [Unreleased]
 
-## [0.1.0] - 2026-10-13
+## [0.1.0] - 2026-10-14
 
 First public beta.
 
@@ -17,6 +17,7 @@ First public beta.
 - Notifications and webhooks.
 - Demo mode, responsive layouts, keyboard navigation and multiple interface languages.
 - Multi-arch Docker images (`linux/amd64`, `linux/arm64`) on `ghcr.io/xspylon/orchestrarr`, published on every version tag.
+- Two-command install: `curl -fsSLO https://get.orchestrarr.com/docker-compose.yml` and `docker compose up -d`. In API-key mode without a configured key, Orchestrarr generates one on first start, prints it once and keeps it in the state volume.
 
 [Unreleased]: https://github.com/xSpylon/orchestrarr/compare/v0.1.0...HEAD
 [0.1.0]: https://github.com/xSpylon/orchestrarr/releases/tag/v0.1.0

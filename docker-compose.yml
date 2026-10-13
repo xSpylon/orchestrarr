@@ -7,7 +7,8 @@ services:
     environment:
       DEMO_MODE: "false"
       AUTH_MODE: apikey
-      ORCHESTRARR_API_KEY: ${ORCHESTRARR_API_KEY:?Set ORCHESTRARR_API_KEY in .env before starting}
+      # Leave unset and Orchestrarr generates a key on first start: it is printed in the logs and kept in the volume.
+      ORCHESTRARR_API_KEY: ${ORCHESTRARR_API_KEY:-}
       ORCHESTRARR_WEBHOOK_SECRET: ${ORCHESTRARR_WEBHOOK_SECRET:-}
       # Configure integrations in Services; settings persist in the volume below.
     volumes:

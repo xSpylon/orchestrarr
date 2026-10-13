@@ -1,6 +1,6 @@
 import { createServer } from 'node:http';
 import { execFile } from 'node:child_process';
-import { randomUUID, timingSafeEqual } from 'node:crypto';
+import { randomBytes, randomUUID, timingSafeEqual } from 'node:crypto';
 import { chmodSync, existsSync, mkdirSync, readFileSync, renameSync, unlinkSync, writeFileSync } from 'node:fs';
 import os from 'node:os';
 import { dirname, join } from 'node:path';
@@ -28,6 +28,7 @@ const configPath = process.env.CONFIG_PATH || join(root, 'config.json');
 const stateDir = process.env.STATE_DIR || join(root, '.data');
 const eventsPath = join(stateDir, 'request-events.json');
 const resolutionsPath = join(stateDir, 'resolutions.json');
+const apiKeyPath = join(stateDir, 'api_key.json');
 const execFileAsync = promisify(execFile);
 const dashboardCacheTtlMs = 5000;
 let dashboardCache = null;
@@ -73,12 +74,25 @@ function readConfig() {
   };
 }
 
+// API-key mode with no key configured (the Docker default) gets a generated key, kept in the state folder so it survives restarts.
+// It is printed once, when it is created; after that it can be read from the file.
+let storedApiKey = '';
+function prepareApiKey() {
+  const { auth } = readConfig();
+  if (auth.mode !== 'apikey' || auth.apiKey) return;
+  storedApiKey = existsSync(apiKeyPath) ? JSON.parse(readFileSync(apiKeyPath, 'utf8')).apiKey || '' : '';
+  if (storedApiKey) { console.log(`Using the API key stored in ${apiKeyPath}.`); return; }
+  storedApiKey = randomBytes(32).toString('hex');
+  writePrivateJson(apiKeyPath, { apiKey: storedApiKey });
+  console.log(`Generated an API key and stored it in ${apiKeyPath}. Use it to sign in; it is only printed this once.\nAPI key: ${storedApiKey}`);
+}
+
 // Environment variables override config.json, so Settings shows those fields as managed elsewhere.
 const authEnv = { mode: 'AUTH_MODE', apiKey: 'ORCHESTRARR_API_KEY', username: 'AUTH_USERNAME', password: 'AUTH_PASSWORD' };
 function resolveAuth(fileAuth = {}) {
   return {
     mode: process.env.AUTH_MODE || fileAuth.mode || 'none',
-    apiKey: process.env.ORCHESTRARR_API_KEY || fileAuth.apiKey || '',
+    apiKey: process.env.ORCHESTRARR_API_KEY || fileAuth.apiKey || storedApiKey,
     username: process.env.AUTH_USERNAME || fileAuth.username || 'admin',
     password: process.env.AUTH_PASSWORD || fileAuth.password || '',
     passwordHash: process.env.AUTH_PASSWORD ? '' : fileAuth.passwordHash || ''
@@ -1649,4 +1663,5 @@ const server = createServer(async (request, response) => {
   } catch (error) { json(response, 500, { error: error.message }); }
 });
 
+prepareApiKey();
 server.listen(port, host, () => console.log(`Orchestrarr listening on http://${host}:${server.address().port}`));

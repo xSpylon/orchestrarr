@@ -11,6 +11,8 @@ async function startServer(directory, key, mode = 'apikey', extraEnv = {}) {
     env: { PATH: process.env.PATH, PORT: '0', HOST: '127.0.0.1', AUTH_MODE: mode, ...(key ? { ORCHESTRARR_API_KEY: key } : {}), DEMO_MODE: 'true', CONFIG_PATH: join(directory, 'nested', 'config.json'), STATE_DIR: join(directory, 'state'), ...extraEnv },
     stdio: ['ignore', 'pipe', 'pipe'],
   });
+  let logs = '';
+  child.stdout.on('data', (chunk) => { logs += chunk; });
   const stop = async () => {
     if (child.exitCode !== null || child.signalCode !== null) return;
     await new Promise((resolve) => { child.once('exit', resolve); child.kill('SIGTERM'); });
@@ -27,9 +29,28 @@ async function startServer(directory, key, mode = 'apikey', extraEnv = {}) {
         if (match) { clearTimeout(timeout); resolve(match[1]); }
       });
     });
-    return { url, stop };
+    return { url, stop, logs: () => logs };
   } catch (error) { await stop(); throw error; }
 }
+
+test('API-key deployment without a key generates one, logs it once and keeps it across restarts', async () => {
+  const directory = mkdtempSync(join(tmpdir(), 'orchestrarr-deployment-'));
+  let app;
+  try {
+    app = await startServer(directory, '');
+    const key = app.logs().match(/API key: ([0-9a-f]{64})/)?.[1];
+    assert.ok(key, `the generated key is logged on first start:\n${app.logs()}`);
+    assert.equal(statSync(join(directory, 'state', 'api_key.json')).mode & 0o777, 0o600);
+    assert.equal((await fetch(`${app.url}/api/auth/login`, { method: 'POST', body: JSON.stringify({ key }) })).status, 200);
+    await app.stop();
+    app = await startServer(directory, '');
+    assert.ok(!app.logs().includes(key), 'the key is not printed again after the first start');
+    assert.equal((await fetch(`${app.url}/api/auth/login`, { method: 'POST', body: JSON.stringify({ key }) })).status, 200);
+  } finally {
+    await app?.stop();
+    rmSync(directory, { recursive: true, force: true });
+  }
+});
 
 test('API-key deployment protects private files and preserves settings across restarts', async () => {
   const directory = mkdtempSync(join(tmpdir(), 'orchestrarr-deployment-'));

@@ -11,7 +11,7 @@ Security fixes target the latest version on the default branch. This is a best-e
 ## Deployment boundary
 
 - Native and development servers bind to `127.0.0.1` by default. Enabling network access with `HOST` is an explicit operator decision. Use authentication before enabling it.
-- Docker listens inside its container and requires API-key authentication by default. Compose publishes only on host loopback and requires `ORCHESTRARR_API_KEY` from `.env`.
+- Docker listens inside its container and requires API-key authentication by default. Compose publishes only on host loopback. Without `ORCHESTRARR_API_KEY` in `.env`, a random key is generated on first start, printed once in the logs and stored with owner-only permissions in the state volume.
 - All signed-in users have administrative control over the configured integrations. There are no separate viewer and administrator roles.
 - Use HTTPS through a trusted reverse proxy or a VPN for remote access. Preserve the browser's Host header and do not expose the development server.
 - Mounting a Docker socket grants powerful control over the host. A `:ro` socket mount does **not** prevent Docker API writes. Docker integration is opt-in.

@@ -33,15 +33,20 @@ Orchestrarr is an independent community project and is not affiliated with Plex 
 
 Docker Compose is the recommended installation path. Images for `linux/amd64` and `linux/arm64` are published to `ghcr.io/xspylon/orchestrarr`, tagged `latest`, the exact version (`0.1.0`) and the minor line (`0.1`).
 
-In an empty folder, download the Compose file of the latest release, generate an API key and start Orchestrarr:
+In an empty folder, download the Compose file of the latest release and start Orchestrarr:
 
 ```bash
-curl -fsSLO https://orchestrarr.com/docker-compose.yml
-echo "ORCHESTRARR_API_KEY=$(openssl rand -hex 32)" > .env
+curl -fsSLO https://get.orchestrarr.com/docker-compose.yml
 docker compose up -d
 ```
 
-Open <http://127.0.0.1:4173> and sign in with the key from `.env`. [`.env.example`](.env.example) lists the optional settings. Configure integrations from **Services**. Compose starts with live mode enabled; unconfigured integrations remain inactive. Update with `docker compose pull && docker compose up -d`.
+On first start Orchestrarr generates an API key and prints it once. Read it from the logs:
+
+```bash
+docker logs orchestrarr
+```
+
+Open <http://127.0.0.1:4173> and sign in with that key. It is kept in the `orchestrarr_state` volume, so it survives restarts and updates; `docker exec orchestrarr cat /app/.data/api_key.json` shows it again. To choose your own key, set `ORCHESTRARR_API_KEY` in a `.env` file next to the Compose file. [`.env.example`](.env.example) lists the optional settings. Configure integrations from **Services**. Compose starts with live mode enabled; unconfigured integrations remain inactive. Update with `docker compose pull && docker compose up -d`.
 
 Configuration is stored at `/app/.data/config.json` and event history is stored in the persistent `orchestrarr_state` volume. Ordinary `docker compose down` preserves settings. `docker compose down -v` deletes the volume, including credentials and settings.
 
@@ -50,7 +55,6 @@ For a standalone container:
 ```bash
 docker run -d --name orchestrarr --restart unless-stopped \
   -p 127.0.0.1:4173:4173 \
-  --env-file .env \
   -e DEMO_MODE=false \
   -v orchestrarr_data:/app/.data \
   ghcr.io/xspylon/orchestrarr:latest
@@ -120,7 +124,7 @@ For detailed setup, deployment and integration behavior, see the [configuration 
 
 ### Authentication
 
-Native installations allow unauthenticated loopback use by default. Docker defaults to API-key authentication. Set `AUTH_MODE=apikey` with `ORCHESTRARR_API_KEY`, or use `AUTH_MODE=basic` with `AUTH_USERNAME` and `AUTH_PASSWORD`.
+Native installations allow unauthenticated loopback use by default. Docker defaults to API-key authentication. Set `AUTH_MODE=apikey` with `ORCHESTRARR_API_KEY`, or use `AUTH_MODE=basic` with `AUTH_USERNAME` and `AUTH_PASSWORD`. In API-key mode without a configured key, Orchestrarr generates one on first start, prints it once and stores it privately in `api_key.json` in its state folder.
 
 Authentication can also be configured from **Settings → Access**. Environment variables take precedence over `config.json` and appear as locked settings. Browser writes use same-origin CSRF protection, and login attempts are rate-limited in memory.
 
