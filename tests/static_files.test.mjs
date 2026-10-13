@@ -25,6 +25,9 @@ test('static hosting isolates private files with and without a frontend build', 
         writeFileSync(join(dist, 'index.html'), '<html>Orchestrarr</html>');
         writeFileSync(join(dist, 'assets', 'app.js'), 'public script');
         writeFileSync(join(dist, 'licenses', 'reference_react.txt'), 'MIT License');
+        mkdirSync(join(dist, 'demo', 'posters'), { recursive: true });
+        writeFileSync(join(dist, 'demo', 'posters', 'quiet_signal.png'), 'demo poster');
+        writeFileSync(join(dist, 'demo', 'posters', 'notes.js'), 'not a poster');
         // Even misplaced secrets and symlinks in dist must not be downloadable.
         writeFileSync(join(dist, 'config.json'), 'misplaced secret');
         symlinkSync(join(root, 'server.js'), join(dist, 'assets', 'escape.js'));
@@ -38,6 +41,10 @@ test('static hosting isolates private files with and without a frontend build', 
     assert.equal(request('/assets/escape.js').status, 404);
     assert.equal(request('/assets/app.js?v=1').body, 'public script');
     assert.equal(request('/licenses/reference_react.txt').body, 'MIT License');
+    // Demo mode artwork is requested straight from /demo/posters, so it must load.
+    assert.equal(request('/demo/posters/quiet_signal.png').body, 'demo poster');
+    assert.equal(request('/demo/posters/quiet_signal.png').headers['Content-Type'], 'image/png');
+    assert.equal(request('/demo/posters/notes.js').status, 404);
     assert.equal(request('/title/movie/123').body, '<html>Orchestrarr</html>');
     assert.equal(request('/assets/missing.js').status, 404);
     assert.equal(request('/%ZZ').status, 400);

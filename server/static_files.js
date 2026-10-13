@@ -17,7 +17,7 @@ export function serveStatic(request, response, clientRoot) {
   if (!pathname.startsWith('/') || pathname.includes('\\') || pathname.includes('\0') || segments.some((segment) => segment.startsWith('.'))) return reply(404, 'Not found');
   const extension = extname(pathname);
   const isAsset = /^(\/assets\/|\/licenses\/)/.test(pathname) && Boolean(contentTypes[extension]) && extension !== '.html';
-  const isPublicFile = ['/index.html', '/favicon.svg', '/reference_tmdb.svg'].includes(pathname);
+  const isPublicFile = ['/index.html', '/favicon.svg', '/reference_tmdb.svg'].includes(pathname) || /^\/demo\/posters\/[a-z0-9_]+\.png$/.test(pathname);
   if (extension && !isAsset && !isPublicFile) return reply(404, 'Not found');
   if (pathname.startsWith('/api/')) return reply(404, 'Not found');
   if (!existsSync(join(clientRoot, 'index.html'))) return reply(503, 'Frontend not built. Run yarn build, or use yarn dev for development.');
