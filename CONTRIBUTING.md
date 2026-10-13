@@ -1,6 +1,6 @@
 # Contributing to Orchestrarr
 
-Orchestrarr is an early community project maintained in the official repository at <https://github.com/xSpylon/orchestrarr>. The canonical project site is <https://orchestrarr.com>. Bug reports, documentation fixes and focused pull requests are welcome. Maintenance is best-effort; there is no guaranteed response time or support SLA. Open an issue before starting a large feature so we can agree on scope.
+Orchestrarr is an early community project maintained in the official repository at <https://github.com/xSpylon/orchestrarr>. The canonical project site is <https://orchestrarr.com>. Bug reports, documentation fixes and focused pull requests are welcome. Maintenance is best-effort; there is no guaranteed response time or support SLA. Ask questions and float ideas in [Discussions](https://github.com/xSpylon/orchestrarr/discussions); open an issue before starting a large feature so we can agree on scope.
 
 ## Project identity and upstream work
 
@@ -65,6 +65,10 @@ Keep filenames predictable so contributors can find code by its role:
 
 Run `yarn check` before opening a pull request. It includes the filename convention check.
 
+## Dependencies
+
+Dependabot opens weekly update PRs for npm packages, GitHub Actions and the Docker base image ([.github/dependabot.yml](.github/dependabot.yml)). Minor and patch updates are grouped; major updates arrive separately. New versions wait a few days before Dependabot proposes them. Security updates arrive as soon as an advisory is published. Merge an update only when CI is green, and read the changelog of a major update before merging.
+
 ## Releases
 
-Add user-facing changes to the `Unreleased` section of [CHANGELOG.md](CHANGELOG.md) in the same pull request. To release, a maintainer moves those entries under a new version heading, bumps `version` in `package.json`, and pushes a `vX.Y.Z` tag. The tag publishes the Docker images; the GitHub release notes are the matching changelog section.
+Add user-facing changes to the `Unreleased` section of [CHANGELOG.md](CHANGELOG.md) in the same pull request. To release, a maintainer moves those entries under a new version heading and bumps `version` in `package.json` in one commit on `main`. Once CI passes, `.github/workflows/project_release.yml` creates the `vX.Y.Z` tag, the GitHub release with the changelog section as notes, and the Docker images. The workflow fails if the changelog has no section for the new version. Do not push version tags by hand.
