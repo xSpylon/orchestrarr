@@ -8,6 +8,7 @@ services:
       DEMO_MODE: "false"
       AUTH_MODE: apikey
       ORCHESTRARR_API_KEY: ${ORCHESTRARR_API_KEY:?Set ORCHESTRARR_API_KEY in .env before starting}
+      ORCHESTRARR_WEBHOOK_SECRET: ${ORCHESTRARR_WEBHOOK_SECRET:-}
       # Configure integrations in Services; settings persist in the volume below.
     volumes:
       - orchestrarr_state:/app/.data
