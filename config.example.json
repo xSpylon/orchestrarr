@@ -1,0 +1,78 @@
+{
+  "demoMode": true,
+  "plex": {
+    "url": "http://plex:32400",
+    "token": ""
+  },
+  "tautulli": {
+    "url": "http://tautulli:8181",
+    "apiKey": ""
+  },
+  "jellyseerr": {
+    "url": "http://jellyseerr:5055",
+    "apiKey": ""
+  },
+  "wizarr": {
+    "url": "http://wizarr:5690",
+    "apiKey": "",
+    "publicUrl": ""
+  },
+  "cleanuparr": {
+    "url": "http://cleanuparr:11011",
+    "apiKey": ""
+  },
+  "tdarr": {
+    "url": "http://tdarr:8266",
+    "apiKey": ""
+  },
+  "prowlarr": {
+    "url": "http://prowlarr:9696",
+    "apiKey": ""
+  },
+  "bazarr": {
+    "url": "http://bazarr:6767",
+    "apiKey": ""
+  },
+  "sonarr": {
+    "url": "http://sonarr:8989",
+    "apiKey": ""
+  },
+  "radarr": {
+    "url": "http://radarr:7878",
+    "apiKey": ""
+  },
+  "tmdb": {
+    "apiKey": ""
+  },
+  "omdb": {
+    "apiKey": ""
+  },
+  "qbittorrent": {
+    "url": "http://qbittorrent:8080",
+    "username": "admin",
+    "password": ""
+  },
+  "sabnzbd": {
+    "url": "http://sabnzbd:8080",
+    "apiKey": ""
+  },
+  "unraid": {
+    "url": "http://unraid",
+    "apiKey": ""
+  },
+  "docker": {
+    "enabled": false
+  },
+  "notifications": {
+    "webhookUrl": ""
+  },
+  "webhooks": {
+    "secret": ""
+  },
+  "auth": {
+    "mode": "none",
+    "apiKey": "",
+    "username": "admin",
+    "password": ""
+  }
+}

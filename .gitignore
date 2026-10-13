@@ -1,0 +1,17 @@
+config.json
+.env
+.env.*
+!.env.example
+coverage/
+.data/
+.DS_Store
+node_modules/
+dist/
+.vite/
+.pnp.cjs
+.pnp.loader.mjs
+.yarn/install-state.gz
+.yarn/build-state.yml
+.yarn/unplugged/
+.claude/
+.impeccable/

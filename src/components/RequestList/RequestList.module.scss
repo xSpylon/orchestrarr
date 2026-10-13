@@ -1,0 +1,22 @@
+.list {
+  .row { display: grid; grid-template-columns: 44px minmax(0,1fr) auto; gap: 10px; align-items: center; height: var(--row-height); padding: 0 6px; border-bottom: 1px solid var(--border-subtle); }
+  .row:hover, .row:focus-within { background: var(--background-hover); }
+  .managed { grid-template-columns: 44px minmax(0,1fr) auto auto; }
+  .select { display: block; min-width: 0; height: 100%; padding: 0; border: 0; background: transparent; color: inherit; text-align: left; }
+  .actions { display: flex; gap: 4px; }
+  .type { color: var(--foreground-muted); font-size: 12px; }
+  .copy { display: flex; align-items: baseline; gap: 8px; min-width: 0; }
+  .copy strong, .copy small { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .copy strong { flex-shrink: 0; max-width: 70%; font-size: 13px; font-weight: var(--weight-medium); }
+  .copy small { color: var(--foreground-muted); font-size: 12px; }
+}
+@media (hover: hover) and (pointer: fine) {
+  .list .actions { opacity: 0; }
+  .list .row:hover .actions, .list .row:focus-within .actions { opacity: 1; }
+}
+@media (max-width: 760px) {
+  .list .row, .list .managed { grid-template-columns: minmax(0,1fr) auto; height: auto; gap: 6px 12px; padding: 10px 0; }
+  .list .copy { display: grid; gap: 2px; }
+  .list .type { display: none; }
+  .list .actions { grid-column: 1/-1; }
+}

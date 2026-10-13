@@ -1,0 +1,12 @@
+node_modules
+npm-debug.log
+.git
+.data
+config.json
+.env
+.env.*
+.claude
+.impeccable
+.DS_Store
+coverage
+dist

@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security vulnerability
+    url: https://github.com/xSpylon/orchestrarr/security/advisories/new
+    about: Report security issues privately; do not publish credentials or exploit details.
+  - name: Documentation and project site
+    url: https://orchestrarr.com
+    about: Read the project documentation and current project information.

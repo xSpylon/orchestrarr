@@ -1,0 +1,17 @@
+services:
+  orchestrarr:
+    build: .
+    container_name: orchestrarr
+    ports:
+      - "127.0.0.1:4173:4173"
+    environment:
+      DEMO_MODE: "false"
+      AUTH_MODE: apikey
+      ORCHESTRARR_API_KEY: ${ORCHESTRARR_API_KEY:?Set ORCHESTRARR_API_KEY in .env before starting}
+      # Configure integrations in Services; settings persist in the volume below.
+    volumes:
+      - orchestrarr_state:/app/.data
+    restart: unless-stopped
+
+volumes:
+  orchestrarr_state:

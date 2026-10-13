@@ -1,0 +1,91 @@
+/* All product colors live here. Feature styles consume semantic tokens only. */
+
+:root {
+  color-scheme: dark;
+  /* Surfaces: the canvas holds the sidebar, the content panel sits on top of it. */
+  --background-canvas: #08090a;
+  --background-primary: #0f1011;
+  --background-secondary: #141517;
+  --background-tertiary: #1c1c1f;
+  --background-hover: rgb(255 255 255 / .04);
+  --background-active: rgb(255 255 255 / .07);
+  --foreground-primary: #f7f8f8;
+  --foreground-secondary: #b4b8c0;
+  --foreground-muted: #8a8f98;
+  --foreground-disabled: #62666d;
+  --border-primary: #23252a;
+  --border-subtle: #1b1c20;
+  --border-strong: #34343a;
+  /* Orchestrarr signal cyan: bright on dark, so solid controls carry dark text. */
+  --accent: #2bd4c5;
+  --accent-solid: #2bd4c5;
+  --accent-hover: #4fe3d6;
+  --accent-muted: rgb(43 212 197 / .16);
+  --on-accent: #04211e;
+  --brand-tile: #0a1a1c;
+  --success: #4cb782;
+  --warning: #f2c94c;
+  --danger: #eb5757;
+  --info: #4ea7fc;
+  --danger-muted: rgb(235 87 87 / .1);
+  --focus-ring: #2bd4c5;
+  --backdrop: rgb(0 0 0 / .5);
+  --shadow-floating: 0 0 0 1px rgb(0 0 0 / .2), 0 8px 32px rgb(0 0 0 / .4);
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 10px;
+  --space-1: 2px;
+  --space-2: 4px;
+  --space-3: 6px;
+  --space-4: 8px;
+  --space-5: 12px;
+  --space-6: 16px;
+  --space-7: 20px;
+  --space-8: 24px;
+  --space-9: 32px;
+  --control-xs: 24px;
+  --control-sm: 28px;
+  --control-md: 32px;
+  --control-lg: 36px;
+  --row-height: 40px;
+  --header-height: 44px;
+  --gutter: 24px;
+  --font-ui: 'Inter Variable', Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', SFMono-Regular, Menlo, monospace;
+  --weight-medium: 510;
+  --weight-semibold: 590;
+  --motion-fast: 100ms;
+  --motion-ui: 160ms;
+  --ease-out: cubic-bezier(.25,.46,.45,.94);
+}
+:root[data-theme='light'] {
+  color-scheme: light;
+  --background-canvas: #f4f5f7;
+  --background-primary: #fff;
+  --background-secondary: #f8f9fa;
+  --background-tertiary: #fff;
+  --background-hover: rgb(0 0 0 / .035);
+  --background-active: rgb(0 0 0 / .06);
+  --foreground-primary: #1b1c1f;
+  --foreground-secondary: #3c4149;
+  --foreground-muted: #6b6f76;
+  --foreground-disabled: #a0a3a9;
+  --border-primary: #e6e7ea;
+  --border-subtle: #eff0f2;
+  --border-strong: #d3d5d9;
+  /* Darker teal on light surfaces keeps text and white-on-accent above 4.5:1. */
+  --accent: #0a7a71;
+  --accent-solid: #0a7a71;
+  --accent-hover: #08665e;
+  --accent-muted: rgb(10 122 113 / .1);
+  --on-accent: #fff;
+  --success: #23855a;
+  --warning: #a86f00;
+  --danger: #cd3b3b;
+  --info: #2a76c6;
+  --danger-muted: rgb(205 59 59 / .07);
+  --focus-ring: #0a7a71;
+  --backdrop: rgb(20 20 25 / .2);
+  --shadow-floating: 0 0 0 1px rgb(0 0 0 / .04), 0 4px 16px rgb(0 0 0 / .08);
+}

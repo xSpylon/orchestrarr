@@ -1,0 +1,7 @@
+.drawer {
+  isolation: isolate;
+
+  .dialog {
+    min-height: 100%;
+  }
+}

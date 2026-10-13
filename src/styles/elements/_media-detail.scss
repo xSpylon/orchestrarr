@@ -1,0 +1,164 @@
+/* Title properties, availability, episode details and activity. */
+.universal-media-detail .page-heading { margin-bottom: 20px; }
+.discovery-detail { display: grid; grid-template-columns: 180px minmax(0,1fr); align-items: start; gap: 24px; padding-bottom: 24px; border-bottom: 1px solid var(--border-subtle); }
+.discovery-detail-poster { position: relative; display: grid; place-items: center; overflow: hidden; aspect-ratio: 2/3; border: 1px solid var(--border-primary); border-radius: var(--radius-sm); background: var(--background-tertiary); color: var(--foreground-muted); font-size: 32px; }
+.discovery-detail-poster img { width: 100%; height: 100%; object-fit: cover; }
+.universal-media-copy { min-width: 0; max-width: 800px; }
+.discovery-overview { margin: 8px 0 16px; max-width: 72ch; color: var(--foreground-secondary); font-size: 13px; line-height: 1.7; }
+.universal-media-metadata { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 0 24px; }
+.universal-media-metadata > div { grid-template-columns: 100px minmax(0,1fr); }
+.universal-media-actions, .universal-request-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.universal-media-context { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 24px 32px; margin-top: 24px; }
+.universal-media-section { min-width: 0; }
+.universal-media-section .section-head { margin-bottom: 12px; }
+.universal-season-availability { margin-top: 24px; }
+.universal-media-status { display: grid; gap: 6px; color: var(--foreground-secondary); font-size: 12px; }
+.universal-media-focus { display: inline-flex; padding: 4px 8px; margin: 0 0 12px; border-radius: var(--radius-sm); background: var(--accent-muted); color: var(--foreground-primary); font-size: 12px; }
+.season-source-list { display: grid; gap: 16px; }
+.availability-note { padding-top: 10px; color: var(--warning); font-size: 12px; }
+.season-list { display: grid; margin-top: 8px; border-top: 1px solid var(--border-primary); }
+.season-card-row { position: relative; min-width: 0; }
+.season-card { border-bottom: 1px solid var(--border-subtle); }
+.season-card > summary { display: flex; align-items: center; justify-content: space-between; gap: 12px; height: var(--row-height); padding: 0 8px; list-style: none; cursor: pointer; }
+.season-card > summary::-webkit-details-marker { display: none; }
+.season-card > summary:hover { background: var(--background-hover); }
+.season-card[open] > summary { background: var(--background-secondary); }
+.season-card summary strong { font-size: 12px; font-weight: var(--weight-medium); }
+.season-card summary span { color: var(--foreground-muted); font-size: 12px; }
+.season-card-row.has-season-search .season-card > summary { padding-right: 126px; }
+.season-search-button, .episode-search-button { flex-shrink: 0; }
+.season-card-row > .season-search-button { position: absolute; right: 8px; top: 8px; }
+/* Rows share the list's columns, so a row with a search button doesn't push its status out of line with the rest. */
+.episode-list { display: grid; grid-template-columns: minmax(0,1fr) auto; column-gap: 10px; padding: 0 10px; }
+.episode-row { display: grid; grid-column: 1 / -1; grid-template-columns: subgrid; align-items: start; border-top: 1px solid var(--border-subtle); }
+.episode-accordion { grid-column: 1; }
+.episode-row.focused { background: var(--accent-muted); }
+.episode-accordion { min-width: 0; scroll-margin-top: 64px; }
+.episode-accordion summary { display: grid; grid-template-columns: 48px minmax(0,1fr) auto 12px; gap: 10px; align-items: baseline; min-height: 38px; padding: 10px 0; line-height: 18px; list-style: none; cursor: pointer; }
+.episode-accordion summary::-webkit-details-marker { display: none; }
+.episode-accordion summary::after { content: '+'; color: var(--foreground-muted); }
+.episode-accordion[open] summary::after { content: '−'; }
+.episode-accordion summary:hover { background: var(--background-hover); }
+.episode-code { color: var(--foreground-muted); font: 11px var(--font-mono); }
+.episode-description { min-width: 0; }
+.episode-title, .episode-description small { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.episode-description .episode-title { color: var(--foreground-primary); font-size: 12px; }
+.episode-description small { color: var(--foreground-muted); font-size: 12px; }
+.episode-availability.good { color: var(--success); }
+.episode-availability.warn { color: var(--warning); }
+.episode-availability.bad { color: var(--danger); }
+/* Centred on the summary's first text line (baseline-aligned, 18px line height under 10px padding). */
+.episode-search-button { margin-top: 8px; }
+.episode-expanded { display: grid; grid-template-columns: minmax(0,1fr) minmax(160px,.5fr); gap: 16px; padding: 8px 12px 16px 58px; }
+.episode-expanded-copy { min-width: 0; }
+.episode-overview-slot { min-height: 5em; max-height: 14em; overflow-y: auto; }
+.episode-overview, .episode-detail-empty { margin: 0; color: var(--foreground-secondary); font-size: 12px; line-height: 1.65; }
+.universal-episode-metadata { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 0 16px; margin-top: 12px; }
+.universal-episode-metadata > div { grid-template-columns: 70px minmax(0,1fr); }
+.episode-guests { grid-column: 1/-1; }
+.episode-still-slot { position: relative; display: grid; place-items: center; overflow: hidden; width: 100%; aspect-ratio: 16/9; border-radius: var(--radius-sm); background: var(--background-tertiary); color: var(--foreground-muted); font-size: 12px; }
+.episode-still-slot img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity var(--motion-fast); }
+.episode-still-slot img.loaded { opacity: 1; }
+.episode-still-slot > span { padding: 8px; }
+.episode-skeleton-copy { display: grid; gap: 8px; }
+.episode-skeleton-line, .episode-skeleton-value, .episode-still-skeleton { display: block; height: 10px; border-radius: var(--radius-xs); background: var(--background-hover); animation: skeleton-pulse 1.6s ease-in-out infinite alternate; }
+.episode-skeleton-line:nth-child(2n) { width: 85%; }
+.episode-skeleton-value { width: 70px; }
+.episode-skeleton-value.short { width: 40px; }
+.episode-still-skeleton { position: absolute; inset: 0; height: 100%; }
+.pipeline-steps { display: grid; grid-template-columns: repeat(5,minmax(0,1fr)); gap: 8px; margin-top: 16px; }
+.pipeline-step { min-width: 0; color: var(--foreground-muted); }
+.pipeline-node { display: grid; place-items: center; width: 20px; height: 20px; margin-bottom: 6px; border: 1px solid var(--border-primary); border-radius: 50%; font-size: 11px; }
+.pipeline-step strong { font-size: 12px; font-weight: var(--weight-medium); }
+.pipeline-step.complete .pipeline-node { color: var(--success); border-color: var(--success); }
+.pipeline-step.current .pipeline-node { color: var(--accent); background: var(--accent-muted); border-color: var(--accent); }
+.linked-pipeline-row { display: grid; grid-template-columns: 1fr auto; gap: 4px 10px; padding: 10px 0; border-bottom: 1px solid var(--border-subtle); font-size: 12px; }
+.linked-pipeline-row small { grid-column: 1/-1; color: var(--foreground-muted); font-size: 12px; }
+.linked-pipeline-row span { color: var(--foreground-secondary); }
+.universal-pipeline-list { margin-top: 12px; }
+.linked-service-row { display: grid; grid-template-columns: 6px minmax(0,1fr) auto auto; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--border-subtle); }
+.linked-service-row strong { font-size: 12px; font-weight: var(--weight-medium); }
+.linked-service-row small { color: var(--foreground-muted); font-size: 12px; text-align: right; }
+.service-dot.warn { background: var(--warning); }
+.service-dot.bad { background: var(--danger); }
+.service-dot.media { background: var(--info); }
+.universal-media-activity { grid-column: 1/-1; }
+.event-log { padding-left: 16px; border-left: 1px solid var(--border-primary); margin: 16px 0; }
+.event-row { position: relative; display: flex; gap: 12px; padding: 0 0 16px; }
+.event-row > i { position: absolute; left: -20px; top: 5px; width: 7px; height: 7px; border-radius: 50%; background: var(--foreground-muted); }
+.event-row.active > i { background: var(--success); }
+.event-row strong { display: block; font-size: 12px; font-weight: var(--weight-medium); }
+.event-row small { display: block; margin-top: 3px; color: var(--foreground-muted); font-size: 12px; }
+@media (max-width: 1000px) {
+  .universal-media-metadata { grid-template-columns: minmax(0,1fr); }
+  .universal-media-context { grid-template-columns: minmax(0,1fr); }
+  .episode-expanded { grid-template-columns: minmax(0,1fr); }
+  .episode-still-slot { max-width: 320px; }
+}
+@media (max-width: 760px) {
+  .discovery-detail { grid-template-columns: 90px minmax(0,1fr); gap: 16px; }
+  .universal-media-metadata > div { grid-template-columns: 80px minmax(0,1fr); }
+  .episode-accordion summary { grid-template-columns: 42px minmax(0,1fr) 12px; gap: 6px; }
+  .episode-accordion summary::after { grid-column: 3; grid-row: 1; }
+  .episode-availability { grid-column: 2; }
+  .episode-expanded { padding: 8px 0 12px; }
+  .universal-episode-metadata { grid-template-columns: minmax(0,1fr); }
+  .linked-service-row { grid-template-columns: 6px minmax(0,1fr) auto; }
+  .linked-service-row small { grid-column: 2; text-align: left; }
+  .linked-service-row .service-open { grid-column: 3; grid-row: 1/3; }
+  .pipeline-steps { overflow-x: auto; grid-template-columns: repeat(5,minmax(75px,1fr)); }
+}
+@media (max-width: 420px) {
+  .discovery-detail { grid-template-columns: minmax(0,1fr); }
+  .discovery-detail-poster { width: 100px; }
+  .season-card-row.has-season-search .season-card > summary { padding-right: 10px; }
+  .season-card-row > .season-search-button { position: static; margin: 6px 0; }
+}
+/* Title layout: content on the left, a quiet properties column on the right (issue-style). */
+.title-layout { display: grid; grid-template-columns: minmax(0,1fr) 280px; align-items: start; gap: 40px; }
+.title-main { display: grid; align-content: start; gap: 32px; min-width: 0; }
+.title-main > .discovery-overview { margin: 0; font-size: 14px; }
+.title-main .universal-media-actions, .title-main .universal-request-actions { margin-top: -16px; }
+.title-main > .universal-media-focus { margin: -24px 0 0; }
+.title-aside { display: grid; gap: 24px; min-width: 0; padding-left: 24px; border-left: 1px solid var(--border-subtle); }
+.title-aside .universal-media-poster { width: 112px; }
+.title-properties > div { grid-template-columns: 72px minmax(0,1fr); padding: 5px 0; border: 0; }
+.title-aside .section-head { min-height: 28px; margin-bottom: 4px; border: 0; }
+.title-aside .section-head h2 { color: var(--foreground-muted); font-size: 12px; }
+.title-aside .universal-media-status { font-size: 12px; }
+.title-aside .pipeline-steps { grid-template-columns: minmax(0,1fr); gap: 2px; margin-top: 8px; }
+.title-aside .pipeline-step { display: flex; align-items: center; gap: 8px; }
+.title-aside .pipeline-node { width: 18px; height: 18px; margin: 0; font-size: 10px; }
+.title-aside .pipeline-step.current strong { color: var(--foreground-primary); }
+.title-aside .linked-service-row { grid-template-columns: 6px minmax(0,1fr) auto; gap: 0 10px; padding: 5px 0; border: 0; }
+.title-aside .linked-service-row small { grid-column: 2; grid-row: 2; overflow: hidden; text-align: left; text-overflow: ellipsis; white-space: nowrap; }
+.title-aside .linked-service-row .service-open { grid-column: 3; grid-row: 1/3; }
+@media (max-width: 1000px) {
+  .title-layout { grid-template-columns: minmax(0,1fr); gap: 24px; }
+  .title-aside { order: -1; grid-template-columns: 96px minmax(0,1fr); padding: 0 0 24px; border: 0; border-bottom: 1px solid var(--border-subtle); }
+  .title-aside .universal-media-poster { width: 96px; }
+  .title-aside > section { grid-column: 1/-1; }
+}
+.universal-season-availability .section-head { margin-bottom: 0; }
+.universal-season-availability .season-list { margin-top: 0; border-top: 0; }
+
+/* A rating that links to its source: same colour as the other values, with an underline that shows it is clickable. */
+.rating-link { color: inherit; text-decoration: underline; text-decoration-color: var(--border-strong); text-underline-offset: 3px; }
+.rating-link:hover { color: var(--foreground-primary); text-decoration-color: currentColor; }
+.rating-source { display: inline-flex; align-items: center; height: 18px; }
+.rating-source svg { display: block; font-family: var(--font-ui); }
+
+/* Poster transition (lib/poster_transition.ts): the clicked overview poster grows into this one. Short and calm, no bounce. */
+.universal-media-poster { view-transition-name: title-poster; }
+::view-transition-group(title-poster) { animation-duration: 280ms; animation-timing-function: cubic-bezier(.2, .8, .2, 1); }
+::view-transition-old(title-poster), ::view-transition-new(title-poster) { height: 100%; object-fit: cover; }
+::view-transition-old(root), ::view-transition-new(root) { animation-duration: 180ms; }
+
+/* Loading values in the properties list take the same height as the text that replaces them, so rows do not jump. */
+.title-properties .episode-skeleton-value, .universal-media-status .episode-skeleton-value { margin-block: 4px; }
+.title-properties .episode-skeleton-value.next-line { margin-top: 8px; width: 100px; }
+
+/* Seasons, episodes and technical details open by growing instead of snapping (browsers without ::details-content snap as before). */
+:is(.season-card, .episode-accordion, .now-playing-details) { interpolate-size: allow-keywords; }
+:is(.season-card, .episode-accordion, .now-playing-details)::details-content { block-size: 0; overflow: clip; opacity: 0; transition: block-size 200ms cubic-bezier(0.23, 1, 0.32, 1), opacity 200ms cubic-bezier(0.23, 1, 0.32, 1), content-visibility 200ms allow-discrete; }
+:is(.season-card, .episode-accordion, .now-playing-details)[open]::details-content { block-size: auto; opacity: 1; }

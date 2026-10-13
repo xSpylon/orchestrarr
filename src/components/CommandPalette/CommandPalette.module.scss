@@ -1,0 +1,12 @@
+.palette {
+  isolation: isolate;
+
+  .dialog {
+    outline: none;
+  }
+
+  .result {
+    width: 100%;
+    text-align: left;
+  }
+}
