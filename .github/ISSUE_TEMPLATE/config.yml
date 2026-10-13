@@ -1,5 +1,11 @@
 blank_issues_enabled: false
 contact_links:
+  - name: Question or setup help
+    url: https://github.com/xSpylon/orchestrarr/discussions/categories/q-a
+    about: Ask how to install, configure or connect a service. Issues are for confirmed bugs and concrete feature requests.
+  - name: Idea or early feature discussion
+    url: https://github.com/xSpylon/orchestrarr/discussions/categories/ideas
+    about: Float an idea before it becomes a feature request.
   - name: Security vulnerability
     url: https://github.com/xSpylon/orchestrarr/security/advisories/new
     about: Report security issues privately; do not publish credentials or exploit details.

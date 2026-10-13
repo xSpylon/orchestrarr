@@ -164,7 +164,7 @@ DOCKER_IMAGE=orchestrarr:ci yarn test:docker
 
 Run `yarn build` before the production-style HTTP and Docker smoke tests. The test suite uses isolated temporary configuration and state directories; it does not connect to your media services.
 
-For contribution guidelines, project structure and naming conventions, see [CONTRIBUTING.md](CONTRIBUTING.md). For interface architecture, see [docs/project_ui_architecture.md](docs/project_ui_architecture.md). Bug reports and documentation improvements are welcome. Open an issue before starting a large feature so we can agree on scope.
+For contribution guidelines, project structure and naming conventions, see [CONTRIBUTING.md](CONTRIBUTING.md). For interface architecture, see [docs/project_ui_architecture.md](docs/project_ui_architecture.md). Questions and setup help go to [Discussions](https://github.com/xSpylon/orchestrarr/discussions). Bug reports and documentation improvements are welcome. Open an issue before starting a large feature so we can agree on scope.
 
 ## Security
 
