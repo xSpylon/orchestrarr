@@ -33,20 +33,15 @@ Orchestrarr is an independent community project and is not affiliated with Plex 
 
 Docker Compose is the recommended installation path. Images for `linux/amd64` and `linux/arm64` are published to `ghcr.io/xspylon/orchestrarr`, tagged `latest`, the exact version (`0.1.0`) and the minor line (`0.1`).
 
-Download [`docker-compose.yml`](docker-compose.yml) and [`.env.example`](.env.example) into an empty folder, then:
+In an empty folder, download the Compose file of the latest release, generate an API key and start Orchestrarr:
 
 ```bash
-cp .env.example .env
-openssl rand -hex 32
-```
-
-Copy the generated value into `.env` as `ORCHESTRARR_API_KEY`, then start Orchestrarr:
-
-```bash
+curl -fsSLO https://orchestrarr.com/docker-compose.yml
+echo "ORCHESTRARR_API_KEY=$(openssl rand -hex 32)" > .env
 docker compose up -d
 ```
 
-Open <http://127.0.0.1:4173> and sign in with the generated key. Configure integrations from **Services**. Compose starts with live mode enabled; unconfigured integrations remain inactive. Update with `docker compose pull && docker compose up -d`.
+Open <http://127.0.0.1:4173> and sign in with the key from `.env`. [`.env.example`](.env.example) lists the optional settings. Configure integrations from **Services**. Compose starts with live mode enabled; unconfigured integrations remain inactive. Update with `docker compose pull && docker compose up -d`.
 
 Configuration is stored at `/app/.data/config.json` and event history is stored in the persistent `orchestrarr_state` volume. Ordinary `docker compose down` preserves settings. `docker compose down -v` deletes the volume, including credentials and settings.
 
