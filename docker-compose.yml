@@ -1,6 +1,6 @@
 services:
   orchestrarr:
-    build: .
+    image: ghcr.io/xspylon/orchestrarr:latest
     container_name: orchestrarr
     ports:
       - "127.0.0.1:4173:4173"

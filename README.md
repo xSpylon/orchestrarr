@@ -31,7 +31,9 @@ Orchestrarr is an independent community project and is not affiliated with Plex 
 
 ## Run with Docker
 
-Docker Compose is the recommended installation path.
+Docker Compose is the recommended installation path. Images for `linux/amd64` and `linux/arm64` are published to `ghcr.io/xspylon/orchestrarr`, tagged `latest`, the exact version (`0.1.0`) and the minor line (`0.1`).
+
+Download [`docker-compose.yml`](docker-compose.yml) and [`.env.example`](.env.example) into an empty folder, then:
 
 ```bash
 cp .env.example .env
@@ -41,23 +43,25 @@ openssl rand -hex 32
 Copy the generated value into `.env` as `ORCHESTRARR_API_KEY`, then start Orchestrarr:
 
 ```bash
-docker compose up -d --build
+docker compose up -d
 ```
 
-Open <http://127.0.0.1:4173> and sign in with the generated key. Configure integrations from **Services**. Compose starts with live mode enabled; unconfigured integrations remain inactive.
+Open <http://127.0.0.1:4173> and sign in with the generated key. Configure integrations from **Services**. Compose starts with live mode enabled; unconfigured integrations remain inactive. Update with `docker compose pull && docker compose up -d`.
 
 Configuration is stored at `/app/.data/config.json` and event history is stored in the persistent `orchestrarr_state` volume. Ordinary `docker compose down` preserves settings. `docker compose down -v` deletes the volume, including credentials and settings.
 
 For a standalone container:
 
 ```bash
-docker build -t orchestrarr:local .
-docker run --rm -p 127.0.0.1:4173:4173 \
+docker run -d --name orchestrarr --restart unless-stopped \
+  -p 127.0.0.1:4173:4173 \
   --env-file .env \
   -e DEMO_MODE=false \
   -v orchestrarr_data:/app/.data \
-  orchestrarr:local
+  ghcr.io/xspylon/orchestrarr:latest
 ```
+
+To build from source instead, run `docker build -t orchestrarr:local .` in a checkout and use `orchestrarr:local` as the image.
 
 For LAN or remote access, deliberately change the published host address, keep authentication enabled and use a VPN or HTTPS reverse proxy. The optional Docker control plane requires `DOCKER_ENABLED=true` and access to the host's Docker socket. A read-only socket mount does not make Docker operations read-only.
 
