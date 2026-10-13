@@ -1,5 +1,5 @@
 # The build output is platform-independent, so build natively instead of under QEMU.
-FROM --platform=$BUILDPLATFORM node:22-alpine AS build
+FROM --platform=$BUILDPLATFORM node:26-alpine AS build
 
 WORKDIR /app
 RUN corepack enable
@@ -8,7 +8,7 @@ RUN yarn install --immutable
 COPY . .
 RUN yarn build
 
-FROM node:22-alpine AS runtime
+FROM node:26-alpine AS runtime
 
 RUN apk add --no-cache docker-cli
 WORKDIR /app
