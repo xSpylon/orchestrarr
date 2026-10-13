@@ -64,3 +64,7 @@ Keep filenames predictable so contributors can find code by its role:
 - Preserve names required by external APIs, environment variables and generated files.
 
 Run `yarn check` before opening a pull request. It includes the filename convention check.
+
+## Releases
+
+Add user-facing changes to the `Unreleased` section of [CHANGELOG.md](CHANGELOG.md) in the same pull request. To release, a maintainer moves those entries under a new version heading, bumps `version` in `package.json`, and pushes a `vX.Y.Z` tag. The tag publishes the Docker images; the GitHub release notes are the matching changelog section.
