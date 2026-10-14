@@ -13,6 +13,7 @@ Orchestrarr can read settings from a JSON file and environment variables.
 | <code>DEMO_MODE</code> | <code>true</code> when no saved setting exists | Set the deployment default for demo mode |
 | <code>DEMO_PROFILE</code> | <code>medium</code> | Set the demo usage profile when no saved profile exists |
 | <code>PUBLIC_DEMO</code> | <code>false</code> | Run a shared public demo: demo data only, with settings and outgoing requests locked |
+| <code>TRUST_PROXY</code> | <code>false</code> | Behind Cloudflare or a reverse proxy: take the visitor's address from <code>CF-Connecting-IP</code> or <code>X-Forwarded-For</code> for rate limits |
 | Environment variables | — | Supply deployment secrets and override matching saved values |
 | <code>config.json</code> | — | Store settings entered through the dashboard |
 
@@ -64,6 +65,7 @@ Set <code>PUBLIC_DEMO=true</code> (with <code>AUTH_MODE=none</code>) to host a d
 - always shows demo data, whatever <code>DEMO_MODE</code> or <code>config.json</code> say, and uses <code>DEMO_PROFILE</code> as its fixed profile;
 - answers every write with <code>403</code>, except signing in and out, refreshing, and the actions demo mode answers itself (each visitor only sees their own changes);
 - blocks all Docker routes, connection tests, notification tests and incoming webhooks, and serves only the local demo posters, so visitors cannot make the server reach another host;
+- allows at most 5 live-update connections per visitor and 500 in total; refused tabs fall back to the 30-second refresh;
 - disables the demo switch and the profile picker, and its banner says changes only show for that visitor and links to orchestrarr.com.
 
 Choose the demo usage profile from **Settings → Demo usage profile**:

@@ -217,3 +217,39 @@ test('demo actions change only the acting visitor\'s demo data, also in a public
     assert.equal(bogus.status, 500);
   } finally { await app?.stop(); rmSync(directory, { recursive: true, force: true }); }
 });
+
+test('live updates allow a few connections per visitor and refuse the rest', async () => {
+  const directory = mkdtempSync(join(tmpdir(), 'orchestrarr-events-'));
+  let app;
+  const open = [];
+  const connect = async (headers = {}) => {
+    const controller = new AbortController();
+    const response = await fetch(`${app.url}/api/events`, { headers, signal: controller.signal });
+    open.push(controller);
+    return response.status;
+  };
+  try {
+    app = await startServer(directory, '', 'none', { TRUST_PROXY: 'true' });
+    for (let index = 0; index < 5; index += 1) assert.equal(await connect({ 'CF-Connecting-IP': '203.0.113.7' }), 200);
+    assert.equal(await connect({ 'CF-Connecting-IP': '203.0.113.7' }), 429, 'the sixth connection from one visitor is refused');
+    assert.equal(await connect({ 'CF-Connecting-IP': '198.51.100.9' }), 200, 'another visitor behind the same proxy still gets in');
+    open.shift().abort();
+    await new Promise((resolve) => setTimeout(resolve, 100));
+    assert.equal(await connect({ 'CF-Connecting-IP': '203.0.113.7' }), 200, 'a closed tab frees its slot');
+  } finally { open.forEach((controller) => controller.abort()); await app?.stop(); rmSync(directory, { recursive: true, force: true }); }
+});
+
+test('without TRUST_PROXY a forwarded address header is ignored', async () => {
+  const directory = mkdtempSync(join(tmpdir(), 'orchestrarr-events-direct-'));
+  let app;
+  const open = [];
+  try {
+    app = await startServer(directory, '', 'none');
+    const statuses = [];
+    for (let index = 0; index < 6; index += 1) {
+      const controller = new AbortController(); open.push(controller);
+      statuses.push((await fetch(`${app.url}/api/events`, { headers: { 'CF-Connecting-IP': `203.0.113.${index}` }, signal: controller.signal })).status);
+    }
+    assert.deepEqual(statuses, [200, 200, 200, 200, 200, 429], 'spoofed headers do not buy extra connections');
+  } finally { open.forEach((controller) => controller.abort()); await app?.stop(); rmSync(directory, { recursive: true, force: true }); }
+});

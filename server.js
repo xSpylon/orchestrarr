@@ -43,6 +43,12 @@ let dashboardInFlight = null;
 const authSessions = new Set();
 const authAttempts = new Map();
 const eventClients = new Set();
+// Live updates hold a connection open per tab: cap them so one visitor cannot tie up the server.
+const maxEventClientsPerVisitor = 5;
+const maxEventClients = 500;
+// Behind Cloudflare or a reverse proxy every request comes from the proxy, so the visitor's address is in a header.
+// Only trust that header when told to: without a proxy anyone could set it.
+const trustProxy = process.env.TRUST_PROXY === 'true';
 const unconfiguredServiceDetail = 'Add connection details';
 
 function readConfig() {
@@ -1530,8 +1536,13 @@ function serviceHostname(value) {
   }
 }
 
+function clientAddress(request) {
+  const forwarded = trustProxy ? String(request.headers['cf-connecting-ip'] || request.headers['x-forwarded-for'] || '').split(',')[0].trim() : '';
+  return forwarded || request.socket.remoteAddress || 'unknown';
+}
+
 function authAttemptAllowed(request) {
-  const key = request.socket.remoteAddress || 'unknown';
+  const key = clientAddress(request);
   const now = Date.now();
   const previous = authAttempts.get(key) || { startedAt: now, count: 0 };
   if (now - previous.startedAt > 300000) { authAttempts.set(key, { startedAt: now, count: 1 }); return true; }
@@ -1674,7 +1685,11 @@ const server = createServer(async (request, response) => {
       if (demoUrl.pathname === '/api/bazarr/media-status' && request.method === 'GET') { json(response, 200, demoBazarrMediaStatus(demoUrl.searchParams.get('tmdbId') || '', demoType)); return; }
     }
     if (request.url === '/api/health') { json(response, 200, { ok: true, service: 'orchestrarr', mode: readConfig().demoMode ? 'demo' : 'live' }); return; }
-    if (request.url === '/api/events' && request.method === 'GET') { response.writeHead(200, { 'Content-Type': 'text/event-stream; charset=utf-8', 'Cache-Control': 'no-cache', Connection: 'keep-alive' }); response.write(': connected\n\n'); eventClients.add(response); request.on('close', () => eventClients.delete(response)); return; }
+    if (request.url === '/api/events' && request.method === 'GET') {
+      const visitor = clientAddress(request);
+      if (eventClients.size >= maxEventClients || [...eventClients].filter((client) => client.visitor === visitor).length >= maxEventClientsPerVisitor) { json(response, 429, { error: 'Too many live update connections' }); return; }
+      response.visitor = visitor;
+      response.writeHead(200, { 'Content-Type': 'text/event-stream; charset=utf-8', 'Cache-Control': 'no-cache', Connection: 'keep-alive' }); response.write(': connected\n\n'); eventClients.add(response); request.on('close', () => eventClients.delete(response)); return; }
     if (request.url === '/api/dashboard') { json(response, 200, await getDashboard()); return; }
     if (request.url === '/api/services') { json(response, 200, (await getDashboard()).services); return; }
     if (request.url === '/api/wizarr/management' && request.method === 'GET') { json(response, 200, await getWizarrManagement(readConfig().wizarr)); return; }
