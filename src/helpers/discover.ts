@@ -13,7 +13,7 @@ export function adaptDiscovery(payload: DiscoveryPayload): DiscoveryItem[] {
       id: String(entry.id || ''), title,
       poster: directPoster || (posterPath ? `/api/discovery-artwork?size=w342&path=${encodeURIComponent(posterPath)}` : ''),
       posterPath,
-      detail: String(entry.release_date || entry.first_air_date || 'Date unavailable'),
+      detail: String(entry.release_date || entry.first_air_date || ''),
       overview: String(entry.overview || 'No synopsis available.'),
       mediaType,
     };

@@ -120,7 +120,8 @@
     "signingIn": "Inloggen…",
     "unsupported": "Authenticatiemodus \"{value}\" wordt niet ondersteund.",
     "configure": "Zet auth.mode in config.json (of AUTH_MODE) op none, apikey of basic.",
-    "subtitle": "Media-operatie"
+    "subtitle": "Media-operatie",
+    "sessionExpired": "Je sessie is niet meer geldig. Log opnieuw in."
   },
   "common": {
     "unknown": "Onbekend",
@@ -259,7 +260,8 @@
     "dateUnavailable": "Datumdetails niet beschikbaar",
     "more": "+{value} meer",
     "eventTitle": "{title}: {detail} · {service}",
-    "eventLabel": "{title}, {detail}, {service}"
+    "eventLabel": "{title}, {detail}, {service}",
+    "unavailable": "Agendagegevens niet beschikbaar"
   },
   "discovery": {
     "empty": "Geen titels gevonden. Probeer een andere titel of spelling.",
@@ -274,7 +276,8 @@
     "checkTmdb": "Controleer de TMDB-verbinding bij Instellingen.",
     "loadingTitles": "Titels laden",
     "searchLabel": "Films en series zoeken",
-    "searchPlaceholder": "Films en series zoeken"
+    "searchPlaceholder": "Films en series zoeken",
+    "dateUnavailable": "Datum onbekend"
   },
   "media": {
     "eyebrow": "Werkruimte / Media",
@@ -300,7 +303,9 @@
     "movieNoun": "film",
     "showNoun": "serie",
     "moviesNoun": "films",
-    "showsNoun": "series"
+    "showsNoun": "series",
+    "newEpisode": "Nieuwe aflevering · {title}",
+    "recentlyAdded": "Recent toegevoegd"
   },
   "overview": {
     "newRequest": "Nieuwe aanvraag",
@@ -414,7 +419,8 @@
     "secretPlaceholder": "Leeg laten om huidige waarde te behouden",
     "secretHelp": "Opgeslagen op de server. Bestaande waarden worden nooit getoond.",
     "publicUrlHelp": "Het adres dat genodigden openen. Uitnodigingslinks worden hierop gebaseerd.",
-    "serverSideHelp": "Opgeslagen op de server."
+    "serverSideHelp": "Opgeslagen op de server.",
+    "lastSuccessfulCheck": "Laatste geslaagde controle"
   },
   "streams": {
     "eyebrow": "Monitoren / Afspelen"
@@ -517,7 +523,7 @@
     "libraryUnavailable": "Bibliotheek niet beschikbaar",
     "notInPlex": "Niet in Plex-bibliotheek",
     "plexNotConfigured": "Plex niet geconfigureerd",
-    "radarrUnavailable": "Radarr niet beschikbaar",
+    "radarrUnavailable": "Opzoeken in Radarr niet beschikbaar",
     "checkingRadarr": "Radarr-bibliotheek controleren",
     "inQueue": "In wachtrij",
     "sonarrMatchUnconfirmed": "Sonarr-match kon niet worden bevestigd via TMDB-ID",
@@ -528,7 +534,12 @@
     "platformUnavailable": "Platform onbekend",
     "playingDetail": "Aan het afspelen · {user} · {mode} · {quality}",
     "now": "Nu",
-    "runtimeMinutes": "{value} min"
+    "runtimeMinutes": "{value} min",
+    "subtitleApiInactive": "Ondertitelstatus-API is niet actief · herstart de backend",
+    "subtitleLookupFailed": "Ondertitels opzoeken mislukt",
+    "subtitleLookupFailedReason": "Ondertitels opzoeken mislukt · {reason}",
+    "releaseUnavailable": "Releasedatum onbekend",
+    "checkingSonarrAvailability": "Beschikbaarheid in Sonarr controleren"
   },
   "infrastructure": {
     "host": "Host",
@@ -757,5 +768,27 @@
     "inviteLinkCopied": "Uitnodigingslink gekopieerd",
     "inviteCodeCopied": "Uitnodigingscode gekopieerd",
     "copyFailed": "Uitnodigingslink kopiëren mislukt"
+  },
+  "dashboard": {
+    "refreshedDemo": "Dashboard vernieuwd · demodata",
+    "refreshedLive": "Dashboard vernieuwd · live data",
+    "refreshFailed": "Dashboard vernieuwen mislukt · {reason}",
+    "noResponse": "De dashboard-API reageerde niet.",
+    "webhookReceived": "{service}-melding ontvangen"
+  },
+  "navDescription": {
+    "overview": "Je mediastack in één oogopslag",
+    "media": "Blader door gekoppelde media",
+    "discovery": "Vind iets nieuws",
+    "calendar": "Komende releases",
+    "requests": "Volg aangevraagde media",
+    "pipeline": "Downloads en imports",
+    "streams": "Volg actieve Plex-sessies",
+    "activity": "Bekijk wijzigingen en meldingen",
+    "services": "Bekijk gekoppelde integraties",
+    "servers": "Controleer opslag en servercapaciteit",
+    "access": "Beheer gebruikers en uitnodigingen",
+    "settings": "Orchestrarr instellen",
+    "about": "Projectinformatie en vermeldingen"
   }
 }

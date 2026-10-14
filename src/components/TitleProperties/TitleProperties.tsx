@@ -12,7 +12,7 @@ export function TitleProperties({ mediaType, facts, tmdbId, metadataLoading, rat
   return <PropertyList className="title-properties">
     <Property label={t('detail.status')}>{statusResolved ? <span className={`status-text ${statusTone(isAvailable ? 'Available' : pipelineState || requestState)}`}>{isAvailable ? t('status.available') : requestState ? translateStatus(t, requestState) : t('detail.notRequested')}</span> : <TitlePending short />}</Property>
     <Property label={t('detail.type')}>{mediaType === 'tv' ? t('media.show') : t('media.movie')}{year ? ` · ${year}` : metadataLoading ? ' · …' : ''}</Property>
-    <Property label={t('detail.release')}>{metadataLoading ? <TitlePending short /> : release}</Property>
+    <Property label={t('detail.release')}>{metadataLoading ? <TitlePending short /> : release || t('detail.releaseUnavailable')}</Property>
     {/* TMDb rarely has a runtime for series, so only movies keep a row for it while loading. */}
     {runtime || (metadataLoading && mediaType === 'movie') ? <Property label={t('detail.runtime')}>{runtime || <TitlePending short />}</Property> : null}
     <Property label={t('detail.genres')}>{genres || (metadataLoading ? <TitlePending /> : t('status.unavailable'))}</Property>

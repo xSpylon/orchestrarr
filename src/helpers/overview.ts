@@ -11,8 +11,3 @@ export function isReachable(service?: HasState) {
 export function isOffline(service: HasState) {
   return unavailable.test(service.state || '') && !/not configured/i.test(service.state || '');
 }
-
-export function queueProgressLabel(downloads: number, importing: number) {
-  const parts = [downloads ? `${downloads} downloading` : '', importing ? `${importing} importing` : ''].filter(Boolean);
-  return parts.join(' · ') || 'Nothing in progress';
-}

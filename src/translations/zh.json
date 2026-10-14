@@ -120,7 +120,8 @@
     "signingIn": "正在登录…",
     "unsupported": "不支持身份验证模式“{value}”。",
     "configure": "在 config.json 中将 auth.mode（或 AUTH_MODE）设置为 none、apikey 或 basic。",
-    "subtitle": "媒体运维"
+    "subtitle": "媒体运维",
+    "sessionExpired": "你的会话已失效，请重新登录。"
   },
   "common": {
     "unknown": "未知",
@@ -259,7 +260,8 @@
     "dateUnavailable": "日期详情不可用",
     "more": "还有 {value} 个",
     "eventTitle": "{title}：{detail} · {service}",
-    "eventLabel": "{title}，{detail}，{service}"
+    "eventLabel": "{title}，{detail}，{service}",
+    "unavailable": "日历数据不可用"
   },
   "discovery": {
     "empty": "没有与此搜索匹配的标题。请尝试其他标题或拼写。",
@@ -274,7 +276,8 @@
     "checkTmdb": "请在设置中检查 TMDb 连接。",
     "loadingTitles": "正在加载标题",
     "searchLabel": "搜索电影和剧集",
-    "searchPlaceholder": "搜索电影和剧集"
+    "searchPlaceholder": "搜索电影和剧集",
+    "dateUnavailable": "日期未知"
   },
   "media": {
     "eyebrow": "工作区 / 媒体",
@@ -300,7 +303,9 @@
     "movieNoun": "电影",
     "showNoun": "剧集",
     "moviesNoun": "电影",
-    "showsNoun": "剧集"
+    "showsNoun": "剧集",
+    "newEpisode": "新剧集 · {title}",
+    "recentlyAdded": "最近添加"
   },
   "overview": {
     "newRequest": "新请求",
@@ -414,7 +419,8 @@
     "secretPlaceholder": "留空则保留当前值",
     "secretHelp": "存储在服务器端。现有值永远不会显示。",
     "publicUrlHelp": "受邀者打开的地址。邀请链接基于此生成。",
-    "serverSideHelp": "存储在服务器端。"
+    "serverSideHelp": "存储在服务器端。",
+    "lastSuccessfulCheck": "上次成功检查"
   },
   "streams": {
     "eyebrow": "监控 / 播放"
@@ -528,7 +534,12 @@
     "platformUnavailable": "未知平台",
     "playingDetail": "播放中 · {user} · {mode} · {quality}",
     "now": "现在",
-    "runtimeMinutes": "{value} 分钟"
+    "runtimeMinutes": "{value} 分钟",
+    "subtitleApiInactive": "字幕状态 API 未启用 · 请重启后端",
+    "subtitleLookupFailed": "字幕查询失败",
+    "subtitleLookupFailedReason": "字幕查询失败 · {reason}",
+    "releaseUnavailable": "发行日期未知",
+    "checkingSonarrAvailability": "正在检查 Sonarr 可用性"
   },
   "infrastructure": {
     "host": "主机",
@@ -757,5 +768,27 @@
     "inviteLinkCopied": "邀请链接已复制",
     "inviteCodeCopied": "邀请码已复制",
     "copyFailed": "无法复制邀请链接"
+  },
+  "dashboard": {
+    "refreshedDemo": "仪表板已刷新 · 演示数据",
+    "refreshedLive": "仪表板已刷新 · 实时数据",
+    "refreshFailed": "无法刷新仪表板 · {reason}",
+    "noResponse": "仪表板 API 没有响应。",
+    "webhookReceived": "已收到 {service} 事件"
+  },
+  "navDescription": {
+    "overview": "一眼掌握你的媒体栈",
+    "media": "浏览已连接的媒体",
+    "discovery": "发现新内容",
+    "calendar": "即将发布",
+    "requests": "跟踪已请求的媒体",
+    "pipeline": "下载与导入",
+    "streams": "监控活跃的 Plex 会话",
+    "activity": "查看变更和警报",
+    "services": "检查已连接的集成",
+    "servers": "检查存储和主机容量",
+    "access": "管理用户和邀请",
+    "settings": "配置 Orchestrarr",
+    "about": "项目信息与声明"
   }
 }

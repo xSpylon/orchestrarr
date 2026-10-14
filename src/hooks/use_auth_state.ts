@@ -1,9 +1,11 @@
 import { useCallback, useEffect, useState } from 'react';
 import { setUnauthorizedHandler } from '@/lib/api';
+import { useLocale } from '@/lib/i18n';
 
 export type AuthState = { checked: boolean; authenticated: boolean; mode: string; message?: string };
 
 export function useAuthState() {
+  const { t } = useLocale();
   const [auth, setAuth] = useState<AuthState>({ checked: false, authenticated: false, mode: 'none' });
 
   const checkAuth = useCallback((message?: string) => fetch('/api/auth/status', { cache: 'no-store', credentials: 'same-origin' })
@@ -16,9 +18,9 @@ export function useAuthState() {
   useEffect(() => {
     void checkAuth();
     // A 401 mid-session means the auth mode or credentials changed; re-check so the login page replaces a dead dashboard.
-    setUnauthorizedHandler(() => { void checkAuth('Your session is no longer authorised. Sign in again.'); });
+    setUnauthorizedHandler(() => { void checkAuth(t('auth.sessionExpired')); });
     return () => setUnauthorizedHandler(null);
-  }, [checkAuth]);
+  }, [checkAuth, t]);
 
   const markAuthenticated = useCallback(() => setAuth((current) => ({ ...current, authenticated: true, message: '' })), []);
   return { auth, markAuthenticated };

@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { apiRequest } from '@/lib/api';
+import { useLocale } from '@/lib/i18n';
 import type { DashboardData } from '@/types/dashboard.types';
 
 type DashboardState = {
@@ -10,12 +11,15 @@ type DashboardState = {
 };
 
 export function useDashboard(autoRefresh: boolean, onNotify: (message: string) => void, enabled = true): DashboardState {
+  const { t } = useLocale();
   const [dashboard, setDashboard] = useState<DashboardData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const requestId = useRef(0);
   const notifyRef = useRef(onNotify);
-  useEffect(() => { notifyRef.current = onNotify; });
+  // the translator travels in a ref like onNotify, so refresh stays stable when the language changes
+  const tRef = useRef(t);
+  useEffect(() => { notifyRef.current = onNotify; tRef.current = t; });
 
   const refresh = useCallback(async (notify = false) => {
     const currentRequest = ++requestId.current;
@@ -24,12 +28,12 @@ export function useDashboard(autoRefresh: boolean, onNotify: (message: string) =
       if (currentRequest !== requestId.current) return;
       setDashboard(nextDashboard);
       setError(null);
-      if (notify) notifyRef.current(`Dashboard refreshed · ${nextDashboard.mode || 'live'} data`);
+      if (notify) notifyRef.current(tRef.current(nextDashboard.mode === 'demo' ? 'dashboard.refreshedDemo' : 'dashboard.refreshedLive'));
     } catch (cause) {
       if (currentRequest !== requestId.current) return;
-      const message = cause instanceof Error ? cause.message : 'The dashboard API did not respond.';
+      const message = cause instanceof Error ? cause.message : tRef.current('dashboard.noResponse');
       setError(message);
-      if (notify) notifyRef.current(`Could not refresh dashboard · ${message}`);
+      if (notify) notifyRef.current(tRef.current('dashboard.refreshFailed', undefined, { reason: message }));
     } finally {
       if (currentRequest === requestId.current) setLoading(false);
     }
@@ -53,7 +57,7 @@ export function useDashboard(autoRefresh: boolean, onNotify: (message: string) =
       try {
         const payload = JSON.parse(event.data) as { type?: string; service?: string };
         if (payload.type === 'webhook') {
-          notifyRef.current(`${payload.service || 'Service'} event received`);
+          notifyRef.current(tRef.current('dashboard.webhookReceived', undefined, { service: payload.service || 'Webhook' }));
           void refresh();
         }
       } catch {

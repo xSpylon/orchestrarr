@@ -10,7 +10,7 @@ function focusLine(focus: MediaFocus, episodeTitle: string, t: ReturnType<typeof
 export function TitleSynopsis({ loading, overview, focus, episodeTitle }: TitleSynopsisProps) {
   const { t } = useLocale();
   return <>
-    {loading ? <div className="episode-skeleton-copy discovery-overview" role="status" aria-label={t('detail.loadingSynopsis')}>{[0, 1, 2].map((line) => <span className="episode-skeleton-line" key={line} />)}</div> : <p className="discovery-overview">{overview}</p>}
+    {loading ? <div className="episode-skeleton-copy discovery-overview" role="status" aria-label={t('detail.loadingSynopsis')}>{[0, 1, 2].map((line) => <span className="episode-skeleton-line" key={line} />)}</div> : <p className="discovery-overview">{overview || t('detail.noSynopsis')}</p>}
     {focus ? <p className="universal-media-focus">{focusLine(focus, episodeTitle, t)}</p> : null}
   </>;
 }

@@ -120,7 +120,8 @@
     "signingIn": "Accesso…",
     "unsupported": "La modalità di autenticazione \"{value}\" non è supportata.",
     "configure": "Imposta auth.mode in config.json (o AUTH_MODE) su none, apikey o basic.",
-    "subtitle": "Gestione media"
+    "subtitle": "Gestione media",
+    "sessionExpired": "La tua sessione non è più valida. Accedi di nuovo."
   },
   "common": {
     "unknown": "Sconosciuto",
@@ -259,7 +260,8 @@
     "dateUnavailable": "Dettaglio data non disponibile",
     "more": "+{value} altri",
     "eventTitle": "{title}: {detail} · {service}",
-    "eventLabel": "{title}, {detail}, {service}"
+    "eventLabel": "{title}, {detail}, {service}",
+    "unavailable": "Dati del calendario non disponibili"
   },
   "discovery": {
     "empty": "Nessun titolo corrisponde alla ricerca. Prova un altro titolo o un’altra grafia.",
@@ -274,7 +276,8 @@
     "checkTmdb": "Controlla la connessione TMDb nelle Impostazioni.",
     "loadingTitles": "Caricamento titoli",
     "searchLabel": "Cerca film e serie",
-    "searchPlaceholder": "Cerca film e serie"
+    "searchPlaceholder": "Cerca film e serie",
+    "dateUnavailable": "Data sconosciuta"
   },
   "media": {
     "eyebrow": "Area di lavoro / Libreria",
@@ -300,7 +303,9 @@
     "movieNoun": "film",
     "showNoun": "serie",
     "moviesNoun": "film",
-    "showsNoun": "serie"
+    "showsNoun": "serie",
+    "newEpisode": "Nuovo episodio · {title}",
+    "recentlyAdded": "Aggiunto di recente"
   },
   "overview": {
     "newRequest": "Nuova richiesta",
@@ -414,7 +419,8 @@
     "secretPlaceholder": "Lascia vuoto per mantenere il valore attuale",
     "secretHelp": "Salvato sul server. I valori esistenti non vengono mai mostrati.",
     "publicUrlHelp": "L’indirizzo che aprono gli invitati. I link di invito si basano su questo.",
-    "serverSideHelp": "Salvato sul server."
+    "serverSideHelp": "Salvato sul server.",
+    "lastSuccessfulCheck": "Ultimo controllo riuscito"
   },
   "streams": {
     "eyebrow": "Monitoraggio / Riproduzione"
@@ -517,7 +523,7 @@
     "libraryUnavailable": "Ricerca in libreria non disponibile",
     "notInPlex": "Non nella libreria Plex",
     "plexNotConfigured": "Plex non configurato",
-    "radarrUnavailable": "Ricerca in Radarr non disponibile",
+    "radarrUnavailable": "Ricerca Radarr non disponibile",
     "checkingRadarr": "Verifica libreria Radarr",
     "inQueue": "In coda",
     "sonarrMatchUnconfirmed": "Impossibile confermare la corrispondenza in Sonarr tramite ID TMDb",
@@ -528,7 +534,12 @@
     "platformUnavailable": "Piattaforma sconosciuta",
     "playingDetail": "In riproduzione · {user} · {mode} · {quality}",
     "now": "Ora",
-    "runtimeMinutes": "{value} min"
+    "runtimeMinutes": "{value} min",
+    "subtitleApiInactive": "L’API dello stato dei sottotitoli non è attiva · riavvia il backend",
+    "subtitleLookupFailed": "Ricerca dei sottotitoli non riuscita",
+    "subtitleLookupFailedReason": "Ricerca dei sottotitoli non riuscita · {reason}",
+    "releaseUnavailable": "Data di uscita sconosciuta",
+    "checkingSonarrAvailability": "Verifica della disponibilità in Sonarr"
   },
   "infrastructure": {
     "host": "Host",
@@ -757,5 +768,27 @@
     "inviteLinkCopied": "Link di invito copiato",
     "inviteCodeCopied": "Codice di invito copiato",
     "copyFailed": "Impossibile copiare il link di invito"
+  },
+  "dashboard": {
+    "refreshedDemo": "Dashboard aggiornata · dati demo",
+    "refreshedLive": "Dashboard aggiornata · dati reali",
+    "refreshFailed": "Impossibile aggiornare la dashboard · {reason}",
+    "noResponse": "L’API della dashboard non ha risposto.",
+    "webhookReceived": "Evento {service} ricevuto"
+  },
+  "navDescription": {
+    "overview": "Il tuo stack multimediale a colpo d’occhio",
+    "media": "Sfoglia i contenuti collegati",
+    "discovery": "Trova qualcosa di nuovo",
+    "calendar": "Prossime uscite",
+    "requests": "Segui i contenuti richiesti",
+    "pipeline": "Download e importazioni",
+    "streams": "Monitora le sessioni Plex attive",
+    "activity": "Rivedi modifiche e avvisi",
+    "services": "Controlla le integrazioni collegate",
+    "servers": "Controlla spazio e capacità dell’host",
+    "access": "Gestisci utenti e inviti",
+    "settings": "Configura Orchestrarr",
+    "about": "Informazioni e note sul progetto"
   }
 }

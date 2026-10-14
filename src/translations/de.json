@@ -120,7 +120,8 @@
     "signingIn": "Anmeldung…",
     "unsupported": "Der Authentifizierungsmodus „{value}“ wird nicht unterstützt.",
     "configure": "Setze auth.mode in config.json (oder AUTH_MODE) auf none, apikey oder basic.",
-    "subtitle": "Medienbetrieb"
+    "subtitle": "Medienbetrieb",
+    "sessionExpired": "Deine Sitzung ist nicht mehr gültig. Melde dich erneut an."
   },
   "common": {
     "unknown": "Unbekannt",
@@ -259,7 +260,8 @@
     "dateUnavailable": "Datumsdetails nicht verfügbar",
     "more": "+{value} weitere",
     "eventTitle": "{title}: {detail} · {service}",
-    "eventLabel": "{title}, {detail}, {service}"
+    "eventLabel": "{title}, {detail}, {service}",
+    "unavailable": "Kalenderdaten nicht verfügbar"
   },
   "discovery": {
     "empty": "Keine Titel gefunden. Versuche einen anderen Titel oder eine andere Schreibweise.",
@@ -274,7 +276,8 @@
     "checkTmdb": "Prüfe die TMDb-Verbindung in den Einstellungen.",
     "loadingTitles": "Titel werden geladen",
     "searchLabel": "Filme und Serien suchen",
-    "searchPlaceholder": "Filme und Serien suchen"
+    "searchPlaceholder": "Filme und Serien suchen",
+    "dateUnavailable": "Datum unbekannt"
   },
   "media": {
     "eyebrow": "Arbeitsbereich / Bibliothek",
@@ -300,7 +303,9 @@
     "movieNoun": "Film",
     "showNoun": "Serie",
     "moviesNoun": "Filme",
-    "showsNoun": "Serien"
+    "showsNoun": "Serien",
+    "newEpisode": "Neue Episode · {title}",
+    "recentlyAdded": "Kürzlich hinzugefügt"
   },
   "overview": {
     "newRequest": "Neue Anfrage",
@@ -414,7 +419,8 @@
     "secretPlaceholder": "Leer lassen, um den aktuellen Wert zu behalten",
     "secretHelp": "Wird auf dem Server gespeichert. Bestehende Werte werden nie angezeigt.",
     "publicUrlHelp": "Die Adresse, die Eingeladene öffnen. Einladungslinks basieren darauf.",
-    "serverSideHelp": "Wird auf dem Server gespeichert."
+    "serverSideHelp": "Wird auf dem Server gespeichert.",
+    "lastSuccessfulCheck": "Letzte erfolgreiche Prüfung"
   },
   "streams": {
     "eyebrow": "Überwachung / Wiedergabe"
@@ -528,7 +534,12 @@
     "platformUnavailable": "Unbekannte Plattform",
     "playingDetail": "Läuft · {user} · {mode} · {quality}",
     "now": "Jetzt",
-    "runtimeMinutes": "{value} Min."
+    "runtimeMinutes": "{value} Min.",
+    "subtitleApiInactive": "Untertitelstatus-API ist nicht aktiv · starte das Backend neu",
+    "subtitleLookupFailed": "Untertitelabfrage fehlgeschlagen",
+    "subtitleLookupFailedReason": "Untertitelabfrage fehlgeschlagen · {reason}",
+    "releaseUnavailable": "Veröffentlichungsdatum unbekannt",
+    "checkingSonarrAvailability": "Verfügbarkeit in Sonarr wird geprüft"
   },
   "infrastructure": {
     "host": "Host",
@@ -757,5 +768,27 @@
     "inviteLinkCopied": "Einladungslink kopiert",
     "inviteCodeCopied": "Einladungscode kopiert",
     "copyFailed": "Der Einladungslink konnte nicht kopiert werden"
+  },
+  "dashboard": {
+    "refreshedDemo": "Dashboard aktualisiert · Demodaten",
+    "refreshedLive": "Dashboard aktualisiert · Live-Daten",
+    "refreshFailed": "Dashboard konnte nicht aktualisiert werden · {reason}",
+    "noResponse": "Die Dashboard-API hat nicht geantwortet.",
+    "webhookReceived": "{service}-Ereignis empfangen"
+  },
+  "navDescription": {
+    "overview": "Dein Medien-Stack auf einen Blick",
+    "media": "Verbundene Medien durchsuchen",
+    "discovery": "Entdecke etwas Neues",
+    "calendar": "Kommende Veröffentlichungen",
+    "requests": "Angefragte Medien verfolgen",
+    "pipeline": "Downloads und Importe",
+    "streams": "Aktive Plex-Sitzungen überwachen",
+    "activity": "Änderungen und Warnungen prüfen",
+    "services": "Verbundene Integrationen prüfen",
+    "servers": "Speicher und Hostkapazität prüfen",
+    "access": "Benutzer und Einladungen verwalten",
+    "settings": "Orchestrarr konfigurieren",
+    "about": "Projektinformationen und Hinweise"
   }
 }

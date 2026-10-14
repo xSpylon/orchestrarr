@@ -120,7 +120,8 @@
     "signingIn": "Signing in…",
     "unsupported": "Authentication mode \"{value}\" is not supported.",
     "configure": "Set auth.mode in config.json (or AUTH_MODE) to none, apikey or basic.",
-    "subtitle": "Media operations"
+    "subtitle": "Media operations",
+    "sessionExpired": "Your session is no longer authorised. Sign in again."
   },
   "common": {
     "unknown": "Unknown",
@@ -259,7 +260,8 @@
     "dateUnavailable": "Date detail unavailable",
     "more": "+{value} more",
     "eventTitle": "{title}: {detail} · {service}",
-    "eventLabel": "{title}, {detail}, {service}"
+    "eventLabel": "{title}, {detail}, {service}",
+    "unavailable": "Calendar data unavailable"
   },
   "discovery": {
     "empty": "No titles matched this search. Try another title or spelling.",
@@ -274,7 +276,8 @@
     "checkTmdb": "Check the TMDb connection in Settings.",
     "loadingTitles": "Loading titles",
     "searchLabel": "Search movies and series",
-    "searchPlaceholder": "Search movies and series"
+    "searchPlaceholder": "Search movies and series",
+    "dateUnavailable": "Date unavailable"
   },
   "media": {
     "eyebrow": "Workspace / Media",
@@ -300,7 +303,9 @@
     "movieNoun": "movie",
     "showNoun": "show",
     "moviesNoun": "movies",
-    "showsNoun": "shows"
+    "showsNoun": "shows",
+    "newEpisode": "New episode · {title}",
+    "recentlyAdded": "Recently added"
   },
   "overview": {
     "newRequest": "New request",
@@ -414,7 +419,8 @@
     "secretPlaceholder": "Leave blank to keep current value",
     "secretHelp": "Stored server-side. Existing values are never displayed.",
     "publicUrlHelp": "The address invitees open. Invite links are built on it.",
-    "serverSideHelp": "Stored server-side."
+    "serverSideHelp": "Stored server-side.",
+    "lastSuccessfulCheck": "Last successful check"
   },
   "streams": {
     "eyebrow": "Observe / Playback"
@@ -528,7 +534,12 @@
     "platformUnavailable": "Unknown platform",
     "playingDetail": "Playing · {user} · {mode} · {quality}",
     "now": "Now",
-    "runtimeMinutes": "{value} min"
+    "runtimeMinutes": "{value} min",
+    "subtitleApiInactive": "Subtitle status API is not active · restart the backend",
+    "subtitleLookupFailed": "Subtitle lookup failed",
+    "subtitleLookupFailedReason": "Subtitle lookup failed · {reason}",
+    "releaseUnavailable": "Release date unavailable",
+    "checkingSonarrAvailability": "Checking Sonarr availability"
   },
   "infrastructure": {
     "host": "Host",
@@ -757,5 +768,27 @@
     "inviteLinkCopied": "Invitation link copied",
     "inviteCodeCopied": "Invitation code copied",
     "copyFailed": "Could not copy the invitation link"
+  },
+  "dashboard": {
+    "refreshedDemo": "Dashboard refreshed · demo data",
+    "refreshedLive": "Dashboard refreshed · live data",
+    "refreshFailed": "Could not refresh dashboard · {reason}",
+    "noResponse": "The dashboard API did not respond.",
+    "webhookReceived": "{service} event received"
+  },
+  "navDescription": {
+    "overview": "Your media stack at a glance",
+    "media": "Browse connected media",
+    "discovery": "Find something new",
+    "calendar": "Upcoming releases",
+    "requests": "Track requested media",
+    "pipeline": "Downloads and imports",
+    "streams": "Monitor active Plex sessions",
+    "activity": "Review changes and alerts",
+    "services": "Inspect connected integrations",
+    "servers": "Check storage and host capacity",
+    "access": "Manage users and invitations",
+    "settings": "Configure Orchestrarr",
+    "about": "Project information and notices"
   }
 }

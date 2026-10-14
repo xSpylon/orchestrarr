@@ -120,7 +120,8 @@
     "signingIn": "Iniciando sesión…",
     "unsupported": "El modo de autenticación «{value}» no es compatible.",
     "configure": "Define auth.mode en config.json (o AUTH_MODE) como none, apikey o basic.",
-    "subtitle": "Gestión de medios"
+    "subtitle": "Gestión de medios",
+    "sessionExpired": "Tu sesión ya no es válida. Vuelve a iniciar sesión."
   },
   "common": {
     "unknown": "Desconocido",
@@ -259,7 +260,8 @@
     "dateUnavailable": "Detalle de fecha no disponible",
     "more": "+{value} más",
     "eventTitle": "{title}: {detail} · {service}",
-    "eventLabel": "{title}, {detail}, {service}"
+    "eventLabel": "{title}, {detail}, {service}",
+    "unavailable": "Datos del calendario no disponibles"
   },
   "discovery": {
     "empty": "Ningún título coincide con esta búsqueda. Prueba otro título u otra grafía.",
@@ -274,7 +276,8 @@
     "checkTmdb": "Comprueba la conexión con TMDb en Ajustes.",
     "loadingTitles": "Cargando títulos",
     "searchLabel": "Buscar películas y series",
-    "searchPlaceholder": "Buscar películas y series"
+    "searchPlaceholder": "Buscar películas y series",
+    "dateUnavailable": "Fecha desconocida"
   },
   "media": {
     "eyebrow": "Espacio de trabajo / Medios",
@@ -300,7 +303,9 @@
     "movieNoun": "película",
     "showNoun": "serie",
     "moviesNoun": "películas",
-    "showsNoun": "series"
+    "showsNoun": "series",
+    "newEpisode": "Nuevo episodio · {title}",
+    "recentlyAdded": "Añadido recientemente"
   },
   "overview": {
     "newRequest": "Nueva solicitud",
@@ -414,7 +419,8 @@
     "secretPlaceholder": "Déjalo en blanco para mantener el valor actual",
     "secretHelp": "Se guarda en el servidor. Los valores existentes nunca se muestran.",
     "publicUrlHelp": "La dirección que abren los invitados. Los enlaces de invitación se generan con ella.",
-    "serverSideHelp": "Se guarda en el servidor."
+    "serverSideHelp": "Se guarda en el servidor.",
+    "lastSuccessfulCheck": "Última comprobación correcta"
   },
   "streams": {
     "eyebrow": "Supervisión / Reproducción"
@@ -528,7 +534,12 @@
     "platformUnavailable": "Plataforma desconocida",
     "playingDetail": "Reproduciendo · {user} · {mode} · {quality}",
     "now": "Ahora",
-    "runtimeMinutes": "{value} min"
+    "runtimeMinutes": "{value} min",
+    "subtitleApiInactive": "La API de estado de subtítulos no está activa · reinicia el backend",
+    "subtitleLookupFailed": "Error al consultar los subtítulos",
+    "subtitleLookupFailedReason": "Error al consultar los subtítulos · {reason}",
+    "releaseUnavailable": "Fecha de estreno desconocida",
+    "checkingSonarrAvailability": "Comprobando la disponibilidad en Sonarr"
   },
   "infrastructure": {
     "host": "Host",
@@ -757,5 +768,27 @@
     "inviteLinkCopied": "Enlace de invitación copiado",
     "inviteCodeCopied": "Código de invitación copiado",
     "copyFailed": "No se pudo copiar el enlace de invitación"
+  },
+  "dashboard": {
+    "refreshedDemo": "Panel actualizado · datos de demo",
+    "refreshedLive": "Panel actualizado · datos en vivo",
+    "refreshFailed": "No se pudo actualizar el panel · {reason}",
+    "noResponse": "La API del panel no respondió.",
+    "webhookReceived": "Evento de {service} recibido"
+  },
+  "navDescription": {
+    "overview": "Tu stack multimedia de un vistazo",
+    "media": "Explora el contenido conectado",
+    "discovery": "Encuentra algo nuevo",
+    "calendar": "Próximos estrenos",
+    "requests": "Sigue el contenido solicitado",
+    "pipeline": "Descargas e importaciones",
+    "streams": "Supervisa las sesiones activas de Plex",
+    "activity": "Revisa cambios y alertas",
+    "services": "Revisa las integraciones conectadas",
+    "servers": "Comprueba el almacenamiento y la capacidad",
+    "access": "Gestiona usuarios e invitaciones",
+    "settings": "Configura Orchestrarr",
+    "about": "Información y avisos del proyecto"
   }
 }

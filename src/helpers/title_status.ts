@@ -47,7 +47,7 @@ export function findFocusedEpisode(availability: SeriesAvailability, focus?: Med
 
 /** Display values from TMDb metadata; `poster` is the artwork the page was opened with. */
 export function titleFacts(details: MetadataPayload | null, poster: string) {
-  const release = stringValue(details?.release_date || details?.first_air_date) || 'Release date unavailable';
+  const release = stringValue(details?.release_date || details?.first_air_date) ;
   const runtimeValue = details?.runtime || (Array.isArray(details?.episode_run_time) ? details.episode_run_time[0] : '');
   const voteCount = typeof details?.vote_count === 'number' ? details.vote_count : 0;
   const posterPath = stringValue(details?.poster_path);
@@ -58,7 +58,7 @@ export function titleFacts(details: MetadataPayload | null, poster: string) {
     runtime: runtimeValue ? `${runtimeValue} min` : '',
     rating: typeof details?.vote_average === 'number' && voteCount ? `${details.vote_average.toFixed(1)} / 10 · ${formatVotes(voteCount)} votes` : '',
     cast: (details?.credits?.cast || []).filter((person) => person.name).slice(0, 5),
-    overview: stringValue(details?.overview) || 'Detailed synopsis is unavailable from TMDb.',
+    overview: stringValue(details?.overview),
     tmdbId: stringValue(details?.id),
     // The poster that was clicked to get here shows straight away (and is what the transition morphs into); TMDb's is the fallback.
     image: poster || (posterPath ? `/api/discovery-artwork?path=${encodeURIComponent(posterPath)}` : ''),

@@ -1,7 +1,7 @@
 import type { DashboardItem } from '@/types/dashboard.types';
 
 export type LibraryItem = DashboardItem & { grandparentTitle?: string; grandparentRatingKey?: string; episodeCount?: number };
-export type RecentShowItem = LibraryItem & { recentDetail?: string };
+export type RecentShowItem = LibraryItem & { recentEpisode?: string; recentlyAdded?: boolean };
 export type LibraryKind = 'movie' | 'show';
 
 export function mediaKind(item: LibraryItem): LibraryKind | null {
@@ -25,7 +25,8 @@ export function recentShows(items: LibraryItem[]): RecentShowItem[] {
       type: 'show',
       ratingKey: item.grandparentRatingKey || item.ratingKey,
       thumb: item.grandparentRatingKey ? `/api/media/${encodeURIComponent(item.grandparentRatingKey)}/artwork` : item.thumb,
-      recentDetail: item.grandparentTitle ? `New episode · ${item.title}` : 'Recently added'
+      recentEpisode: item.grandparentTitle ? item.title : undefined,
+      recentlyAdded: true
     });
   }
   return [...shows.values()];

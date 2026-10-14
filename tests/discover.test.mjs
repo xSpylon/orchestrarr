@@ -8,7 +8,7 @@ test('adaptDiscovery drops people and fills fallbacks', () => {
     { id: 2, name: 'Show', first_air_date: '2024-01-02', poster_path: '/p.jpg' },
     { id: 3 },
   ] });
-  assert.deepEqual(items.map((item) => [item.id, item.mediaType, item.title, item.detail]), [['2', 'tv', 'Show', '2024-01-02'], ['3', 'movie', 'Untitled', 'Date unavailable']]);
+  assert.deepEqual(items.map((item) => [item.id, item.mediaType, item.title, item.detail]), [['2', 'tv', 'Show', '2024-01-02'], ['3', 'movie', 'Untitled', '']]);
   assert.equal(items[0].poster, '/api/discovery-artwork?size=w342&path=%2Fp.jpg');
   assert.equal(items[1].poster, '');
   assert.equal(items[1].overview, 'No synopsis available.');

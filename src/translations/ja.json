@@ -120,7 +120,8 @@
     "signingIn": "サインイン中…",
     "unsupported": "認証モード「{value}」はサポートされていません。",
     "configure": "config.json の auth.mode（または AUTH_MODE）を none、apikey、basic のいずれかに設定してください。",
-    "subtitle": "メディア運用"
+    "subtitle": "メディア運用",
+    "sessionExpired": "セッションが無効になりました。もう一度サインインしてください。"
   },
   "common": {
     "unknown": "不明",
@@ -259,7 +260,8 @@
     "dateUnavailable": "日付の詳細はありません",
     "more": "他{value}件",
     "eventTitle": "{title}：{detail} · {service}",
-    "eventLabel": "{title}、{detail}、{service}"
+    "eventLabel": "{title}、{detail}、{service}",
+    "unavailable": "カレンダーのデータを取得できません"
   },
   "discovery": {
     "empty": "この検索に一致するタイトルはありません。別のタイトルや表記を試してください。",
@@ -274,7 +276,8 @@
     "checkTmdb": "設定で TMDb の接続を確認してください。",
     "loadingTitles": "タイトルを読み込み中",
     "searchLabel": "映画とシリーズを検索",
-    "searchPlaceholder": "映画とシリーズを検索"
+    "searchPlaceholder": "映画とシリーズを検索",
+    "dateUnavailable": "日付不明"
   },
   "media": {
     "eyebrow": "ワークスペース / メディア",
@@ -300,7 +303,9 @@
     "movieNoun": "映画",
     "showNoun": "シリーズ",
     "moviesNoun": "映画",
-    "showsNoun": "シリーズ"
+    "showsNoun": "シリーズ",
+    "newEpisode": "新しいエピソード · {title}",
+    "recentlyAdded": "最近追加"
   },
   "overview": {
     "newRequest": "新規リクエスト",
@@ -414,7 +419,8 @@
     "secretPlaceholder": "現在の値を維持する場合は空欄",
     "secretHelp": "サーバー側に保存されます。既存の値は表示されません。",
     "publicUrlHelp": "招待されたユーザーが開くアドレスです。招待リンクはこのアドレスで作成されます。",
-    "serverSideHelp": "サーバー側に保存されます。"
+    "serverSideHelp": "サーバー側に保存されます。",
+    "lastSuccessfulCheck": "最後に成功したチェック"
   },
   "streams": {
     "eyebrow": "監視 / 再生"
@@ -517,7 +523,7 @@
     "libraryUnavailable": "ライブラリを取得できません",
     "notInPlex": "Plex ライブラリにありません",
     "plexNotConfigured": "Plex 未設定",
-    "radarrUnavailable": "Radarr を取得できません",
+    "radarrUnavailable": "Radarr の照会は利用できません",
     "checkingRadarr": "Radarr ライブラリを確認中",
     "inQueue": "キューにあります",
     "sonarrMatchUnconfirmed": "TMDb ID で Sonarr の一致を確認できませんでした",
@@ -528,7 +534,12 @@
     "platformUnavailable": "不明なプラットフォーム",
     "playingDetail": "再生中 · {user} · {mode} · {quality}",
     "now": "現在",
-    "runtimeMinutes": "{value}分"
+    "runtimeMinutes": "{value}分",
+    "subtitleApiInactive": "字幕ステータス API が有効ではありません · バックエンドを再起動してください",
+    "subtitleLookupFailed": "字幕の照会に失敗しました",
+    "subtitleLookupFailedReason": "字幕の照会に失敗しました · {reason}",
+    "releaseUnavailable": "公開日不明",
+    "checkingSonarrAvailability": "Sonarr の利用状況を確認中"
   },
   "infrastructure": {
     "host": "ホスト",
@@ -757,5 +768,27 @@
     "inviteLinkCopied": "招待リンクをコピーしました",
     "inviteCodeCopied": "招待コードをコピーしました",
     "copyFailed": "招待リンクをコピーできませんでした"
+  },
+  "dashboard": {
+    "refreshedDemo": "ダッシュボードを更新しました · デモデータ",
+    "refreshedLive": "ダッシュボードを更新しました · ライブデータ",
+    "refreshFailed": "ダッシュボードを更新できませんでした · {reason}",
+    "noResponse": "ダッシュボード API が応答しませんでした。",
+    "webhookReceived": "{service} のイベントを受信しました"
+  },
+  "navDescription": {
+    "overview": "メディアスタックをひと目で",
+    "media": "接続済みのメディアを閲覧",
+    "discovery": "新しい作品を探す",
+    "calendar": "今後のリリース",
+    "requests": "リクエストされたメディアを追跡",
+    "pipeline": "ダウンロードとインポート",
+    "streams": "アクティブな Plex セッションを監視",
+    "activity": "変更とアラートを確認",
+    "services": "接続済みの連携を確認",
+    "servers": "ストレージとホストの容量を確認",
+    "access": "ユーザーと招待を管理",
+    "settings": "Orchestrarr を設定",
+    "about": "プロジェクト情報と表記"
   }
 }

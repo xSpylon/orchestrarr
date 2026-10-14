@@ -120,7 +120,8 @@
     "signingIn": "A iniciar sessão…",
     "unsupported": "O modo de autenticação \"{value}\" não é suportado.",
     "configure": "Defina auth.mode em config.json (ou AUTH_MODE) como none, apikey ou basic.",
-    "subtitle": "Gestão multimédia"
+    "subtitle": "Gestão multimédia",
+    "sessionExpired": "A sua sessão já não é válida. Inicie sessão novamente."
   },
   "common": {
     "unknown": "Desconhecido",
@@ -259,7 +260,8 @@
     "dateUnavailable": "Detalhe da data indisponível",
     "more": "+{value} mais",
     "eventTitle": "{title}: {detail} · {service}",
-    "eventLabel": "{title}, {detail}, {service}"
+    "eventLabel": "{title}, {detail}, {service}",
+    "unavailable": "Dados do calendário indisponíveis"
   },
   "discovery": {
     "empty": "Nenhum título corresponde a esta pesquisa. Tente outro título ou grafia.",
@@ -274,7 +276,8 @@
     "checkTmdb": "Verifique a ligação ao TMDb nas Definições.",
     "loadingTitles": "A carregar títulos",
     "searchLabel": "Pesquisar filmes e séries",
-    "searchPlaceholder": "Pesquisar filmes e séries"
+    "searchPlaceholder": "Pesquisar filmes e séries",
+    "dateUnavailable": "Data desconhecida"
   },
   "media": {
     "eyebrow": "Espaço de trabalho / Biblioteca",
@@ -300,7 +303,9 @@
     "movieNoun": "filme",
     "showNoun": "série",
     "moviesNoun": "filmes",
-    "showsNoun": "séries"
+    "showsNoun": "séries",
+    "newEpisode": "Novo episódio · {title}",
+    "recentlyAdded": "Adicionado recentemente"
   },
   "overview": {
     "newRequest": "Novo pedido",
@@ -414,7 +419,8 @@
     "secretPlaceholder": "Deixe em branco para manter o valor atual",
     "secretHelp": "Guardado no servidor. Os valores existentes nunca são mostrados.",
     "publicUrlHelp": "O endereço que os convidados abrem. Os links de convite são criados a partir dele.",
-    "serverSideHelp": "Guardado no servidor."
+    "serverSideHelp": "Guardado no servidor.",
+    "lastSuccessfulCheck": "Última verificação bem-sucedida"
   },
   "streams": {
     "eyebrow": "Observar / Reprodução"
@@ -517,7 +523,7 @@
     "libraryUnavailable": "Consulta da biblioteca indisponível",
     "notInPlex": "Não está na biblioteca Plex",
     "plexNotConfigured": "Plex não configurado",
-    "radarrUnavailable": "Consulta do Radarr indisponível",
+    "radarrUnavailable": "Consulta ao Radarr indisponível",
     "checkingRadarr": "A verificar a biblioteca do Radarr",
     "inQueue": "Na fila",
     "sonarrMatchUnconfirmed": "Não foi possível confirmar a correspondência no Sonarr pelo ID do TMDb",
@@ -528,7 +534,12 @@
     "platformUnavailable": "Plataforma desconhecida",
     "playingDetail": "A reproduzir · {user} · {mode} · {quality}",
     "now": "Agora",
-    "runtimeMinutes": "{value} min"
+    "runtimeMinutes": "{value} min",
+    "subtitleApiInactive": "A API de estado das legendas não está ativa · reinicie o backend",
+    "subtitleLookupFailed": "Falha ao consultar as legendas",
+    "subtitleLookupFailedReason": "Falha ao consultar as legendas · {reason}",
+    "releaseUnavailable": "Data de lançamento desconhecida",
+    "checkingSonarrAvailability": "A verificar a disponibilidade no Sonarr"
   },
   "infrastructure": {
     "host": "Anfitrião",
@@ -757,5 +768,27 @@
     "inviteLinkCopied": "Link do convite copiado",
     "inviteCodeCopied": "Código do convite copiado",
     "copyFailed": "Não foi possível copiar o link do convite"
+  },
+  "dashboard": {
+    "refreshedDemo": "Painel atualizado · dados de demonstração",
+    "refreshedLive": "Painel atualizado · dados reais",
+    "refreshFailed": "Não foi possível atualizar o painel · {reason}",
+    "noResponse": "A API do painel não respondeu.",
+    "webhookReceived": "Evento do {service} recebido"
+  },
+  "navDescription": {
+    "overview": "A sua stack multimédia num relance",
+    "media": "Explore os conteúdos ligados",
+    "discovery": "Encontre algo novo",
+    "calendar": "Próximos lançamentos",
+    "requests": "Acompanhe os conteúdos pedidos",
+    "pipeline": "Transferências e importações",
+    "streams": "Monitorize as sessões ativas do Plex",
+    "activity": "Reveja alterações e alertas",
+    "services": "Inspecione as integrações ligadas",
+    "servers": "Verifique o armazenamento e a capacidade",
+    "access": "Faça a gestão de utilizadores e convites",
+    "settings": "Configure o Orchestrarr",
+    "about": "Informações e avisos do projeto"
   }
 }

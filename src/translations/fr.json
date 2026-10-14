@@ -120,7 +120,8 @@
     "signingIn": "Connexion…",
     "unsupported": "Le mode d’authentification « {value} » n’est pas pris en charge.",
     "configure": "Définissez auth.mode dans config.json (ou AUTH_MODE) sur none, apikey ou basic.",
-    "subtitle": "Gestion des médias"
+    "subtitle": "Gestion des médias",
+    "sessionExpired": "Votre session n’est plus valide. Reconnectez-vous."
   },
   "common": {
     "unknown": "Inconnu",
@@ -259,7 +260,8 @@
     "dateUnavailable": "Détail de la date indisponible",
     "more": "+{value} de plus",
     "eventTitle": "{title} : {detail} · {service}",
-    "eventLabel": "{title}, {detail}, {service}"
+    "eventLabel": "{title}, {detail}, {service}",
+    "unavailable": "Données du calendrier indisponibles"
   },
   "discovery": {
     "empty": "Aucun titre ne correspond à cette recherche. Essayez un autre titre ou une autre orthographe.",
@@ -274,7 +276,8 @@
     "checkTmdb": "Vérifiez la connexion TMDb dans les paramètres.",
     "loadingTitles": "Chargement des titres",
     "searchLabel": "Rechercher des films et des séries",
-    "searchPlaceholder": "Rechercher des films et des séries"
+    "searchPlaceholder": "Rechercher des films et des séries",
+    "dateUnavailable": "Date inconnue"
   },
   "media": {
     "eyebrow": "Espace de travail / Bibliothèque",
@@ -300,7 +303,9 @@
     "movieNoun": "film",
     "showNoun": "série",
     "moviesNoun": "films",
-    "showsNoun": "séries"
+    "showsNoun": "séries",
+    "newEpisode": "Nouvel épisode · {title}",
+    "recentlyAdded": "Ajouté récemment"
   },
   "overview": {
     "newRequest": "Nouvelle demande",
@@ -414,7 +419,8 @@
     "secretPlaceholder": "Laissez vide pour conserver la valeur actuelle",
     "secretHelp": "Stocké côté serveur. Les valeurs existantes ne sont jamais affichées.",
     "publicUrlHelp": "L’adresse qu’ouvrent les invités. Les liens d’invitation sont construits à partir d’elle.",
-    "serverSideHelp": "Stocké côté serveur."
+    "serverSideHelp": "Stocké côté serveur.",
+    "lastSuccessfulCheck": "Dernière vérification réussie"
   },
   "streams": {
     "eyebrow": "Surveillance / Lecture"
@@ -528,7 +534,12 @@
     "platformUnavailable": "Plateforme inconnue",
     "playingDetail": "En lecture · {user} · {mode} · {quality}",
     "now": "Maintenant",
-    "runtimeMinutes": "{value} min"
+    "runtimeMinutes": "{value} min",
+    "subtitleApiInactive": "L’API d’état des sous-titres n’est pas active · redémarrez le backend",
+    "subtitleLookupFailed": "Échec de la recherche de sous-titres",
+    "subtitleLookupFailedReason": "Échec de la recherche de sous-titres · {reason}",
+    "releaseUnavailable": "Date de sortie inconnue",
+    "checkingSonarrAvailability": "Vérification de la disponibilité dans Sonarr"
   },
   "infrastructure": {
     "host": "Hôte",
@@ -757,5 +768,27 @@
     "inviteLinkCopied": "Lien d’invitation copié",
     "inviteCodeCopied": "Code d’invitation copié",
     "copyFailed": "Impossible de copier le lien d’invitation"
+  },
+  "dashboard": {
+    "refreshedDemo": "Tableau de bord actualisé · données de démo",
+    "refreshedLive": "Tableau de bord actualisé · données réelles",
+    "refreshFailed": "Impossible d’actualiser le tableau de bord · {reason}",
+    "noResponse": "L’API du tableau de bord n’a pas répondu.",
+    "webhookReceived": "Événement {service} reçu"
+  },
+  "navDescription": {
+    "overview": "Votre pile multimédia en un coup d’œil",
+    "media": "Parcourir les médias connectés",
+    "discovery": "Trouvez quelque chose de nouveau",
+    "calendar": "Sorties à venir",
+    "requests": "Suivre les médias demandés",
+    "pipeline": "Téléchargements et imports",
+    "streams": "Surveiller les sessions Plex actives",
+    "activity": "Consulter les changements et alertes",
+    "services": "Inspecter les intégrations connectées",
+    "servers": "Vérifier le stockage et la capacité de l’hôte",
+    "access": "Gérer les utilisateurs et les invitations",
+    "settings": "Configurer Orchestrarr",
+    "about": "Informations et mentions du projet"
   }
 }

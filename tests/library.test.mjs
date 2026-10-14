@@ -17,6 +17,6 @@ test('recentShows collapses episodes into one card per show', () => {
     { title: 'Andor', ratingKey: '5', thumb: '/t.jpg' },
   ]);
   assert.equal(cards.length, 2);
-  assert.deepEqual([cards[0].title, cards[0].ratingKey, cards[0].type, cards[0].thumb, cards[0].recentDetail], ['Severance', '9', 'show', '/api/media/9/artwork', 'New episode · Pilot']);
-  assert.deepEqual([cards[1].title, cards[1].thumb, cards[1].recentDetail], ['Andor', '/t.jpg', 'Recently added']);
+  assert.deepEqual([cards[0].title, cards[0].ratingKey, cards[0].type, cards[0].thumb, cards[0].recentEpisode], ['Severance', '9', 'show', '/api/media/9/artwork', 'Pilot']);
+  assert.deepEqual([cards[1].title, cards[1].thumb, cards[1].recentEpisode], ['Andor', '/t.jpg', undefined]);
 });

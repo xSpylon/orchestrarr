@@ -9,8 +9,8 @@ const english = createTranslator('en');
 
 function destinations(t: Translator): PaletteCommand[] {
   return [
-    { id: 'overview', title: t('nav.overview'), subtitle: 'Your media stack at a glance', group: 'Navigate', icon: 'overview', view: navigationPaths.overview },
-    ...navigationGroups.flatMap(({ group, items }) => items.map(([key, label, description]): PaletteCommand => ({ id: key, title: t(`nav.${key}`, label), subtitle: `${t(`group.${group.toLowerCase()}`, group)} · ${description}`, group: t('common.navigate', 'Navigate'), icon: key as IconName, view: navigationPaths[key] }))),
+    { id: 'overview', title: t('nav.overview'), subtitle: t('navDescription.overview'), group: t('common.navigate'), icon: 'overview', view: navigationPaths.overview },
+    ...navigationGroups.flatMap(({ group, items }) => items.map(([key, label, description]): PaletteCommand => ({ id: key, title: t(`nav.${key}`, label), subtitle: `${t(`group.${group.toLowerCase()}`, group)} · ${t(`navDescription.${key}`, description)}`, group: t('common.navigate', 'Navigate'), icon: key as IconName, view: navigationPaths[key] }))),
   ];
 }
 
