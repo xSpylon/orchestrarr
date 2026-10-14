@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { apiRequest, encodeBasicCredentials, setAuthorizationHeader } from '@/lib/api';
+import { apiRequest, setAuthorizationHeader } from '@/lib/api';
 import { useLocale } from '@/lib/i18n';
 
 /** Signs in with an API key (server session) or Basic credentials (header), then confirms the server accepts them. */
@@ -17,7 +17,8 @@ export function useLogin(mode: string, message: string | undefined, onAuthentica
       if (mode === 'apikey') {
         await apiRequest('/api/auth/login', { method: 'POST', body: JSON.stringify({ key }) });
       } else if (mode === 'basic') {
-        setAuthorizationHeader(encodeBasicCredentials(username, password));
+        // A server session (cookie) rather than a header: images load with it, and it survives a page reload.
+        await apiRequest('/api/auth/login', { method: 'POST', body: JSON.stringify({ username, password }) });
       } else {
         throw new Error(t('actions.authModeUnsupported'));
       }

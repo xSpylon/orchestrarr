@@ -183,6 +183,20 @@ describe('LoginForm', () => {
     expect(fetchMock).toHaveBeenNthCalledWith(2, '/api/auth/status', expect.objectContaining({ credentials: 'same-origin' }));
   });
 
+  it('signs in with basic credentials through a server session, so images load too', async () => {
+    const onAuthenticated = vi.fn();
+    const fetchMock = vi.fn()
+      .mockResolvedValueOnce(new Response(JSON.stringify({ ok: true }), { status: 200 }))
+      .mockResolvedValueOnce(new Response(JSON.stringify({ authenticated: true }), { status: 200 }));
+    globalThis.fetch = fetchMock;
+    render(<LoginForm mode="basic" onAuthenticated={onAuthenticated} />);
+    fireEvent.change(screen.getByLabelText('Username'), { target: { value: 'sven' } });
+    fireEvent.change(screen.getByLabelText('Password'), { target: { value: 'päss' } });
+    fireEvent.submit(screen.getByRole('button', { name: 'Sign in' }).closest('form'));
+    await waitFor(() => expect(onAuthenticated).toHaveBeenCalledTimes(1));
+    expect(fetchMock).toHaveBeenNthCalledWith(1, '/api/auth/login', expect.objectContaining({ method: 'POST', body: JSON.stringify({ username: 'sven', password: 'päss' }) }));
+  });
+
   it('shows the API error and does not authenticate after a failed login', async () => {
     const onAuthenticated = vi.fn();
     globalThis.fetch = vi.fn().mockResolvedValue(new Response(JSON.stringify({ error: 'Invalid access key' }), { status: 401 }));

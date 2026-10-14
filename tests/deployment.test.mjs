@@ -253,3 +253,20 @@ test('without TRUST_PROXY a forwarded address header is ignored', async () => {
     assert.deepEqual(statuses, [200, 200, 200, 200, 200, 429], 'spoofed headers do not buy extra connections');
   } finally { open.forEach((controller) => controller.abort()); await app?.stop(); rmSync(directory, { recursive: true, force: true }); }
 });
+
+test('basic sign-in also starts a session, so images load without an Authorization header', async () => {
+  const directory = mkdtempSync(join(tmpdir(), 'orchestrarr-basic-session-'));
+  let app;
+  try {
+    app = await startServer(directory, '', 'basic', { AUTH_USERNAME: 'admin', AUTH_PASSWORD: 'correct horse' });
+    const login = (body) => fetch(`${app.url}/api/auth/login`, { method: 'POST', headers: { Origin: app.url, 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+    assert.equal((await login({ username: 'admin', password: 'wrong' })).status, 401);
+    const response = await login({ username: 'admin', password: 'correct horse' });
+    assert.equal(response.status, 200);
+    const cookie = response.headers.get('set-cookie')?.split(';')[0];
+    assert.match(cookie || '', /^orchestrarr_session=/);
+    // an <img> sends cookies but never the Authorization header the app adds to fetch
+    assert.notEqual((await fetch(`${app.url}/api/media/123/artwork`, { headers: { Cookie: cookie } })).status, 401);
+    assert.deepEqual(await (await fetch(`${app.url}/api/auth/status`, { headers: { Cookie: cookie } })).json(), { mode: 'basic', authenticated: true });
+  } finally { await app?.stop(); rmSync(directory, { recursive: true, force: true }); }
+});

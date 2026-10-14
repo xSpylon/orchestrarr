@@ -55,7 +55,7 @@ export function mergeAuthUpdate(current = {}, update = {}) {
 // One answer to "is this request signed in?", shared by the API guard and /api/auth/status so they never disagree.
 export function credentialsAccepted(auth, { authorization = '', apiKeyHeader, hasSession = false } = {}) {
   if (auth.mode === 'none') return true;
-  if (auth.mode === 'basic') return basicCredentialsValid(authorization, auth);
+  if (auth.mode === 'basic') return hasSession || basicCredentialsValid(authorization, auth);
   if (auth.mode === 'apikey') return Boolean(auth.apiKey) && (hasSession || (apiKeyHeader !== undefined && sameText(apiKeyHeader, auth.apiKey)));
   return false;
 }

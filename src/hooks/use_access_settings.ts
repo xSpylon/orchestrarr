@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { apiRequest, encodeBasicCredentials, setAuthorizationHeader } from '@/lib/api';
+import { apiRequest } from '@/lib/api';
 import type { SettingsConfig } from './use_settings_config';
 
 function generateAccessKey() {
@@ -33,7 +33,7 @@ export function useAccessSettings({ config, loaded, saveConfig }: SettingsConfig
     const saved = await saveConfig(payload, 'Access', async () => {
       // Sign this browser in with what was just entered, so enabling protection doesn't bounce you to the login page.
       if (authMode === 'apikey' && authKey) await apiRequest('/api/auth/login', { method: 'POST', body: JSON.stringify({ key: authKey }) });
-      if (authMode === 'basic' && authPassword) setAuthorizationHeader(encodeBasicCredentials(authUsername, authPassword));
+      if (authMode === 'basic' && authPassword) await apiRequest('/api/auth/login', { method: 'POST', body: JSON.stringify({ username: authUsername, password: authPassword }) });
     });
     if (saved) { setAuthKey(''); setKeyGenerated(false); setAuthPassword(''); }
     // Nothing was saved, so the selector goes back to the mode that is actually active.

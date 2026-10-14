@@ -37,7 +37,7 @@ Only <code>none</code>, <code>apikey</code> and <code>basic</code> are valid mod
 
 In <code>apikey</code> mode without a key from the environment or the JSON file, Orchestrarr generates a random key on first start. It prints the key once, stores it with owner-only permissions in <code>api_key.json</code> in the state folder (<code>/app/.data</code> in Docker) and reuses it on later starts. A key from <code>ORCHESTRARR_API_KEY</code> or Settings takes precedence.
 
-Browser clients use <code>POST /api/auth/login</code> with a JSON body containing the API key. A successful login creates an HttpOnly session cookie. <code>POST /api/auth/logout</code> invalidates that session. API-key login attempts are rate-limited in memory. Browser writes also require a same-origin request.
+Browser clients use <code>POST /api/auth/login</code> with a JSON body containing the API key (<code>{"key": …}</code>) or, in basic mode, the username and password (<code>{"username": …, "password": …}</code>). A successful login creates an HttpOnly session cookie, which images and other plain browser requests carry automatically. <code>POST /api/auth/logout</code> invalidates that session. Login attempts are rate-limited in memory. Scripts can keep sending the <code>X-Orchestrarr-Key</code> header or Basic credentials instead. Browser writes also require a same-origin request.
 
 The dashboard does not store a Basic Auth password in plain text when it is saved through Settings; it stores a salted scrypt hash. Environment variables remain the deployment authority when they are present.
 
