@@ -10,6 +10,7 @@ import { FilterMenu } from '../src/components/FilterMenu/FilterMenu';
 import { AppShellNavGroup } from '../src/components/AppShellNavGroup/AppShellNavGroup';
 import { AppShellNavLink } from '../src/components/AppShellNavLink/AppShellNavLink';
 import { AppShell } from '../src/components/AppShell/AppShell';
+import { DataTable } from '../src/components/DataTable/DataTable';
 import { SettingsAccess } from '../src/components/SettingsAccess/SettingsAccess';
 import { IntegrationField } from '../src/components/IntegrationField/IntegrationField';
 import { TitleProgress } from '../src/components/TitleProgress/TitleProgress';
@@ -488,5 +489,14 @@ describe('switching demo mode', () => {
     await new Promise((resolve) => setTimeout(resolve, 0));
     expect(toggle).toBeDisabled();
     expect(screen.queryByRole('combobox', { name: 'Demo usage profile' })).toBeNull();
+  });
+});
+
+describe('data table', () => {
+  it('shows when a row was updated as a readable time, not a raw timestamp', () => {
+    const updated = new Date(2026, 2, 3, 9, 5).toISOString();
+    render(<DataTable items={[{ title: 'Sintel', service: 'Radarr', state: 'Downloading', updated }]} empty="Nothing" onSelect={vi.fn()} />);
+    expect(screen.queryByText(updated)).toBeNull();
+    expect(screen.getByText(/^(3 Mar( 2026)?)$/)).toBeInTheDocument();
   });
 });

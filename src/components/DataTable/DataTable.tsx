@@ -1,7 +1,7 @@
 import { navigateRows } from '@/components/ui/list_keyboard';
 import { StatusBadge } from '@/components/StatusBadge/StatusBadge';
 import { useState } from 'react';
-import { displayText, pipelineStateLabel, type StatusShape } from '@/helpers/format';
+import { displayText, formatTime, pipelineStateLabel, type StatusShape } from '@/helpers/format';
 import { pipelineShape } from '@/helpers/attention';
 import { Icon } from '@/components/ui/Icon';
 import { StatusIcon } from '@/components/StatusIcon/StatusIcon';
@@ -39,7 +39,7 @@ export function DataTable({ items, empty, onSelect, onAction, grouped = false }:
   const renderRow = (item: DashboardItem, index: number) => <tr key={`${item.title}-${index}`}>
           <td><button className="queue-item-link" onClick={() => onSelect(item)} title={item.service === 'qBittorrent' && item.torrentHash ? t('dataTable.torrentHash', undefined, { value: item.torrentHash }) : undefined}><strong>{displayTitle(item)}</strong>{item.detail ? <small>{item.detail}</small> : null}</button></td>
           <td><span className="table-cell-label">{t('common.service')}</span>{String(item.service || item.server || t('status.unavailable'))}</td>
-          {showUpdated ? <td><span className="table-cell-label">{t('common.updated')}</span>{String(item.updated || '—')}</td> : null}
+          {showUpdated ? <td><span className="table-cell-label">{t('common.updated')}</span>{item.updated ? formatTime(String(item.updated)) : '—'}</td> : null}
           <td><StatusBadge value={pipelineStateLabel(item.state)} progress={item.progress} shape={pipelineShape(item)} /></td>
           <td><div className="row-actions" aria-label={t('common.itemActions', undefined, { value: displayTitle(item) })}>
             {/* A finished torrent that stopped seeding gets no Resume: resuming would only start seeding again. */}
