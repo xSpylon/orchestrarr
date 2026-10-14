@@ -68,6 +68,16 @@ To build from source instead, run `docker build -t orchestrarr:local .` in a che
 
 For LAN or remote access, deliberately change the published host address, keep authentication enabled and use a VPN or HTTPS reverse proxy. The optional Docker control plane requires `DOCKER_ENABLED=true` and access to the host's Docker socket. A read-only socket mount does not make Docker operations read-only.
 
+### On Unraid
+
+Unraid does not ship Docker Compose, so use the template instead: it fills in the port, the appdata path and the settings for you. In the Unraid terminal, download it once:
+
+```bash
+curl -fsSL -o /boot/config/plugins/dockerMan/templates-user/my-orchestrarr.xml https://raw.githubusercontent.com/xSpylon/orchestrarr/main/unraid/orchestrarr.xml
+```
+
+Then go to **Docker → Add Container**, pick **orchestrarr** under Template, change the port if 4173 is taken and click **Apply**. Read the generated API key with `docker logs orchestrarr` and open the WebUI link. Settings live in `/mnt/user/appdata/orchestrarr`, so your appdata backup covers them, and Unraid offers updates like for any other container. Add services under **Services** with your server's LAN address and each service's host port, for example `http://192.168.68.10:8989` for Sonarr.
+
 ## Run locally
 
 Use Node.js **22.18 or newer** and Yarn **4.18.0**.

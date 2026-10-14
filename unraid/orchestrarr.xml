@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<Container version="2">
+  <Name>orchestrarr</Name>
+  <Repository>ghcr.io/xspylon/orchestrarr:latest</Repository>
+  <Registry>https://github.com/xSpylon/orchestrarr/pkgs/container/orchestrarr</Registry>
+  <Network>bridge</Network>
+  <Shell>sh</Shell>
+  <Privileged>false</Privileged>
+  <Support>https://github.com/xSpylon/orchestrarr/discussions</Support>
+  <Project>https://orchestrarr.com</Project>
+  <ReadMe>https://github.com/xSpylon/orchestrarr#readme</ReadMe>
+  <Overview>One dashboard for Plex, Sonarr, Radarr, Jellyseerr, qBittorrent and the rest of your media stack: playback, requests, queues and service health, with actions like approving requests and importing downloads. On first start Orchestrarr generates an API key and prints it once; read it with "docker logs orchestrarr" and sign in with it. Then add your services under Services, using your server's LAN address and each service's port.</Overview>
+  <Category>MediaServer:Other Tools:</Category>
+  <WebUI>http://[IP]:[PORT:4173]</WebUI>
+  <Icon>https://raw.githubusercontent.com/xSpylon/orchestrarr/main/public/orchestrarr_logo.png</Icon>
+  <ExtraParams/>
+  <Config Name="WebUI" Target="4173" Default="4173" Mode="tcp" Description="Port for the dashboard. Change the host side if 4173 is taken." Type="Port" Display="always" Required="true" Mask="false">4173</Config>
+  <Config Name="Data" Target="/app/.data" Default="/mnt/user/appdata/orchestrarr" Mode="rw" Description="Settings, service credentials and the generated API key. Keep this in appdata so it is backed up." Type="Path" Display="always" Required="true" Mask="false">/mnt/user/appdata/orchestrarr</Config>
+  <Config Name="Demo mode" Target="DEMO_MODE" Default="false|true" Description="true shows fictional sample data instead of your services. Leave false to use your own stack." Type="Variable" Display="always" Required="true" Mask="false">false</Config>
+  <Config Name="Authentication" Target="AUTH_MODE" Default="apikey|basic|none" Description="apikey: sign in with a key (generated on first start if empty below). basic: username and password. none: no sign-in, only for a trusted network." Type="Variable" Display="advanced" Required="false" Mask="false">apikey</Config>
+  <Config Name="API key" Target="ORCHESTRARR_API_KEY" Default="" Description="Optional. Leave empty and Orchestrarr generates one on first start and prints it in the logs. To choose your own: openssl rand -hex 32" Type="Variable" Display="advanced" Required="false" Mask="true"/>
+  <Config Name="Basic auth username" Target="AUTH_USERNAME" Default="" Description="Only with Authentication = basic." Type="Variable" Display="advanced" Required="false" Mask="false"/>
+  <Config Name="Basic auth password" Target="AUTH_PASSWORD" Default="" Description="Only with Authentication = basic." Type="Variable" Display="advanced" Required="false" Mask="true"/>
+  <Config Name="Webhook secret" Target="ORCHESTRARR_WEBHOOK_SECRET" Default="" Description="Optional shared secret for Sonarr, Radarr and Plex webhooks. Generate with: openssl rand -hex 32" Type="Variable" Display="advanced" Required="false" Mask="true"/>
+  <Config Name="Behind a proxy" Target="TRUST_PROXY" Default="false|true" Description="true when Orchestrarr sits behind Cloudflare or a reverse proxy, so rate limits see each visitor's address." Type="Variable" Display="advanced" Required="false" Mask="false">false</Config>
+</Container>
