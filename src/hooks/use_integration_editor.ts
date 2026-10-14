@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
 import { apiRequest } from '@/lib/api';
+import { useLocale } from '@/lib/i18n';
 import { integrationFieldsToSend } from '@/helpers/integration_fields';
 import type { AppConfig } from '@/types/dashboard.types';
 import type { IntegrationEditorProps } from '@/components/IntegrationEditor/IntegrationEditor.types';
 
 export function useIntegrationEditor({ serviceKey, definition, onToast, onTest, onSaved }: IntegrationEditorProps) {
+  const { t } = useLocale();
   const [url, setUrl] = useState('');
   const [credentials, setCredentials] = useState<Record<string, string>>({});
   const [saving, setSaving] = useState(false);
@@ -32,10 +34,10 @@ export function useIntegrationEditor({ serviceKey, definition, onToast, onTest, 
     const payload: Record<string, unknown> = { [serviceKey]: settings() };
     try {
       await apiRequest('/api/config', { method: 'PUT', body: JSON.stringify(payload) });
-      onToast(`${integrationName} settings saved locally`);
+      onToast(t('actions.integrationSaved', undefined, { name: integrationName }));
       onSaved();
     } catch (cause) {
-      onToast(`Could not save ${integrationName} settings · ${cause instanceof Error ? cause.message : 'Request failed'}`);
+      onToast(t('actions.integrationSaveFailed', undefined, { name: integrationName, reason: cause instanceof Error ? cause.message : t('common.requestFailed') }));
     } finally {
       setSaving(false);
     }

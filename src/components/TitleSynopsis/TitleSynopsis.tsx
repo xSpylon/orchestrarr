@@ -4,7 +4,7 @@ import { useLocale } from '@/lib/i18n';
 
 function focusLine(focus: MediaFocus, episodeTitle: string, t: ReturnType<typeof useLocale>['t']): string {
   if (focus.kind !== 'episode') return t('detail.seasonFocus', undefined, { value: focus.seasonNumber === 0 ? t('detail.specials') : t('detail.season', undefined, { value: focus.seasonNumber ?? '?' }) });
-  return t('detail.episodeFocus', undefined, { season: focus.seasonNumber ?? '?', episode: focus.episodeNumber !== undefined ? `, ${t('detail.episodeNumber', undefined, { value: focus.episodeNumber })}` : '', title: episodeTitle !== t('detail.episodeDetails') ? ` · ${episodeTitle}` : '' });
+  return t(focus.episodeNumber !== undefined ? 'detail.episodeFocusNumbered' : 'detail.episodeFocus', undefined, { season: focus.seasonNumber ?? '?', episode: focus.episodeNumber ?? '', title: episodeTitle !== t('detail.episodeDetails') ? ` · ${episodeTitle}` : '' });
 }
 
 export function TitleSynopsis({ loading, overview, focus, episodeTitle }: TitleSynopsisProps) {

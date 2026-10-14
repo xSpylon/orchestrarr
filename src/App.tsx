@@ -43,7 +43,7 @@ export function App() {
       await refresh(true);
       showToast(t('settings.saved', undefined, { label: t('settings.demoProfile') }));
     } catch (cause) {
-      showToast(t('settings.saveFailed', undefined, { label: t('settings.demoProfile').toLowerCase(), reason: cause instanceof Error ? cause.message : t('common.requestFailed') }));
+      showToast(t('settings.saveFailed', undefined, { label: t('settings.demoProfile'), reason: cause instanceof Error ? cause.message : t('common.requestFailed') }));
     }
   };
 

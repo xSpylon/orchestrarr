@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
 import { apiRequest } from '@/lib/api';
+import { useLocale } from '@/lib/i18n';
 import type { SeriesAvailability } from '@/types/dashboard.types';
 import type { SonarrSearchScope } from '@/components/SeasonAvailability/SeasonAvailability.types';
 import type { MediaType } from '@/types/title.types';
 
 /** Sonarr season/episode availability for a series, and the Sonarr searches started from it. */
 export function useTitleAvailability(mediaType: MediaType, resolvedTmdbId: string, title: string, requestSubmitted: boolean, onToast: (message: string) => void, refreshKey = '') {
+  const { t } = useLocale();
   const [seriesAvailability, setSeriesAvailability] = useState<SeriesAvailability>({});
   const [availabilityLoading, setAvailabilityLoading] = useState(mediaType === 'tv');
   const [availabilityRevision, setAvailabilityRevision] = useState(0);
@@ -36,10 +38,10 @@ export function useTitleAvailability(mediaType: MediaType, resolvedTmdbId: strin
     if (episodeId !== undefined) params.set('episodeId', String(episodeId));
     try {
       await apiRequest(`/api/actions/search-sonarr-availability?${params}`, { method: 'POST' });
-      onToast(`Sonarr ${scope} search started`);
+      onToast(t(`actions.sonarrSearch.${scope}`));
       window.setTimeout(() => setAvailabilityRevision((revision) => revision + 1), 1800);
     } catch (cause) {
-      onToast(`Sonarr search failed · ${cause instanceof Error ? cause.message : 'Request failed'}`);
+      onToast(t('actions.sonarrSearchFailed', undefined, { reason: cause instanceof Error ? cause.message : t('common.requestFailed') }));
     } finally {
       setAvailabilityAction('');
     }

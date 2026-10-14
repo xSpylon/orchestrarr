@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { apiRequest } from '@/lib/api';
+import { useLocale } from '@/lib/i18n';
 import type { WizarrCreatedInvite, WizarrInvitationResponse, WizarrManagement, WizarrUser } from '@/components/WizarrManager/WizarrManager.types';
 
 export type WizarrInviteOption = 'unlimitedUses' | 'allowDownloads' | 'allowLiveTv' | 'allowMobileUploads';
@@ -9,6 +10,7 @@ const toggleId = (ids: number[], id: number, on: boolean) => on ? [...ids, id] :
 
 /** Wizarr users and invitations: loading, removing users, and the create-invitation form. */
 export function useWizarrManager({ onToast, onChanged, refreshKey = '' }: { onToast: (message: string) => void; onChanged: () => void; refreshKey?: string }) {
+  const { t } = useLocale();
   const [data, setData] = useState<WizarrManagement | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -29,11 +31,11 @@ export function useWizarrManager({ onToast, onChanged, refreshKey = '' }: { onTo
       setData(result);
       setSelectedServers((current) => current.filter((id) => result.servers.some((server) => server.id === id)));
     } catch (cause) {
-      setError(cause instanceof Error ? cause.message : 'Could not load Wizarr users');
+      setError(cause instanceof Error ? cause.message : t('actions.loadUsersFailed'));
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [t]);
 
   useEffect(() => { void load(); }, [load, refreshKey]);
 
@@ -66,11 +68,11 @@ export function useWizarrManager({ onToast, onChanged, refreshKey = '' }: { onTo
       });
       // The server only returns a link when a public invite URL is set; otherwise show the code so it is still usable.
       setCreatedInvite({ url: result.invitation?.url || result.url || '', code: result.invitation?.code || '' });
-      onToast('Wizarr invitation created');
+      onToast(t('actions.inviteCreated'));
       await load();
       onChanged();
     } catch (cause) {
-      setError(cause instanceof Error ? cause.message : 'Could not create the invitation');
+      setError(cause instanceof Error ? cause.message : t('actions.inviteFailed'));
     } finally {
       setCreating(false);
     }
@@ -78,16 +80,16 @@ export function useWizarrManager({ onToast, onChanged, refreshKey = '' }: { onTo
 
   async function removeUser(user: WizarrUser) {
     const label = user.username || user.email || `User ${user.id}`;
-    if (!window.confirm(`Remove ${label} from Wizarr? This may revoke their media-server access.`)) return;
+    if (!window.confirm(t('actions.confirmRemoveUser', undefined, { name: label }))) return;
     setRemovingId(user.id);
     setError('');
     try {
       await apiRequest(`/api/wizarr/users/${encodeURIComponent(user.id)}`, { method: 'DELETE' });
-      onToast(`${label} removed from Wizarr`);
+      onToast(t('actions.userRemoved', undefined, { name: label }));
       await load();
       onChanged();
     } catch (cause) {
-      setError(cause instanceof Error ? cause.message : `Could not remove ${label}`);
+      setError(cause instanceof Error ? cause.message : t('actions.removeFailed', undefined, { name: label }));
     } finally {
       setRemovingId(null);
     }
@@ -96,9 +98,9 @@ export function useWizarrManager({ onToast, onChanged, refreshKey = '' }: { onTo
   async function copyInvite() {
     try {
       await navigator.clipboard.writeText(createdInvite?.url || createdInvite?.code || '');
-      onToast(createdInvite?.url ? 'Invitation link copied' : 'Invitation code copied');
+      onToast(t(createdInvite?.url ? 'actions.inviteLinkCopied' : 'actions.inviteCodeCopied'));
     } catch {
-      onToast('Could not copy the invitation link');
+      onToast(t('actions.copyFailed'));
     }
   }
 

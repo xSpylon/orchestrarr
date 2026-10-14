@@ -23,7 +23,7 @@ export function useSettingsConfig(onToast: (message: string, persist?: boolean) 
       onToast(savedMessage ?? t('settings.saved', undefined, { label }));
       return true;
     } catch (cause) {
-      onToast(t('settings.saveFailed', undefined, { label: label.toLowerCase(), reason: cause instanceof Error ? cause.message : t('common.requestFailed') }));
+      onToast(t('settings.saveFailed', undefined, { label, reason: cause instanceof Error ? cause.message : t('common.requestFailed') }));
       return false;
     } finally { setSaving(false); }
   }, [onToast, t]);

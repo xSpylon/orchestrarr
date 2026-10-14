@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { apiRequest } from '@/lib/api';
+import { useLocale } from '@/lib/i18n';
 import type { DashboardItem } from '@/types/dashboard.types';
 import type { MediaType } from '@/types/title.types';
 
@@ -16,6 +17,7 @@ type TitleActionsInput = {
 
 /** Requesting the title in Jellyseerr, and approving or declining an open request. */
 export function useTitleActions({ initialTitle, initialTmdbId, mediaType, resolvedTmdbId, title, relatedRequest, onToast, onRefresh }: TitleActionsInput) {
+  const { t } = useLocale();
   const [requestSubmitting, setRequestSubmitting] = useState(false);
   const [requestSubmitted, setRequestSubmitted] = useState(false);
   const [requestAction, setRequestAction] = useState('');
@@ -33,10 +35,10 @@ export function useTitleActions({ initialTitle, initialTmdbId, mediaType, resolv
         body: JSON.stringify({ mediaType, tmdbId: resolvedTmdbId })
       });
       setRequestSubmitted(true);
-      onToast(`${mediaType === 'tv' ? 'Show' : 'Movie'} request sent to Jellyseerr`);
+      onToast(t(mediaType === 'tv' ? 'actions.requestSentShow' : 'actions.requestSentMovie'));
       await onRefresh();
     } catch (cause) {
-      onToast(`Request failed · ${cause instanceof Error ? cause.message : 'Request failed'}`);
+      onToast(t('actions.requestFailed', undefined, { reason: cause instanceof Error ? cause.message : t('common.requestFailed') }));
     } finally {
       setRequestSubmitting(false);
     }
@@ -44,14 +46,14 @@ export function useTitleActions({ initialTitle, initialTmdbId, mediaType, resolv
 
   async function manageJellyseerrRequest(action: 'approve' | 'decline') {
     if (!relatedRequest?.requestId || requestAction) return;
-    if (action === 'decline' && !window.confirm(`Decline the request for “${title}”?`)) return;
+    if (action === 'decline' && !window.confirm(t('actions.confirmDecline', undefined, { title }))) return;
     setRequestAction(action);
     try {
       await apiRequest(`/api/actions/jellyseerr-request?id=${encodeURIComponent(String(relatedRequest.requestId))}&action=${action}`, { method: 'POST' });
-      onToast(`${title}: request ${action === 'approve' ? 'approved' : 'declined'}`);
+      onToast(t(action === 'approve' ? 'actions.requestApproved' : 'actions.requestDeclined', undefined, { title }));
       await onRefresh();
     } catch (cause) {
-      onToast(`Could not ${action} request · ${cause instanceof Error ? cause.message : 'Request failed'}`);
+      onToast(t(action === 'approve' ? 'actions.approveFailed' : 'actions.declineFailed', undefined, { reason: cause instanceof Error ? cause.message : t('common.requestFailed') }));
     } finally {
       setRequestAction('');
     }

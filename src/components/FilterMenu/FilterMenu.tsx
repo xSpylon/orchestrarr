@@ -39,9 +39,9 @@ export function FilterMenu({ label, value, options, onChange, defaultValue = 'al
     <button ref={trigger} type="button" className={`filter-chip ${active ? 'active' : ''}`} aria-haspopup="listbox" aria-expanded={open} onClick={() => { setTerm(''); setOpen(!open); }} onKeyDown={(event) => { if (event.key === 'ArrowDown' && !open) { event.preventDefault(); setTerm(''); setOpen(true); } }}>
       {clearable && !active ? <Icon name="plus" /> : null}<span className="filter-chip-label">{label}</span>{active || !clearable ? <span>{current?.label || value}</span> : null}
     </button>
-    {active ? <button type="button" className="filter-chip-clear" aria-label={t('filters.clear', undefined, { value: label.toLowerCase() })} title={t('filters.clear', undefined, { value: label.toLowerCase() })} onClick={() => choose(defaultValue)}><Icon name="close" /></button> : null}
+    {active ? <button type="button" className="filter-chip-clear" aria-label={t('filters.clear', undefined, { value: label })} title={t('filters.clear', undefined, { value: label })} onClick={() => choose(defaultValue)}><Icon name="close" /></button> : null}
     {open ? <div className="filter-popover" onKeyDown={(event) => navigateRows(event, '.filter-option')}>
-      {searchable ? <input type="text" aria-label={t('filters.search', undefined, { value: label.toLowerCase() })} placeholder={`${label}…`} value={term} onChange={(event) => setTerm(event.target.value)} onKeyDown={(event) => {
+      {searchable ? <input type="text" aria-label={t('filters.search', undefined, { value: label })} placeholder={`${label}…`} value={term} onChange={(event) => setTerm(event.target.value)} onKeyDown={(event) => {
         if (event.key === 'ArrowDown') { event.preventDefault(); root.current?.querySelector<HTMLElement>('.filter-option')?.focus(); }
         if (event.key === 'Enter' && visible[0]) { event.preventDefault(); choose(visible[0].value); }
       }} /> : null}

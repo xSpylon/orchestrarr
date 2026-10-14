@@ -7,7 +7,7 @@ export function MediaGrid({ items, onSelect, className }: MediaGridProps) {
   const { t } = useLocale();
   return <div className={`media-grid${className ? ` ${className}` : ''}`}>
     {items.map((item, index) => <button className="media-card media-card-button" key={`${item.ratingKey || item.title}-${index}`} data-poster-key={String(item.ratingKey || item.title)} onClick={() => onSelect(item)}>
-      <div className="media-cover" data-poster>{item.thumb ? <LazyImage src={item.thumb} alt={`${t('detail.artworkFor')} ${displayText(item.title)}`} /> : null}<span>{displayText(item.title)}</span></div>
+      <div className="media-cover" data-poster>{item.thumb ? <LazyImage src={item.thumb} alt={t('detail.artworkFor', undefined, { title: displayText(item.title) })} /> : null}<span>{displayText(item.title)}</span></div>
       <strong>{displayText(item.title)}</strong>
       <small>{item.recentDetail || [mediaTypeLabel(item.type), item.year || item.library].filter(Boolean).join(' · ')}</small>
     </button>)}

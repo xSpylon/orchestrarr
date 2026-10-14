@@ -1,5 +1,6 @@
 import { useCallback } from 'react';
 import { apiRequest } from '@/lib/api';
+import { useLocale } from '@/lib/i18n';
 import { focusPath, type MediaFocus } from '@/lib/navigation';
 import { takeClickedPoster, transitionToTitle } from '@/lib/poster_transition';
 import { mediaTypeOf, stringValue, uniqueTmdbMatch } from '@/helpers/title_match';
@@ -11,6 +12,7 @@ export type OpenTitle = (rawItem: object, source: TitleSource, options?: { focus
 
 /** Resolves any item to its TMDb title and opens /title/:type/:id, morphing the clicked poster into the page. */
 export function useTitleNavigation(navigate: AppNavigate, showToast: (message: string) => void): OpenTitle {
+  const { t } = useLocale();
   return useCallback<OpenTitle>(async (rawItem, source, options = {}) => {
     // Taken before any await, while the clicked card is still on screen.
     const clickedPoster = takeClickedPoster();
@@ -40,7 +42,7 @@ export function useTitleNavigation(navigate: AppNavigate, showToast: (message: s
     }
 
     if (!tmdbId) {
-      showToast(`Could not find one reliable TMDb match for ${stringValue(item.title) || 'this title'}`);
+      showToast(t('actions.noTmdbMatch', undefined, { title: stringValue(item.title) || t('actions.thisTitle') }));
       return;
     }
 
@@ -55,5 +57,5 @@ export function useTitleNavigation(navigate: AppNavigate, showToast: (message: s
     // A new title opens at the top, where its poster is.
     state.returnTo = `${window.location.pathname}${window.location.search}`;
     transitionToTitle(clickedPoster, () => navigate(destination, false, false, state));
-  }, [navigate, showToast]);
+  }, [navigate, showToast, t]);
 }

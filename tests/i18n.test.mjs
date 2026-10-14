@@ -16,3 +16,17 @@ test('interpolates translated values and preserves API status values as display 
   assert.equal(translateStatus(createTranslator('en'), 'Direct Play'), 'Direct play');
   assert.equal(translateStatus(t, 'An upstream-specific state'), 'An upstream-specific state');
 });
+
+test('every language translates every English text, with the same placeholders', async () => {
+  const { readFileSync } = await import('node:fs');
+  const load = (locale) => JSON.parse(readFileSync(new URL(`../src/translations/${locale}.json`, import.meta.url), 'utf8'));
+  const flat = (object, prefix = '') => Object.entries(object).flatMap(([key, value]) => typeof value === 'object' ? flat(value, `${prefix}${key}.`) : [[`${prefix}${key}`, value]]);
+  const placeholders = (text) => [...String(text).matchAll(/\{(\w+)\}/g)].map((match) => match[1]).sort().join(',');
+  const english = flat(load('en'));
+  for (const locale of supportedLocales.filter((code) => code !== 'en')) {
+    const texts = new Map(flat(load(locale)));
+    const missing = english.filter(([key]) => !texts.has(key)).map(([key]) => key);
+    assert.deepEqual(missing, [], `${locale} is missing ${missing.length} texts`);
+    for (const [key, text] of english) assert.equal(placeholders(texts.get(key)), placeholders(text), `${locale} ${key} has different placeholders`);
+  }
+});

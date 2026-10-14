@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { apiRequest, encodeBasicCredentials, setAuthorizationHeader } from '@/lib/api';
+import { useLocale } from '@/lib/i18n';
 
 /** Signs in with an API key (server session) or Basic credentials (header), then confirms the server accepts them. */
 export function useLogin(mode: string, message: string | undefined, onAuthenticated: () => void) {
+  const { t } = useLocale();
   const [key, setKey] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -17,10 +19,10 @@ export function useLogin(mode: string, message: string | undefined, onAuthentica
       } else if (mode === 'basic') {
         setAuthorizationHeader(encodeBasicCredentials(username, password));
       } else {
-        throw new Error('This authentication mode is not supported.');
+        throw new Error(t('actions.authModeUnsupported'));
       }
       const status = await apiRequest<{ authenticated: boolean }>('/api/auth/status');
-      if (!status.authenticated) throw new Error('The credentials were not accepted.');
+      if (!status.authenticated) throw new Error(t('actions.credentialsRejected'));
       onAuthenticated();
     } catch (cause) {
       setAuthorizationHeader('');

@@ -73,6 +73,11 @@
     "demoModeSwitchingOff": "Overschakelen naar live data…",
     "demoModeOn": "Demomodus aan",
     "demoModeOff": "Demomodus uit · live data",
+    "demoProfile": "Demo-gebruiksprofiel",
+    "demoProfileDescription": "Kies hoeveel activiteit de demowerkruimte bevat.",
+    "demoProfileSmall": "Licht gebruik",
+    "demoProfileMedium": "Volle thuisserver",
+    "demoProfileLarge": "Veel activiteit",
     "integration": "Integratieconfiguratie",
     "openServices": "Diensten openen",
     "servicesReported": "{value} diensten gemeld door de API. Inloggegevens blijven op de server.",
@@ -113,6 +118,8 @@
     "username": "Gebruikersnaam",
     "password": "Wachtwoord",
     "signingIn": "Inloggen…",
+    "unsupported": "Authenticatiemodus \"{value}\" wordt niet ondersteund.",
+    "configure": "Zet auth.mode in config.json (of AUTH_MODE) op none, apikey of basic.",
     "subtitle": "Media-operatie"
   },
   "common": {
@@ -168,21 +175,33 @@
     "approved": "Goedgekeurd",
     "requested": "Aangevraagd",
     "searching": "Zoeken",
+    "directPlay": "Direct afspelen",
+    "transcoding": "Transcoderen",
     "downloading": "Downloaden",
     "queued": "In wachtrij",
     "importing": "Importeren",
+    "idle": "Inactief",
+    "reachable": "Bereikbaar",
     "completed": "Voltooid",
+    "checking": "Controleren",
+    "seeding": "Seeden",
     "online": "Online",
     "connected": "Verbonden",
     "pending": "In afwachting",
     "stalled": "Vastgelopen",
     "paused": "Gepauzeerd",
     "processing": "Verwerken",
+    "importPending": "Import in afwachting",
+    "importBlocked": "Import geblokkeerd",
     "missing": "Ontbreekt",
     "waiting": "Wachten",
     "connecting": "Verbinden",
     "degraded": "Verminderd",
-    "unavailable": "Niet beschikbaar"
+    "fetchingMetadata": "Metadata ophalen",
+    "stoppedSeeding": "Gestopt met seeden",
+    "waitingForLiveData": "Wachten op live data",
+    "unavailable": "Niet beschikbaar",
+    "declined": "Afgewezen"
   },
   "about": {
     "eyebrow": "Systeem / Over",
@@ -191,11 +210,9 @@
     "identityDescription": "Orchestrarr is een onafhankelijk communityproject voor het beheren van je med stack. Het is niet verbonden aan Plex of de diensten waarmee het koppelt.",
     "projectBy": "Oorspronkelijk project van Sven / xSpylon en Orchestrarr-bijdragers.",
     "license": "Licentie",
-    "licenseAndNotice": "licentie; bekijk de",
     "notice": "projectnotitie",
     "officialProject": "Het officiële project staat op",
     "builtWith": "Gebouwd met",
-    "and": "en",
     "tmdbAlt": "The Movie Database (TMDB)",
     "tmdbDisclaimer": "Dit product gebruikt de TMDB API, maar wordt niet onderschreven of gecertificeerd door TMDB.",
     "trademarkDisclaimer": "Filmbeelden, metadata en handelsmerken van derden vallen onder de voorwaarden van hun eigenaars.",
@@ -279,7 +296,11 @@
     "zeroTitles": "0 titels",
     "noMatch": "Geen {noun} matchen “{query}”.",
     "noReturned": "Plex heeft geen {noun} teruggegeven.",
-    "pages": "Mediapagina’s"
+    "pages": "Mediapagina’s",
+    "movieNoun": "film",
+    "showNoun": "serie",
+    "moviesNoun": "films",
+    "showsNoun": "series"
   },
   "overview": {
     "newRequest": "Nieuwe aanvraag",
@@ -351,10 +372,6 @@
     "pagination": "Aanvraagpaginering",
     "noId": "Deze Jellyseerr-aanvraag heeft geen aanvraag-ID",
     "confirmDecline": "Aanvraag voor “{title}” afwijzen?",
-    "actionComplete": "{title}: aanvraag {action}",
-    "approved": "goedgekeurd",
-    "declined": "afgewezen",
-    "actionFailed": "Aanvraag kon niet worden {action} · {reason}",
     "defaultEmpty": "Er zijn geen aanvraaggegevens beschikbaar van Jellyseerr.",
     "unknownRequester": "Onbekende aanvrager",
     "recently": "recent",
@@ -412,8 +429,9 @@
     "genres": "Genres",
     "cast": "Cast",
     "notRequested": "Niet aangevraagd",
-    "artworkFor": "Artwork voor",
-    "request": "{value} aanvragen",
+    "artworkFor": "Artwork voor {title}",
+    "requestMovie": "Film aanvragen",
+    "requestShow": "Serie aanvragen",
     "sendingRequest": "Aanvraag versturen…",
     "requestActions": "Jellyseerr-aanvraagacties",
     "approving": "Goedkeuren…",
@@ -440,7 +458,6 @@
     "episodeUnavailable": "Afleveringsdetails zijn niet beschikbaar van TMDB.",
     "noSynopsis": "Er is geen synopsis beschikbaar van TMDB of Sonarr.",
     "airDate": "Uitzenddatum",
-    "minutes": "min",
     "rating": "Beoordeling",
     "guestStars": "Gastrollen",
     "loadingStill": "Afbeelding van aflevering laden",
@@ -455,8 +472,8 @@
     "noMatchingRequest": "Geen overeenkomende aanvraag of Plex-bibliotheekitem.",
     "noQueueDetails": "Geen aanvullende wachtrijdetails",
     "seasonFocus": "Seizoensfocus · {value}",
-    "episodeFocus": "Afleveringsfocus · seizoen {season}{episode}{title}",
-    "episodeNumber": "Aflevering {value}",
+    "episodeFocus": "Afleveringsfocus · seizoen {season}{title}",
+    "episodeFocusNumbered": "Afleveringsfocus · seizoen {season}, aflevering {episode}{title}",
     "noRecentLogs": "Geen recente logs",
     "logsFailed": "Logs konden niet worden geladen · {reason}",
     "alertDismissed": "Deze melding is gesloten.",
@@ -510,7 +527,8 @@
     "playedBy": "Afgespeeld door {user} · {platform}",
     "platformUnavailable": "Platform onbekend",
     "playingDetail": "Aan het afspelen · {user} · {mode} · {quality}",
-    "now": "Nu"
+    "now": "Nu",
+    "runtimeMinutes": "{value} min"
   },
   "infrastructure": {
     "host": "Host",
@@ -587,6 +605,53 @@
   "drawer": {
     "closeDetails": "Details sluiten"
   },
+  "integration": {
+    "plex": {
+      "description": "Sessies, bibliotheken en afspeelcontext."
+    },
+    "tautulli": {
+      "description": "Afspeelactiviteit en geschiedenis."
+    },
+    "jellyseerr": {
+      "description": "Aanvragen en beschikbaarheid van media."
+    },
+    "wizarr": {
+      "description": "Status van gebruikers en uitnodigingen. Beheer accounts op de pagina Toegang."
+    },
+    "cleanuparr": {
+      "description": "Recente opschoonactiviteit en taakstatistieken."
+    },
+    "tdarr": {
+      "description": "Status van transcodeserver, nodes en wachtrij. Een API-sleutel is alleen nodig als Tdarr-authenticatie aanstaat."
+    },
+    "prowlarr": {
+      "description": "Indexerstatus en gezondheidschecks."
+    },
+    "bazarr": {
+      "description": "Achterstand in ondertitels en gezondheid van providers."
+    },
+    "sonarr": {
+      "description": "Wachtrijen voor series, agenda en herstelacties."
+    },
+    "radarr": {
+      "description": "Wachtrijen voor films, agenda en herstelacties."
+    },
+    "qbittorrent": {
+      "description": "Torrentwachtrij, pauzeren en hervatten."
+    },
+    "sabnzbd": {
+      "description": "Usenet-downloadwachtrij."
+    },
+    "unraid": {
+      "description": "Array-opslag en servergezondheid."
+    },
+    "tmdb": {
+      "description": "Titelmetadata, ontdekken en matchen op TMDb ID."
+    },
+    "omdb": {
+      "description": "Metacritic-score en IMDb-stemmen op titelpagina's. Optioneel; haal een gratis sleutel op omdbapi.com."
+    }
+  },
   "footer": {
     "liveData": "Livegegevens",
     "demoData": "Demogegevens",
@@ -640,5 +705,57 @@
     "show": "Checklist tonen",
     "finished": "Dat was alles. Klaar voor je eigen server?",
     "install": "Installeer Orchestrarr"
+  },
+  "actions": {
+    "sonarrSearch": {
+      "series": "Sonarr zoekt de hele serie",
+      "season": "Sonarr zoekt het seizoen",
+      "episode": "Sonarr zoekt de aflevering"
+    },
+    "sonarrSearchFailed": "Zoeken in Sonarr mislukt · {reason}",
+    "requestSentMovie": "Filmaanvraag naar Jellyseerr gestuurd",
+    "requestSentShow": "Serieaanvraag naar Jellyseerr gestuurd",
+    "requestFailed": "Aanvraag mislukt · {reason}",
+    "confirmDecline": "De aanvraag voor ‘{title}’ afwijzen?",
+    "requestApproved": "{title}: aanvraag goedgekeurd",
+    "requestDeclined": "{title}: aanvraag afgewezen",
+    "approveFailed": "Aanvraag goedkeuren mislukt · {reason}",
+    "declineFailed": "Aanvraag afwijzen mislukt · {reason}",
+    "noTmdbMatch": "Geen betrouwbare TMDb-match gevonden voor {title}",
+    "thisTitle": "deze titel",
+    "integrationSaved": "Instellingen voor {name} lokaal opgeslagen",
+    "integrationSaveFailed": "Instellingen voor {name} opslaan mislukt · {reason}",
+    "docker": {
+      "start": "{container}: starten aangevraagd",
+      "stop": "{container}: stoppen aangevraagd",
+      "restart": "{container}: herstarten aangevraagd"
+    },
+    "issueDismissed": "Melding afgehandeld",
+    "noPauseControls": "Deze dienst kan niet pauzeren",
+    "confirmPause": "‘{title}’ pauzeren?",
+    "confirmResume": "‘{title}’ hervatten?",
+    "downloadPaused": "qBittorrent-download gepauzeerd",
+    "downloadResumed": "qBittorrent-download hervat",
+    "confirmImport": "‘{title}’ nu in {service} importeren?\n\nDe bestanden gaan naar je bibliotheek. Daarna verdwijnt de afgeronde download uit de downloadclient, dus hij stopt met seeden.",
+    "imported": "{title} geïmporteerd",
+    "importedRemoved": "{title} geïmporteerd · download verwijderd",
+    "confirmBlocklist": "‘{title}’ blokkeren?\n\nDit haalt de download en de bestanden uit de downloadclient, blokkeert deze release en {service} zoekt een andere.",
+    "blocklisted": "{title} op de blokkeerlijst gezet",
+    "searchStarted": "Zoeken gestart in {service}",
+    "noSourceLink": "Er is geen link naar de bron voor dit item",
+    "actionFailed": "Actie mislukt · {reason}",
+    "connectionOk": "{name}: verbinding gelukt",
+    "connectionFailed": "Verbinding mislukt · {reason}",
+    "authModeUnsupported": "Deze aanmeldmethode wordt niet ondersteund.",
+    "credentialsRejected": "De inloggegevens zijn niet geaccepteerd.",
+    "loadUsersFailed": "Wizarr-gebruikers laden mislukt",
+    "inviteFailed": "Uitnodiging maken mislukt",
+    "inviteCreated": "Wizarr-uitnodiging gemaakt",
+    "confirmRemoveUser": "{name} uit Wizarr verwijderen? Dit kan de toegang tot de mediaserver intrekken.",
+    "userRemoved": "{name} uit Wizarr verwijderd",
+    "removeFailed": "{name} verwijderen mislukt",
+    "inviteLinkCopied": "Uitnodigingslink gekopieerd",
+    "inviteCodeCopied": "Uitnodigingscode gekopieerd",
+    "copyFailed": "Uitnodigingslink kopiëren mislukt"
   }
 }

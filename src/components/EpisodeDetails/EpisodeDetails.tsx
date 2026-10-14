@@ -23,7 +23,7 @@ export function EpisodeDetails({ episode, metadata, loading }: EpisodeDetailsPro
       </div>
       <dl className="detail-list universal-episode-metadata">
         <div><dt>{t('detail.airDate')}</dt><dd>{airDate || (loading ? skeleton() : t('status.unavailable'))}</dd></div>
-        <div><dt>{t('detail.runtime')}</dt><dd>{runtime ? `${runtime} ${t('detail.minutes')}` : loading ? skeleton(true) : t('status.unavailable')}</dd></div>
+        <div><dt>{t('detail.runtime')}</dt><dd>{runtime ? t('detail.runtimeMinutes', undefined, { value: runtime }) : loading ? skeleton(true) : t('status.unavailable')}</dd></div>
         <div><dt>{t('detail.rating')}</dt><dd>{typeof data?.vote_average === 'number' ? `${data.vote_average.toFixed(1)} / 10` : loading ? skeleton(true) : t('status.unavailable')}</dd></div>
         <div className="episode-guests"><dt>{t('detail.guestStars')}</dt><dd>{data?.guest_stars?.length ? data.guest_stars.map((person) => person.name).filter(Boolean).join(', ') : loading ? skeleton() : t('status.unavailable')}</dd></div>
       </dl>

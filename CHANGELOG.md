@@ -12,6 +12,11 @@ All notable changes to Orchestrarr are documented here. The format follows [Keep
 - A "Try the demo" checklist in demo mode walks through requesting, approving, declining, importing, pausing, blocklisting, inviting and removing access, and ticks off each task as you do it.
 - `PUBLIC_DEMO=true` runs a shared public demo: demo data only, settings locked, and no requests that change settings or reach other hosts.
 
+### Fixed
+
+- All nine interface languages are now complete. Action messages and confirmations (approve, import, blocklist, pause, invite and more) were English-only, and German, French, Spanish, Italian, Portuguese, Japanese and Chinese covered only about a fifth of the interface.
+- Texts no longer lowercase a word that can start a sentence, so Dutch reads "Film aanvragen" instead of "film aanvragen".
+
 ## [0.1.0] - 2026-10-14
 
 First public beta.

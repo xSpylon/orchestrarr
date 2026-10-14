@@ -18,7 +18,7 @@ export function MediaPage({ dashboard, onSelect }: MediaPageProps) {
   const { t } = useLocale();
   const library = useLibraryFilters(dashboard);
   const { query, filteredItems, pageItems, recentCards, currentPage, pageSize, episodeCount } = library;
-  const noun = library.selectedType === 'movie' ? t('media.moviePlural').toLowerCase() : t('media.showPlural').toLowerCase();
+  const noun = library.selectedType === 'movie' ? t('media.moviesNoun') : t('media.showsNoun');
   const copy = library.hasFullLibrary
     ? t('media.libraryCopy', undefined, { count: library.selectedItems.length.toLocaleString(), noun })
     : t('media.unavailableCopy', undefined, { noun });

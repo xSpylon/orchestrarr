@@ -27,10 +27,10 @@ export function RequestsPage({ dashboard, onSelect, onNewRequest, onToast, onRef
     if (action === 'decline' && !window.confirm(t('requests.confirmDecline', undefined, { title: item.title }))) return;
     try {
       await apiRequest(`/api/actions/jellyseerr-request?id=${encodeURIComponent(String(item.requestId))}&action=${action}`, { method: 'POST' });
-      onToast(t('requests.actionComplete', undefined, { title: item.title, action: action === 'approve' ? t('requests.approved') : t('requests.declined') }));
+      onToast(t(action === 'approve' ? 'actions.requestApproved' : 'actions.requestDeclined', undefined, { title: String(item.title) }));
       await onRefresh();
     } catch (cause) {
-      onToast(t('requests.actionFailed', undefined, { action, reason: cause instanceof Error ? cause.message : t('common.requestFailed') }));
+      onToast(t(action === 'approve' ? 'actions.approveFailed' : 'actions.declineFailed', undefined, { reason: cause instanceof Error ? cause.message : t('common.requestFailed') }));
     }
   }
 
