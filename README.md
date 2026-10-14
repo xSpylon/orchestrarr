@@ -21,6 +21,8 @@ https://github.com/user-attachments/assets/491a1a65-13df-4e0d-a779-79e8315bde29
 
 > **Early beta** · self-hosted · [AGPL-3.0 licensed](LICENSE)
 
+**[Try the demo](https://demo.orchestrarr.com)** without installing anything. It runs on fictional data, and the changes you make only show for you.
+
 Orchestrarr is an independent community project and is not affiliated with Plex or the services it connects to. Maintenance is best-effort. The official project lives at [orchestrarr.com](https://orchestrarr.com) and [github.com/xSpylon/orchestrarr](https://github.com/xSpylon/orchestrarr).
 
 ## What it does
