@@ -26,6 +26,6 @@ export type AppRoutesProps = {
   onOpenTitle: OpenTitle;
   onAction: (action: string, item: DashboardItem) => void;
   onEditService: (key: string) => void;
-  onToast: (message: string) => void;
+  onToast: (message: string, persist?: boolean) => void;
   onRefresh: () => Promise<void>;
 };

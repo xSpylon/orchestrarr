@@ -25,6 +25,8 @@ import { useCalendarMonth } from '../src/hooks/use_calendar_month';
 import { useLibraryFilters } from '../src/hooks/use_library_filters';
 import { useStoredFlag } from '../src/hooks/use_stored_flag';
 import { useThemePreference } from '../src/hooks/use_theme_preference';
+import { useToast } from '../src/hooks/use_toast';
+import { SettingsPage } from '../src/pages/SettingsPage/SettingsPage';
 import { setAuthorizationHeader } from '../src/lib/api';
 import { rememberPosterClick, takeClickedPoster, transitionToTitle } from '../src/lib/poster_transition';
 
@@ -397,5 +399,41 @@ describe('settings, filters and detail interactions', () => {
     transitionToTitle(remembered, () => {});
     await transition.finished;
     expect(poster.style.viewTransitionName).toBe('');
+  });
+});
+
+describe('switching demo mode', () => {
+  const originalFetch = globalThis.fetch;
+  afterEach(() => { globalThis.fetch = originalFetch; vi.useRealTimers(); });
+
+  it('keeps a persistent toast until another message replaces it', () => {
+    vi.useFakeTimers();
+    const { result } = renderHook(() => useToast(() => {}));
+    act(() => result.current.showToast('Switching to live data…', true));
+    act(() => { vi.advanceTimersByTime(10000); });
+    expect(result.current.toastMessage).toBe('Switching to live data…');
+    act(() => result.current.showToast('Demo mode off'));
+    expect(result.current.toastMessage).toBe('Demo mode off');
+    act(() => { vi.advanceTimersByTime(3000); });
+    expect(result.current.toastMessage).toBe('');
+  });
+
+  it('says it is switching while the dashboard reloads, then says where it landed', async () => {
+    let config = { demoMode: true, demoProfile: 'medium', services: {} };
+    globalThis.fetch = vi.fn(async (_path: string, init?: RequestInit) => {
+      if (init?.method === 'PUT') { config = { ...config, ...JSON.parse(String(init.body)) }; return new Response(JSON.stringify({ ok: true }), { status: 200 }); }
+      return new Response(JSON.stringify(config), { status: 200 });
+    }) as typeof fetch;
+    let finishReload = () => {};
+    const onRefresh = vi.fn(() => new Promise<void>((resolve) => { finishReload = resolve; }));
+    const onToast = vi.fn();
+    render(<SettingsPage dashboard={{ mode: 'demo', services: [] } as never} autoRefresh technicalDetails={false} themePreference="system" onThemeChange={vi.fn()} onAutoRefresh={vi.fn()} onTechnicalDetails={vi.fn()} onToast={onToast} onNavigate={vi.fn()} onRefresh={onRefresh} />);
+    const toggle = await screen.findByRole('button', { name: 'Demo mode enabled' });
+    await waitFor(() => expect(toggle).not.toBeDisabled());
+    fireEvent.click(toggle);
+    await waitFor(() => expect(onRefresh).toHaveBeenCalled());
+    expect(onToast).toHaveBeenLastCalledWith('Switching to live data…', true);
+    await act(async () => { finishReload(); });
+    await waitFor(() => expect(onToast).toHaveBeenLastCalledWith('Demo mode off · showing live data'));
   });
 });

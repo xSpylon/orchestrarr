@@ -64,6 +64,10 @@
     "technicalDetailsDescription": "Includi gli errori degli adapter nei dettagli.",
     "demoMode": "Modalità demo",
     "demoModeDescription": "Usa dati di esempio senza interrogare i servizi collegati.",
+    "demoModeSwitchingOn": "Passaggio alla modalità demo…",
+    "demoModeSwitchingOff": "Passaggio ai dati in tempo reale…",
+    "demoModeOn": "Modalità demo attiva",
+    "demoModeOff": "Modalità demo disattivata · dati in tempo reale",
     "integration": "Configurazione integrazioni",
     "openServices": "Apri servizi",
     "servicesReported": "{value} servizi segnalati dall’API. Le credenziali restano sul server."

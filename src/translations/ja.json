@@ -64,6 +64,10 @@
     "technicalDetailsDescription": "詳細画面にアダプターエラーを表示します。",
     "demoMode": "デモモード",
     "demoModeDescription": "接続済みサービスに問い合わせず、サンプルデータを使用します。",
+    "demoModeSwitchingOn": "デモモードに切り替えています…",
+    "demoModeSwitchingOff": "ライブデータに切り替えています…",
+    "demoModeOn": "デモモード オン",
+    "demoModeOff": "デモモード オフ · ライブデータ",
     "integration": "連携設定",
     "openServices": "サービスを開く",
     "servicesReported": "APIから{value}件のサービスが報告されています。認証情報はサーバー側に保存されます。"

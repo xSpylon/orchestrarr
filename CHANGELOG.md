@@ -4,6 +4,10 @@ All notable changes to Orchestrarr are documented here. The format follows [Keep
 
 ## [Unreleased]
 
+### Added
+
+- Switching demo mode on or off shows a notice while the dashboard reloads, then confirms where it landed.
+
 ## [0.1.0] - 2026-10-14
 
 First public beta.

@@ -64,6 +64,10 @@
     "technicalDetailsDescription": "Inclure les erreurs des adaptateurs dans les détails.",
     "demoMode": "Mode démo",
     "demoModeDescription": "Utiliser des données d’exemple sans interroger les services connectés.",
+    "demoModeSwitchingOn": "Passage en mode démo…",
+    "demoModeSwitchingOff": "Passage aux données en direct…",
+    "demoModeOn": "Mode démo activé",
+    "demoModeOff": "Mode démo désactivé · données en direct",
     "integration": "Configuration des intégrations",
     "openServices": "Ouvrir les services",
     "servicesReported": "{value} services signalés par l’API. Les identifiants restent côté serveur."

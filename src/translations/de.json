@@ -64,6 +64,10 @@
     "technicalDetailsDescription": "Adapterfehler in Detailansichten anzeigen.",
     "demoMode": "Demomodus",
     "demoModeDescription": "Beispieldaten verwenden, ohne verbundene Dienste abzufragen.",
+    "demoModeSwitchingOn": "Wechsel in den Demomodus…",
+    "demoModeSwitchingOff": "Wechsel zu Live-Daten…",
+    "demoModeOn": "Demomodus an",
+    "demoModeOff": "Demomodus aus · Live-Daten",
     "integration": "Integrationskonfiguration",
     "openServices": "Dienste öffnen",
     "servicesReported": "{value} von der API gemeldete Dienste. Zugangsdaten bleiben auf dem Server."

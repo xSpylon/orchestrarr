@@ -64,6 +64,10 @@
     "technicalDetailsDescription": "在详情视图中包含适配器错误。",
     "demoMode": "演示模式",
     "demoModeDescription": "使用示例数据而不查询已连接的服务。",
+    "demoModeSwitchingOn": "正在切换到演示模式…",
+    "demoModeSwitchingOff": "正在切换到实时数据…",
+    "demoModeOn": "演示模式已开启",
+    "demoModeOff": "演示模式已关闭 · 实时数据",
     "integration": "集成配置",
     "openServices": "打开服务",
     "servicesReported": "API报告了{value}项服务。凭据保留在服务器端。"
