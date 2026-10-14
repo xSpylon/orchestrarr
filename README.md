@@ -33,7 +33,7 @@ Orchestrarr is an independent community project and is not affiliated with Plex 
 
 ## Run with Docker
 
-Docker Compose is the recommended installation path. Images for `linux/amd64` and `linux/arm64` are published to `ghcr.io/xspylon/orchestrarr`, tagged `latest`, the exact version (`0.1.0`) and the minor line (`0.1`).
+Docker Compose is the recommended installation path. Images for `linux/amd64` and `linux/arm64` are published to `ghcr.io/xspylon/orchestrarr`, tagged `latest`, the exact version (`0.2.0`) and the minor line (`0.2`).
 
 In an empty folder, download the Compose file of the latest release and start Orchestrarr:
 

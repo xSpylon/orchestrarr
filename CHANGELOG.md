@@ -4,6 +4,8 @@ All notable changes to Orchestrarr are documented here. The format follows [Keep
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-10-15
+
 ### Added
 
 - Switching demo mode on or off shows a notice while the dashboard reloads, then confirms where it landed.
@@ -17,6 +19,7 @@ All notable changes to Orchestrarr are documented here. The format follows [Keep
 
 - All nine interface languages are now complete. Action messages and confirmations (approve, import, blocklist, pause, invite and more) were English-only, and German, French, Spanish, Italian, Portuguese, Japanese and Chinese covered only about a fifth of the interface.
 - Texts no longer lowercase a word that can start a sentence, so Dutch reads "Film aanvragen" instead of "film aanvragen".
+- The Pipeline Updated column shows a readable time instead of a raw timestamp.
 
 ## [0.1.0] - 2026-10-14
 
@@ -33,5 +36,6 @@ First public beta.
 - Multi-arch Docker images (`linux/amd64`, `linux/arm64`) on `ghcr.io/xspylon/orchestrarr`, published on every version tag.
 - Two-command install: `curl -fsSLO https://get.orchestrarr.com/docker-compose.yml` and `docker compose up -d`. In API-key mode without a configured key, Orchestrarr generates one on first start, prints it once and keeps it in the state volume.
 
-[Unreleased]: https://github.com/xSpylon/orchestrarr/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/xSpylon/orchestrarr/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/xSpylon/orchestrarr/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/xSpylon/orchestrarr/releases/tag/v0.1.0
