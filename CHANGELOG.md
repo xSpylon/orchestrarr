@@ -2,6 +2,13 @@
 
 All notable changes to Orchestrarr are documented here. The project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html); before 1.0, minor versions may contain breaking changes. From 0.2.0 on, [release-please](https://github.com/googleapis/release-please) writes each new section from the `feat` and `fix` commits of that release (see [CONTRIBUTING.md](CONTRIBUTING.md#releases)).
 
+## [0.3.0](https://github.com/xSpylon/orchestrarr/compare/v0.2.0...v0.3.0) (2026-10-14)
+
+
+### Added
+
+* Add an Unraid template ([891d57e](https://github.com/xSpylon/orchestrarr/commit/891d57ee903001fe7fd8f6f86c941ce115dca59f))
+
 ## [0.2.0] - 2026-10-15
 
 ### Added
