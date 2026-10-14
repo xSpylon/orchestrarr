@@ -10,7 +10,7 @@ When CI passes on a `main` commit whose `package.json` version has no release ye
 
 ## Consequences
 
-- Releasing means bumping the version in `package.json` with a matching `CHANGELOG.md` section. Other commits on `main` produce no image.
+- Releasing means bumping the version in `package.json` with a matching `CHANGELOG.md` section. Other commits on `main` produce no image. Superseded for the release steps by [0002](0002_automate_releases_with_release_please.md); the image build is unchanged.
 - The release and the image are built in one workflow because tags created with `GITHUB_TOKEN` do not trigger other workflows.
 - GHCR is free for public images and keeps the image next to the source, with the `org.opencontainers.image.source` label linking the two.
 - Contributors who need a local image build it with `docker build` as described in `CONTRIBUTING.md`.

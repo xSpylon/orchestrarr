@@ -1,8 +1,6 @@
 # Changelog
 
-All notable changes to Orchestrarr are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Before 1.0, minor versions may contain breaking changes.
-
-## [Unreleased]
+All notable changes to Orchestrarr are documented here. The project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html); before 1.0, minor versions may contain breaking changes. From 0.2.0 on, [release-please](https://github.com/googleapis/release-please) writes each new section from the `feat` and `fix` commits of that release (see [CONTRIBUTING.md](CONTRIBUTING.md#releases)).
 
 ## [0.2.0] - 2026-10-15
 
@@ -36,6 +34,5 @@ First public beta.
 - Multi-arch Docker images (`linux/amd64`, `linux/arm64`) on `ghcr.io/xspylon/orchestrarr`, published on every version tag.
 - Two-command install: `curl -fsSLO https://get.orchestrarr.com/docker-compose.yml` and `docker compose up -d`. In API-key mode without a configured key, Orchestrarr generates one on first start, prints it once and keeps it in the state volume.
 
-[Unreleased]: https://github.com/xSpylon/orchestrarr/compare/v0.2.0...HEAD
 [0.2.0]: https://github.com/xSpylon/orchestrarr/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/xSpylon/orchestrarr/releases/tag/v0.1.0
