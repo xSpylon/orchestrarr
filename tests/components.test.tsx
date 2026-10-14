@@ -1,4 +1,4 @@
-import { act, fireEvent, render, renderHook, screen, waitFor } from '@testing-library/react';
+import { act, fireEvent, render, within, renderHook, screen, waitFor } from '@testing-library/react';
 import { beforeEach, afterEach, describe, expect, it, vi } from 'vitest';
 import { Button } from '../src/components/Button/Button';
 import { AboutPage } from '../src/pages/AboutPage/AboutPage';
@@ -96,6 +96,49 @@ describe('demo mode shell state', () => {
     expect(onDemoProfileChange).toHaveBeenCalledWith('large');
     fireEvent.click(screen.getByRole('button', { name: 'Open settings' }));
     expect(onNavigate).toHaveBeenCalledWith('settings');
+  });
+
+  it('shows a demo checklist that ticks off done tasks and links to the right page', () => {
+    const onNavigate = vi.fn();
+    render(<AppShell {...shellProps} onNavigate={onNavigate} dashboard={{ mode: 'demo', demoTour: { requested: true, approved: false, declined: false, imported: false, paused: false, blocklisted: false, invited: false, removed: false }, alerts: [], services: [] } as never}>Workspace</AppShell>);
+    const checklist = screen.getByRole('region', { name: 'Try the demo' });
+    expect(checklist).toHaveTextContent('1 of 8 done');
+    expect(within(checklist).getByRole('button', { name: /Request “Daybreak Motel”.*Discover/ })).toHaveTextContent('Done');
+    fireEvent.click(within(checklist).getByRole('button', { name: /Blocklist a stalled download/ }));
+    expect(onNavigate).toHaveBeenLastCalledWith('pipeline');
+    fireEvent.click(within(checklist).getByRole('button', { name: /Remove someone's access/ }));
+    expect(onNavigate).toHaveBeenCalledWith('access');
+    fireEvent.click(within(checklist).getByRole('button', { name: /Approve your request/ }));
+    expect(onNavigate).toHaveBeenCalledWith('requests');
+    fireEvent.click(within(checklist).getByRole('button', { name: 'Hide checklist' }));
+    expect(within(checklist).queryByRole('button', { name: /Approve your request/ })).toBeNull();
+    fireEvent.click(within(checklist).getByRole('button', { name: 'Show checklist' }));
+    expect(within(checklist).getByRole('button', { name: /Approve your request/ })).toBeInTheDocument();
+  });
+
+  it('ends the demo checklist with a way to install your own', () => {
+    const all = { requested: true, approved: true, declined: true, imported: true, paused: true, blocklisted: true, invited: true, removed: true };
+    render(<AppShell {...shellProps} dashboard={{ mode: 'demo', demoTour: all, alerts: [], services: [] } as never}>Workspace</AppShell>);
+    const checklist = screen.getByRole('region', { name: 'Try the demo' });
+    expect(checklist).toHaveTextContent('That was everything. Ready for your own server?');
+    const install = within(checklist).getByRole('link', { name: 'Install Orchestrarr' });
+    expect(install).toHaveAttribute('href', 'https://orchestrarr.com');
+    expect(install).toHaveAttribute('target', '_blank');
+    expect(install).toHaveAttribute('rel', 'noopener noreferrer');
+  });
+
+  it('does not show the demo checklist for live data', () => {
+    render(<AppShell {...shellProps} dashboard={{ mode: 'live', alerts: [], services: [] } as never}>Workspace</AppShell>);
+    expect(screen.queryByRole('region', { name: 'Try the demo' })).toBeNull();
+  });
+
+  it('marks a public demo as shared and points to installing your own, without the profile switch', () => {
+    render(<AppShell {...shellProps} dashboard={{ mode: 'demo', publicDemo: true, alerts: [], services: [] } as never} onDemoProfileChange={vi.fn()}>Workspace</AppShell>);
+    expect(screen.getByRole('status')).toHaveTextContent('Public demo');
+    expect(screen.getByRole('status')).toHaveTextContent('Your changes only show for you');
+    expect(screen.getByRole('link', { name: 'Install your own' })).toHaveAttribute('href', 'https://orchestrarr.com');
+    expect(screen.getByRole('link', { name: 'Install your own' })).toHaveAttribute('target', '_blank');
+    expect(screen.queryByRole('combobox', { name: 'Demo usage profile' })).toBeNull();
   });
 });
 
@@ -435,5 +478,15 @@ describe('switching demo mode', () => {
     expect(onToast).toHaveBeenLastCalledWith('Switching to live data…', true);
     await act(async () => { finishReload(); });
     await waitFor(() => expect(onToast).toHaveBeenLastCalledWith('Demo mode off · showing live data'));
+  });
+
+  it('cannot be switched off in a public demo', async () => {
+    globalThis.fetch = vi.fn(async () => new Response(JSON.stringify({ demoMode: true, publicDemo: true, demoProfile: 'medium', services: {} }), { status: 200 })) as typeof fetch;
+    render(<SettingsPage dashboard={{ mode: 'demo', publicDemo: true, services: [] } as never} autoRefresh technicalDetails={false} themePreference="system" onThemeChange={vi.fn()} onAutoRefresh={vi.fn()} onTechnicalDetails={vi.fn()} onToast={vi.fn()} onNavigate={vi.fn()} onRefresh={vi.fn()} />);
+    const toggle = await screen.findByRole('button', { name: 'Demo mode enabled' });
+    await waitFor(() => expect(globalThis.fetch).toHaveBeenCalled());
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    expect(toggle).toBeDisabled();
+    expect(screen.queryByRole('combobox', { name: 'Demo usage profile' })).toBeNull();
   });
 });

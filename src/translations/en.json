@@ -39,6 +39,9 @@
     "attention": "Attention, {value} unresolved alerts",
     "demoMode": "Demo mode",
     "demoDescription": "Showing sample data. Connected services are not being queried.",
+    "publicDemo": "Public demo",
+    "publicDemoDescription": "Sample data. Your changes only show for you and reset later.",
+    "installYourOwn": "Install your own",
     "openSettings": "Open settings",
     "connecting": "Connecting…",
     "stackConnected": "Stack connected",
@@ -685,5 +688,22 @@
     "expires": "Expires {value}",
     "removing": "Removing…",
     "noUsers": "No Wizarr users found."
+  },
+  "demoTour": {
+    "title": "Try the demo",
+    "progress": "{value} of {total} done",
+    "request": "Request “Daybreak Motel”",
+    "approve": "Approve your request",
+    "decline": "Decline a request",
+    "import": "Import a failed download",
+    "pause": "Pause a download",
+    "blocklist": "Blocklist a stalled download",
+    "invite": "Invite someone",
+    "remove": "Remove someone's access",
+    "done": "Done",
+    "hide": "Hide checklist",
+    "show": "Show checklist",
+    "finished": "That was everything. Ready for your own server?",
+    "install": "Install Orchestrarr"
   }
 }

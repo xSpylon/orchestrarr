@@ -39,6 +39,10 @@
     "attention": "Let op, {value} onopgeloste meldingen",
     "demoMode": "Demomodus",
     "demoDescription": "Voorbeeldgegevens worden getoond. Verbonden diensten worden niet bevraagd.",
+    "publicDemo": "Openbare demo",
+    "publicDemoDescription": "Voorbeelddata. Je wijzigingen zie alleen jij, en ze verdwijnen later weer.",
+    "installYourOwn": "Installeer je eigen",
+    "openSettings": "Instellingen openen",
     "connecting": "Verbinden…",
     "stackConnected": "Stack verbonden",
     "needsAttention": "Aandacht nodig",
@@ -619,5 +623,22 @@
     "expires": "Verloopt {value}",
     "removing": "Verwijderen…",
     "noUsers": "Geen Wizarr-gebruikers gevonden."
+  },
+  "demoTour": {
+    "title": "Probeer de demo",
+    "progress": "{value} van {total} klaar",
+    "request": "Vraag ‘Daybreak Motel’ aan",
+    "approve": "Keur je aanvraag goed",
+    "decline": "Wijs een aanvraag af",
+    "import": "Importeer een mislukte download",
+    "pause": "Pauzeer een download",
+    "blocklist": "Blokkeer een vastgelopen download",
+    "invite": "Nodig iemand uit",
+    "remove": "Haal iemands toegang weg",
+    "done": "Klaar",
+    "hide": "Checklist verbergen",
+    "show": "Checklist tonen",
+    "finished": "Dat was alles. Klaar voor je eigen server?",
+    "install": "Installeer Orchestrarr"
   }
 }

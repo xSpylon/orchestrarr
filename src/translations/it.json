@@ -39,6 +39,10 @@
     "attention": "Attenzione, {value} avvisi irrisolti",
     "demoMode": "Modalità demo",
     "demoDescription": "Vengono mostrati dati di esempio. I servizi collegati non vengono interrogati.",
+    "publicDemo": "Demo pubblica",
+    "publicDemoDescription": "Dati di esempio. Solo tu vedi le tue modifiche, che verranno ripristinate più tardi.",
+    "installYourOwn": "Installa la tua",
+    "openSettings": "Apri impostazioni",
     "connecting": "Connessione…",
     "stackConnected": "Stack connesso",
     "needsAttention": "Richiede attenzione",
@@ -124,5 +128,22 @@
     "waiting": "In attesa",
     "connecting": "Connessione",
     "degraded": "Degradato"
+  },
+  "demoTour": {
+    "title": "Prova la demo",
+    "progress": "{value} di {total} completate",
+    "request": "Richiedi «Daybreak Motel»",
+    "approve": "Approva la tua richiesta",
+    "decline": "Rifiuta una richiesta",
+    "import": "Importa un download fallito",
+    "pause": "Metti in pausa un download",
+    "blocklist": "Blocca un download fermo",
+    "invite": "Invita qualcuno",
+    "remove": "Togli l’accesso a qualcuno",
+    "done": "Fatto",
+    "hide": "Nascondi elenco",
+    "show": "Mostra elenco",
+    "finished": "È tutto. Pronto per il tuo server?",
+    "install": "Installa Orchestrarr"
   }
 }

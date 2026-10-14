@@ -4,6 +4,7 @@ import { useAppShellSidebar } from '@/hooks/use_app_shell_sidebar';
 import { AppShellNavigation } from '@/components/AppShellNavigation/AppShellNavigation';
 import { AppShellTopBar } from '@/components/AppShellTopBar/AppShellTopBar';
 import type { AppShellProps } from './AppShell.types';
+import { DemoChecklist } from '@/components/DemoChecklist/DemoChecklist';
 import { useLocale } from '@/lib/i18n';
 
 export function AppShell({ view, pageContext, dashboard, lastSync, children, onNavigate, onSearch, onRefresh, onAlerts, onDemoProfileChange, theme, onThemeToggle }: AppShellProps) {
@@ -15,8 +16,9 @@ export function AppShell({ view, pageContext, dashboard, lastSync, children, onN
   const navigation = <AppShellNavigation view={view} dashboard={dashboard} sidebar={sidebar} counts={counts} groupCounts={groupCounts} onNavigate={onNavigate} onSearch={onSearch} />;
 
   const demoMode = dashboard?.mode === 'demo';
+  const publicDemo = Boolean(dashboard?.publicDemo);
   return <div className={`app-shell ${collapsed && !mobile ? 'sidebar-collapsed' : ''}`}>
-    {demoMode ? <div className="demo-banner" role="status"><div className="demo-banner-copy"><strong>{t('shell.demoMode')}</strong><span>{t('shell.demoDescription')}</span></div><div className="demo-banner-controls">{onDemoProfileChange ? <label><span className="sr-only">{t('settings.demoProfile')}</span><select aria-label={t('settings.demoProfile')} value={dashboard?.demoProfile || 'medium'} onChange={(event) => onDemoProfileChange(event.target.value)}><option value="small">{t('settings.demoProfileSmall')}</option><option value="medium">{t('settings.demoProfileMedium')}</option><option value="large">{t('settings.demoProfileLarge')}</option></select></label> : null}<button type="button" className="link-button" onClick={() => onNavigate('settings')}>{t('shell.openSettings')}</button></div></div> : null}
+    {demoMode ? <div className="demo-banner" role="status"><div className="demo-banner-copy"><strong>{t(publicDemo ? 'shell.publicDemo' : 'shell.demoMode')}</strong><span>{t(publicDemo ? 'shell.publicDemoDescription' : 'shell.demoDescription')}</span></div><div className="demo-banner-controls">{publicDemo ? <a className="link-button" href="https://orchestrarr.com" target="_blank" rel="noopener noreferrer">{t('shell.installYourOwn')}</a> : null}{onDemoProfileChange && !publicDemo ? <label><span className="sr-only">{t('settings.demoProfile')}</span><select aria-label={t('settings.demoProfile')} value={dashboard?.demoProfile || 'medium'} onChange={(event) => onDemoProfileChange(event.target.value)}><option value="small">{t('settings.demoProfileSmall')}</option><option value="medium">{t('settings.demoProfileMedium')}</option><option value="large">{t('settings.demoProfileLarge')}</option></select></label> : null}<button type="button" className="link-button" onClick={() => onNavigate('settings')}>{t('shell.openSettings')}</button></div></div> : null}
     <a className="skip-link" href="#main-content">{t('shell.skip')}</a>
     <div className="app-shell-body">
       {/* The backdrop click is a mouse shortcut; Esc covers the keyboard. */}
@@ -25,6 +27,7 @@ export function AppShell({ view, pageContext, dashboard, lastSync, children, onN
       <main className="main-content" id="main-content" tabIndex={-1}>
         <AppShellTopBar view={view} activeGroup={activeGroup} pageContext={pageContext} lastSync={lastSync} mobile={mobile} collapsed={collapsed} menuOpen={menuOpen} unresolvedAlerts={unresolvedAlerts} theme={theme} onSidebarToggle={mobile ? sidebar.openMenu : sidebar.toggleCollapsed} onSearch={onSearch} onRefresh={onRefresh} onThemeToggle={onThemeToggle} onAlerts={onAlerts} />
         <div className="page-wrap">{children}</div>
+        {demoMode ? <DemoChecklist tour={dashboard?.demoTour} onNavigate={onNavigate} /> : null}
       </main>
     </div>
   </div>;

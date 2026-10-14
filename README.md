@@ -132,7 +132,9 @@ Authentication can also be configured from **Settings → Access**. Environment 
 
 ### Demo mode
 
-The app starts in demo mode when no saved configuration exists. Switch demo mode from Settings, set DEMO_MODE=false, or set demoMode to false in config.json. The active dashboard displays a persistent demo banner. Demo mode includes a populated fictional catalog, years of synthetic activity, service health history, requests and local placeholder artwork; it does not call external metadata services. Choose a usage profile in Settings: Light usage, Rich home server, or High activity. Docker Compose sets DEMO_MODE=false by default.\n
+The app starts in demo mode when no saved configuration exists. Switch demo mode from Settings, set DEMO_MODE=false, or set demoMode to false in config.json. The active dashboard displays a persistent demo banner. Demo mode includes a populated fictional catalog, years of synthetic activity, service health history, requests and local placeholder artwork; it does not call external metadata services. Actions work on the demo data: approve or decline requests, request a title, import, blocklist, pause, resume and dismiss alerts. Those changes are kept in memory for your browser only and reset when the server restarts. A "Try the demo" checklist walks through eight of them, starting with finding Daybreak Motel in Discover and requesting it. Choose a usage profile in Settings: Light usage, Rich home server, or High activity. Docker Compose sets DEMO_MODE=false by default.
+
+To host a demo anyone can open, set `PUBLIC_DEMO=true` and `AUTH_MODE=none`. A public demo always shows demo data, locks the demo switch and the usage profile, and refuses every request that would change settings, test a connection, send a notification, accept a webhook, reach Docker or fetch posters from TMDb. The banner tells visitors that their changes only show for them and links to orchestrarr.com.
 ### Notifications and webhooks
 
 Set `NOTIFICATION_WEBHOOK_URL` to receive test events and newly observed alerts as JSON. Keep the webhook URL private.

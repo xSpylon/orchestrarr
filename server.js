@@ -20,12 +20,18 @@ import { controlTorrent } from './server/qbittorrent.js';
 import { serveStatic } from './server/static_files.js';
 import { sameOriginWriteAllowed } from './server/request_security.js';
 import { createDemoDashboard, defaultDemoProfile, demoArrMediaMatch, demoBazarrMediaStatus, demoCalendar, demoDiscovery, demoEpisodeDetails, demoMediaContext, demoPlexLibraryMatch, demoProfileInputNames, demoProfileNames, demoRatings, demoSeriesAvailability, demoTitleDetails, demoTitleHistory, demoWizarrManagement, normalizeDemoProfile } from './server/demo_data.js';
+import { createDemoActions } from './server/demo_actions.js';
 
 const root = fileURLToPath(new URL('.', import.meta.url));
 const port = Number(process.env.PORT || 4173);
 const host = process.env.HOST || '127.0.0.1';
 const configPath = process.env.CONFIG_PATH || join(root, 'config.json');
 const stateDir = process.env.STATE_DIR || join(root, '.data');
+// A public demo is shared by every visitor, so it always shows demo data and refuses anything that changes settings or reaches another host.
+const publicDemo = process.env.PUBLIC_DEMO === 'true';
+const demoActionPaths = ['/api/actions/jellyseerr-request', '/api/actions/request-jellyseerr', '/api/actions/import-arr', '/api/actions/blocklist-arr', '/api/actions/pause-qbittorrent', '/api/actions/resume-qbittorrent', '/api/actions/search-arr', '/api/actions/search-sonarr-availability', '/api/actions/resolve'];
+const publicDemoWrites = ['/api/auth/login', '/api/auth/logout', '/api/refresh', '/api/wizarr/invitations', ...demoActionPaths];
+const demoActions = createDemoActions();
 const eventsPath = join(stateDir, 'request-events.json');
 const resolutionsPath = join(stateDir, 'resolutions.json');
 const apiKeyPath = join(stateDir, 'api_key.json');
@@ -50,8 +56,8 @@ function readConfig() {
   });
   return {
     // DEMO_MODE provides the deployment default; an explicit saved setting can be changed from Settings.
-    demoMode: typeof fileConfig.demoMode === 'boolean' ? fileConfig.demoMode : (process.env.DEMO_MODE ? process.env.DEMO_MODE !== 'false' : true),
-    demoProfile: fileConfig.demoProfile || process.env.DEMO_PROFILE || defaultDemoProfile,
+    demoMode: publicDemo || (typeof fileConfig.demoMode === 'boolean' ? fileConfig.demoMode : (process.env.DEMO_MODE ? process.env.DEMO_MODE !== 'false' : true)),
+    demoProfile: (!publicDemo && fileConfig.demoProfile) || process.env.DEMO_PROFILE || defaultDemoProfile,
     plex: { ...(fileConfig.plex || {}), url: process.env.PLEX_URL || fileConfig.plex?.url || '', token: process.env.PLEX_TOKEN || fileConfig.plex?.token || '' },
     tautulli: { ...(fileConfig.tautulli || {}), url: process.env.TAUTULLI_URL || fileConfig.tautulli?.url || '', apiKey: process.env.TAUTULLI_API_KEY || fileConfig.tautulli?.apiKey || '' },
     jellyseerr: service('jellyseerr', 'JELLYSEERR'),
@@ -1293,6 +1299,7 @@ async function refreshDashboard() {
     const dashboard = createDemoDashboard(config.demoProfile);
     dashboard.activity = collectActivity(dashboard.requests, dashboard.pipeline, dashboard.services);
     dashboard.alerts = collectAlerts(dashboard.pipeline, dashboard.services);
+    if (publicDemo) dashboard.publicDemo = true;
     return dashboard;
   }
 
@@ -1533,6 +1540,40 @@ function authAttemptAllowed(request) {
   return previous.count <= 10;
 }
 
+// Demo mode keeps each visitor's actions apart with a cookie, so approvals and imports only change that visitor's demo data.
+function demoVisitor(request, response) {
+  const existing = cookieValue(request, 'orchestrarr_demo');
+  if (/^[0-9a-f-]{36}$/.test(existing || '')) return existing;
+  const id = randomUUID();
+  response.setHeader('Set-Cookie', `orchestrarr_demo=${id}; HttpOnly; SameSite=Lax; Path=/; Max-Age=86400`);
+  return id;
+}
+
+function demoDashboardFor(visitor, dashboard) {
+  const changed = demoActions.apply(visitor, dashboard);
+  if (changed === dashboard) return dashboard;
+  return { ...changed, activity: collectActivity(changed.requests, changed.pipeline, changed.services), alerts: collectAlerts(changed.pipeline, changed.services).map((alert) => ({ ...alert, resolved: alert.resolved || demoActions.resolved(visitor, alert.id) })) };
+}
+
+async function demoAction(request, url, visitor) {
+  const param = (name) => url.searchParams.get(name) || '';
+  const action = url.pathname.slice('/api/actions/'.length);
+  if (action === 'jellyseerr-request') {
+    if (!['approve', 'decline'].includes(param('action'))) throw new Error('Unsupported Jellyseerr request action');
+    return demoActions.act(visitor, param('action'), { requestId: param('id') });
+  }
+  if (action === 'request-jellyseerr') {
+    const body = JSON.parse(await readBody(request) || '{}');
+    const title = demoTitleDetails(body.tmdbId, body.mediaType);
+    return demoActions.act(visitor, 'request', { tmdbId: body.tmdbId, mediaType: body.mediaType, title: title.title || title.name, detail: title.media_type === 'tv' ? `Series · ${title.number_of_seasons} seasons` : `Movie · ${String(title.release_date).slice(0, 4)}` });
+  }
+  if (action === 'import-arr' || action === 'blocklist-arr') return demoActions.act(visitor, action.slice(0, -4), { service: param('service'), queueId: param('id') });
+  if (action === 'pause-qbittorrent' || action === 'resume-qbittorrent') return demoActions.act(visitor, action.split('-')[0], { torrentHash: param('hash') });
+  if (action === 'search-arr') return demoActions.act(visitor, 'search', { service: param('service'), actionId: param('id') });
+  if (action === 'search-sonarr-availability') return { ok: true, demo: true };
+  return demoActions.act(visitor, 'resolve', { id: param('id'), action: param('action') || 'resolved' });
+}
+
 function json(response, status, payload) {
   response.writeHead(status, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff' });
   response.end(JSON.stringify(payload));
@@ -1569,6 +1610,8 @@ async function serveDiscoveryArtwork(request, response) {
     response.end(readFileSync(localPath));
     return true;
   }
+  // A public demo only has its local posters; it never relays TMDb images for whoever asks.
+  if (publicDemo) { response.writeHead(404); response.end(); return true; }
   const artwork = await fetch('https://image.tmdb.org/t/p/' + size + path, { signal: AbortSignal.timeout(7000) });
   if (!artwork.ok) { response.writeHead(404); response.end(); return true; }
   response.writeHead(200, { 'Content-Type': artwork.headers.get('content-type') || 'image/jpeg', 'Cache-Control': 'public, max-age=3600' });
@@ -1576,10 +1619,18 @@ async function serveDiscoveryArtwork(request, response) {
   return true;
 }
 
+function publicDemoRefuses(request) {
+  const { pathname } = new URL(request.url || '/', 'http://localhost');
+  if (pathname.startsWith('/api/docker/')) return true;
+  if (request.method === 'GET' || request.method === 'HEAD') return false;
+  return !(publicDemoWrites.includes(pathname) || (request.method === 'DELETE' && pathname.startsWith('/api/wizarr/users/')));
+}
+
 const server = createServer(async (request, response) => {
   try {
     if (request.method === 'OPTIONS') { response.writeHead(204); response.end(); return; }
     if (!sameOriginWriteAllowed(request)) { json(response, 403, { error: 'CSRF check failed' }); return; }
+    if (publicDemo && publicDemoRefuses(request)) { json(response, 403, { error: 'Not available in the public demo' }); return; }
     const authConfig = readConfig();
     if (request.method === 'POST' && request.url?.startsWith('/api/webhooks/')) {
       const serviceName = webhookService(request);
@@ -1593,13 +1644,16 @@ const server = createServer(async (request, response) => {
     if (authConfig.demoMode) {
       const demoUrl = new URL(request.url || '/', 'http://' + (request.headers.host || 'localhost'));
       const demoType = demoUrl.searchParams.get('type') === 'tv' ? 'tv' : 'movie';
-      if (demoUrl.pathname === '/api/wizarr/management' && request.method === 'GET') { json(response, 200, demoWizarrManagement(authConfig.demoProfile)); return; }
+      if ((demoUrl.pathname === '/api/dashboard' && request.method === 'GET') || (demoUrl.pathname === '/api/refresh' && request.method === 'POST')) { json(response, 200, demoDashboardFor(demoVisitor(request, response), await getDashboard())); return; }
+      if (demoActionPaths.includes(demoUrl.pathname) && request.method === 'POST') { json(response, 200, await demoAction(request, demoUrl, demoVisitor(request, response))); return; }
+      if (demoUrl.pathname === '/api/wizarr/management' && request.method === 'GET') { json(response, 200, demoActions.applyAccess(demoVisitor(request, response), demoWizarrManagement(authConfig.demoProfile))); return; }
       if (demoUrl.pathname === '/api/wizarr/invitations' && request.method === 'POST') {
+        demoActions.act(demoVisitor(request, response), 'invite');
         const code = 'DEMO-' + Math.random().toString(36).slice(2, 8).toUpperCase();
         json(response, 201, { invitation: { code, url: '', status: 'available', expires: new Date(Date.now() + 7 * 86400000).toISOString() }, url: '', demo: true });
         return;
       }
-      if (demoUrl.pathname.startsWith('/api/wizarr/users/') && request.method === 'DELETE') { json(response, 200, { ok: true, demo: true }); return; }
+      if (demoUrl.pathname.startsWith('/api/wizarr/users/') && request.method === 'DELETE') { json(response, 200, demoActions.act(demoVisitor(request, response), 'remove', { userId: decodeURIComponent(demoUrl.pathname.slice('/api/wizarr/users/'.length)) })); return; }
       if (demoUrl.pathname === '/api/discovery/detail' && request.method === 'GET') { json(response, 200, demoTitleDetails(demoUrl.searchParams.get('id') || '', demoType)); return; }
       if (demoUrl.pathname === '/api/discovery' && request.method === 'GET') { json(response, 200, demoDiscovery(demoUrl.searchParams.get('q') || '', demoUrl.searchParams.get('page') || 1, authConfig.demoProfile)); return; }
       if (demoUrl.pathname === '/api/calendar' && request.method === 'GET') { json(response, 200, demoCalendar(demoUrl.searchParams.get('from') || '', demoUrl.searchParams.get('to') || '', authConfig.demoProfile)); return; }
@@ -1655,7 +1709,7 @@ const server = createServer(async (request, response) => {
     if (request.url?.startsWith('/api/actions/resolve') && request.method === 'POST') { const url = new URL(request.url, `http://${request.headers.host || 'localhost'}`); json(response, 200, resolveAlert(url.searchParams.get('id') || '', url.searchParams.get('action') || 'resolved')); return; }
     if (request.url?.startsWith('/api/test-service') && request.method === 'POST') { const url = new URL(request.url, `http://${request.headers.host || 'localhost'}`); const body = JSON.parse(await readBody(request) || '{}'); const settings = body && typeof body === 'object' ? body.settings || {} : {}; json(response, 200, await testConfiguredService(url.searchParams.get('name') || '', readConfig(), settings)); return; }
     if (request.url?.startsWith('/api/webhooks/') && request.method === 'POST') { const serviceName = webhookService(request); const raw = await readBody(request); let payload = {}; try { payload = request.headers['content-type']?.includes('application/json') ? JSON.parse(raw || '{}') : JSON.parse(new URLSearchParams(raw).get('payload') || '{}'); } catch { throw new Error('Webhook payload must be valid JSON'); } const event = recordWebhookEvent(serviceName, payload); broadcastEvent({ type: 'webhook', service: serviceName, ...event }); json(response, 202, event); return; }
-    if (request.url === '/api/config' && request.method === 'GET') { const config = readConfig(); json(response, 200, { demoMode: config.demoMode, demoProfile: normalizeDemoProfile(config.demoProfile), authMode: config.auth.mode, auth: { mode: config.auth.mode, apiKeySet: Boolean(config.auth.apiKey), username: config.auth.username, passwordSet: Boolean(config.auth.password || config.auth.passwordHash), managedByEnv: Object.keys(authEnv).filter((key) => process.env[authEnv[key]]) }, notificationsConfigured: Boolean(config.notifications.webhookUrl), services: serviceConfigStatus(config) }); return; }
+    if (request.url === '/api/config' && request.method === 'GET') { const config = readConfig(); json(response, 200, { demoMode: config.demoMode, publicDemo, demoProfile: normalizeDemoProfile(config.demoProfile), authMode: config.auth.mode, auth: { mode: config.auth.mode, apiKeySet: Boolean(config.auth.apiKey), username: config.auth.username, passwordSet: Boolean(config.auth.password || config.auth.passwordHash), managedByEnv: Object.keys(authEnv).filter((key) => process.env[authEnv[key]]) }, notificationsConfigured: Boolean(config.notifications.webhookUrl), services: serviceConfigStatus(config) }); return; }
     if (request.url === '/api/config' && request.method === 'PUT') { const raw = await readBody(request); const result = updateConfig(JSON.parse(raw || '{}')); json(response, result.ok ? 200 : 400, result); return; }
     if (request.url?.startsWith('/api/discovery-artwork') && request.method === 'GET') { if (await serveDiscoveryArtwork(request, response)) return; }
     if (await serveArtwork(request, response)) return;

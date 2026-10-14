@@ -39,6 +39,10 @@
     "attention": "Atenção, {value} alertas por resolver",
     "demoMode": "Modo de demonstração",
     "demoDescription": "São apresentados dados de exemplo. Os serviços ligados não são consultados.",
+    "publicDemo": "Demo pública",
+    "publicDemoDescription": "Dados de exemplo. Só tu vês as tuas alterações, que serão repostas mais tarde.",
+    "installYourOwn": "Instale a sua",
+    "openSettings": "Abrir definições",
     "connecting": "A ligar…",
     "stackConnected": "Stack ligada",
     "needsAttention": "Requer atenção",
@@ -124,5 +128,22 @@
     "waiting": "A aguardar",
     "connecting": "A ligar",
     "degraded": "Degradado"
+  },
+  "demoTour": {
+    "title": "Experimente a demo",
+    "progress": "{value} de {total} concluídas",
+    "request": "Peça «Daybreak Motel»",
+    "approve": "Aprove o seu pedido",
+    "decline": "Recuse um pedido",
+    "import": "Importe uma transferência falhada",
+    "pause": "Pause uma transferência",
+    "blocklist": "Bloqueie uma transferência parada",
+    "invite": "Convide alguém",
+    "remove": "Retire o acesso a alguém",
+    "done": "Concluído",
+    "hide": "Ocultar lista",
+    "show": "Mostrar lista",
+    "finished": "É tudo. Pronto para o seu próprio servidor?",
+    "install": "Instalar Orchestrarr"
   }
 }

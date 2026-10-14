@@ -55,17 +55,20 @@ function generatedCatalogItem(index) {
   };
 }
 
-const catalog = [...catalogSeeds, ...Array.from({ length: 84 }, (_, index) => generatedCatalogItem(index))].map((item, index) => ({
+const catalog = [...catalogSeeds, ...Array.from({ length: 86 }, (_, index) => generatedCatalogItem(index))].map((item, index) => ({
   ...item, seasons: item.mediaType === 'tv' ? item.seasons || 2 + (index % 4) : 0, episodesPerSeason: item.mediaType === 'tv' ? item.episodesPerSeason || 6 + (index % 5) : 0
 }));
 
-const demoRequestOnlyItems = [catalog[6], ...catalog.slice(-5)];
+const demoRequestOnlyItems = [catalog[6], ...catalog.slice(91, 96)];
 const demoRequestOnlyIds = new Set(demoRequestOnlyItems.map((item) => item.id));
+// Titles nobody owns or has requested yet, so Discover always has something to request. The queue skips them,
+// and the two extra catalog titles after the Discover range keep the library the same size.
+const demoUnrequestedIds = new Set([catalog[4].id, catalog[9].id]);
 
 function demoLibraryCatalog(profileName) {
   const profile = profileFor(profileName);
   const sourceLimit = profile.catalogLimit === 24 ? profile.catalogLimit + 1 : profile.catalogLimit;
-  return catalog.slice(0, sourceLimit).filter((item) => !demoRequestOnlyIds.has(item.id));
+  return catalog.slice(0, sourceLimit + demoUnrequestedIds.size).filter((item) => !demoRequestOnlyIds.has(item.id) && !demoUnrequestedIds.has(item.id));
 }
 
 function demoLibraryContains(id, title, profileName) {
@@ -113,7 +116,7 @@ function pipelineItems(profileName) {
   const profile = profileFor(profileName);
   const states = ['Completed', 'Downloading', 'Import failed', 'Stalled', 'Pending', 'Importing', 'Paused', 'Searching', 'Missing', 'Verifying'];
   return Array.from({ length: profile.pipelineCount }, (_, index) => {
-    const item = catalog[(index * 5) % profile.catalogLimit]; const state = states[index % states.length]; const needsAction = ['Import failed', 'Stalled', 'Missing'].includes(state);
+    const slot = (index * 5) % profile.catalogLimit; const item = catalog[demoUnrequestedIds.has(catalog[slot].id) ? slot + 1 : slot]; const state = states[index % states.length]; const needsAction = ['Import failed', 'Stalled', 'Missing'].includes(state);
     const detail = item.mediaType === 'tv' ? episodeTitle(item, index % item.seasons + 1, index % item.episodesPerSeason + 1) : `Movie · ${item.year}`;
     const service = item.mediaType === 'tv' ? (index % 4 === 0 ? 'qBittorrent' : 'Sonarr') : (index % 4 === 0 ? 'qBittorrent' : 'Radarr'); const current = daysAgo((index % 45) / 2, 8 + index % 8);
     return { title: item.title, detail, service, state, progress: state === 'Completed' || state === 'Import failed' ? 100 : state === 'Pending' || state === 'Searching' || state === 'Missing' ? 0 : 15 + (index * 13) % 82, needsAction, sourceId: String(4200 + index), queueId: String(7800 + index), actionId: String(2300 + index), actionType: item.mediaType === 'tv' ? 'series' : 'movie', tmdbId: item.id, mediaType: item.mediaType, torrentHash: 'demo' + String(index).padStart(4, '0') + 'deadbeef', importAction: needsAction && state === 'Import failed', blocklistAction: needsAction, retryAction: state === 'Missing' ? '' : 'search', openUrl: '', updated: current, events: [event('Queue item created', 'Added to ' + service, service, daysAgo(index % 50 + 3, 10), 'created'), event('Release selected', 'A release matched the configured quality profile', service, daysAgo(index % 35 + 2, 11), 'selected'), ...(state === 'Completed' ? [event('Available in library', 'Import completed successfully', service, daysAgo(index % 14 + 1, 14), 'completed')] : [event(state, state === 'Import failed' ? 'Manual action is required' : detail, service, current)])] };

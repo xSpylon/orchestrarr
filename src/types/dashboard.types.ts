@@ -100,6 +100,10 @@ export type Stream = DashboardItem & {
 
 export type DashboardData = {
   mode?: 'demo' | 'live' | string;
+  /** A shared public demo: settings are locked and changes are not saved. */
+  publicDemo?: boolean;
+  /** Demo mode only: which checklist tasks this visitor has done. */
+  demoTour?: DemoTour;
   demoProfile?: 'small' | 'medium' | 'large' | string;
   generatedAt?: string;
   health?: {
@@ -141,8 +145,11 @@ export type ServiceConfig = {
   configured?: boolean;
 };
 
+export type DemoTour = { requested: boolean; approved: boolean; declined: boolean; imported: boolean; paused: boolean; blocklisted: boolean; invited: boolean; removed: boolean };
+
 export type AppConfig = {
   demoMode?: boolean;
+  publicDemo?: boolean;
   demoProfile?: 'small' | 'medium' | 'large' | string;
   authMode?: string;
   /** Secrets are never returned; only whether they are set, and which fields an environment variable controls. */

@@ -39,6 +39,10 @@
     "attention": "Achtung, {value} ungelöste Warnungen",
     "demoMode": "Demomodus",
     "demoDescription": "Beispieldaten werden angezeigt. Verbundene Dienste werden nicht abgefragt.",
+    "publicDemo": "Öffentliche Demo",
+    "publicDemoDescription": "Beispieldaten. Deine Änderungen siehst nur du, und sie werden später zurückgesetzt.",
+    "installYourOwn": "Eigene Installation",
+    "openSettings": "Einstellungen öffnen",
     "connecting": "Verbindung wird hergestellt…",
     "stackConnected": "Stack verbunden",
     "needsAttention": "Aufmerksamkeit erforderlich",
@@ -124,5 +128,22 @@
     "waiting": "Warten",
     "connecting": "Verbindung wird hergestellt",
     "degraded": "Beeinträchtigt"
+  },
+  "demoTour": {
+    "title": "Demo ausprobieren",
+    "progress": "{value} von {total} erledigt",
+    "request": "Fordere „Daybreak Motel“ an",
+    "approve": "Genehmige deine Anfrage",
+    "decline": "Lehne eine Anfrage ab",
+    "import": "Importiere einen fehlerhaften Download",
+    "pause": "Pausiere einen Download",
+    "blocklist": "Sperre einen hängenden Download",
+    "invite": "Lade jemanden ein",
+    "remove": "Entziehe jemandem den Zugang",
+    "done": "Erledigt",
+    "hide": "Checkliste ausblenden",
+    "show": "Checkliste einblenden",
+    "finished": "Das war alles. Bereit für deinen eigenen Server?",
+    "install": "Orchestrarr installieren"
   }
 }

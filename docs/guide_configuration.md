@@ -12,6 +12,7 @@ Orchestrarr can read settings from a JSON file and environment variables.
 | <code>STATE_DIR</code> | <code>.data</code> in the project root | Choose the directory for local event history |
 | <code>DEMO_MODE</code> | <code>true</code> when no saved setting exists | Set the deployment default for demo mode |
 | <code>DEMO_PROFILE</code> | <code>medium</code> | Set the demo usage profile when no saved profile exists |
+| <code>PUBLIC_DEMO</code> | <code>false</code> | Run a shared public demo: demo data only, with settings and outgoing requests locked |
 | Environment variables | — | Supply deployment secrets and override matching saved values |
 | <code>config.json</code> | — | Store settings entered through the dashboard |
 
@@ -51,6 +52,19 @@ Demo mode is useful for previews, screenshots and first-time setup.
 - Disable it from Settings or with <code>DEMO_MODE=false</code>, then configure the services you want to use.
 
 An explicit saved setting wins over the environment default. When demo mode is active, the dashboard shows a persistent banner. Demo data never requires real service credentials. The catalog, users, history and service events are synthetic, and the local posters in public/demo/posters/ are original fictional placeholder artwork. Demo mode does not call external metadata services.
+
+Actions work on the demo data: approving and declining requests, requesting a title, importing, blocklisting, pausing, resuming, searching and dismissing alerts. Each browser gets its own changes through an <code>orchestrarr_demo</code> cookie. They are kept in memory only, never written to disk or sent to a service, and reset when the server restarts.
+
+A **Try the demo** checklist in the corner walks through eight tasks: request Daybreak Motel from Discover, approve that request, decline another, import a download that failed to import, pause a download, blocklist a stalled one, create an invitation, and remove someone's access. A removed user stays gone from your Access list until the server restarts. Each task opens its page and ticks off once done. It starts folded on narrow screens and remembers whether you folded it.
+
+### Public demo
+
+Set <code>PUBLIC_DEMO=true</code> (with <code>AUTH_MODE=none</code>) to host a demo that anyone can open. Every visitor shares the same server, so a public demo:
+
+- always shows demo data, whatever <code>DEMO_MODE</code> or <code>config.json</code> say, and uses <code>DEMO_PROFILE</code> as its fixed profile;
+- answers every write with <code>403</code>, except signing in and out, refreshing, and the actions demo mode answers itself (each visitor only sees their own changes);
+- blocks all Docker routes, connection tests, notification tests and incoming webhooks, and serves only the local demo posters, so visitors cannot make the server reach another host;
+- disables the demo switch and the profile picker, and its banner says changes only show for that visitor and links to orchestrarr.com.
 
 Choose the demo usage profile from **Settings → Demo usage profile**:
 

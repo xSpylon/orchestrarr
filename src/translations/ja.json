@@ -39,6 +39,10 @@
     "attention": "注意：未解決のアラートが{value}件あります",
     "demoMode": "デモモード",
     "demoDescription": "サンプルデータを表示しています。接続済みサービスには問い合わせません。",
+    "publicDemo": "公開デモ",
+    "publicDemoDescription": "サンプルデータです。変更はあなたにだけ表示され、後でリセットされます。",
+    "installYourOwn": "自分の環境にインストール",
+    "openSettings": "設定を開く",
     "connecting": "接続中…",
     "stackConnected": "スタック接続済み",
     "needsAttention": "要確認",
@@ -124,5 +128,22 @@
     "waiting": "待機中",
     "connecting": "接続中",
     "degraded": "低下"
+  },
+  "demoTour": {
+    "title": "デモを試す",
+    "progress": "{value} / {total} 完了",
+    "request": "「Daybreak Motel」をリクエスト",
+    "approve": "自分のリクエストを承認",
+    "decline": "リクエストを却下",
+    "import": "失敗したダウンロードをインポート",
+    "pause": "ダウンロードを一時停止",
+    "blocklist": "停滞したダウンロードをブロック",
+    "invite": "誰かを招待",
+    "remove": "誰かのアクセスを削除",
+    "done": "完了",
+    "hide": "チェックリストを隠す",
+    "show": "チェックリストを表示",
+    "finished": "以上です。自分のサーバーで使ってみませんか？",
+    "install": "Orchestrarr をインストール"
   }
 }

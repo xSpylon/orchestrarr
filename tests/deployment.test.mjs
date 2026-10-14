@@ -151,3 +151,69 @@ test('malformed login bodies and method mismatches are rejected safely', async (
     assert.equal((await fetch(`${app.url}/api/auth/status`, { method: 'POST' })).status, 405);
   } finally { await app?.stop(); rmSync(directory, { recursive: true, force: true }); }
 });
+
+test('public demo stays in demo mode and refuses writes that change settings or reach other hosts', async () => {
+  const directory = mkdtempSync(join(tmpdir(), 'orchestrarr-public-demo-'));
+  let app;
+  try {
+    // DEMO_MODE=false must not win: a public demo never shows live data
+    app = await startServer(directory, '', 'none', { PUBLIC_DEMO: 'true', DEMO_MODE: 'false', DOCKER_ENABLED: 'true' });
+    const write = (path, method = 'POST', body = {}) => fetch(`${app.url}${path}`, { method, headers: { Origin: app.url, 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+    const dashboard = await (await fetch(`${app.url}/api/dashboard`)).json();
+    assert.equal(dashboard.mode, 'demo');
+    assert.equal(dashboard.publicDemo, true);
+    assert.equal((await (await fetch(`${app.url}/api/config`)).json()).publicDemo, true);
+    for (const [path, method, body] of [
+      ['/api/config', 'PUT', { demoMode: false }],
+      ['/api/config', 'PUT', { demoProfile: 'large' }],
+      ['/api/test-service?name=sonarr', 'POST', { settings: { url: 'http://169.254.169.254', apiKey: 'x' } }],
+      ['/api/notifications/test'],
+      ['/api/docker/restart?container=orchestrarr'],
+      ['/api/webhooks/sonarr'],
+    ]) {
+      const response = await write(path, method, body);
+      assert.equal(response.status, 403, `${method || 'POST'} ${path}`);
+      assert.match((await response.json()).error, /public demo/i);
+    }
+    assert.equal((await fetch(`${app.url}/api/docker/logs?container=orchestrarr`)).status, 403);
+    // demo-only actions still work, so the demo feels like the app
+    assert.equal((await write('/api/wizarr/invitations')).status, 201);
+    assert.equal((await write('/api/refresh')).status, 200);
+    assert.equal((await (await fetch(`${app.url}/api/config`)).json()).demoProfile, 'medium');
+    // posters come from the local demo set only; the server never fetches TMDb images on a visitor's behalf
+    assert.equal((await fetch(`${app.url}/api/discovery-artwork?path=/demo/posters/afterlight.png&size=w342`)).status, 200);
+    assert.equal((await fetch(`${app.url}/api/discovery-artwork?path=/qJ2tW6WMUDux911r6m7haRef0WH.jpg&size=w342`)).status, 404);
+  } finally { await app?.stop(); rmSync(directory, { recursive: true, force: true }); }
+});
+
+test('demo actions change only the acting visitor\'s demo data, also in a public demo', async () => {
+  const directory = mkdtempSync(join(tmpdir(), 'orchestrarr-demo-actions-'));
+  let app;
+  try {
+    app = await startServer(directory, '', 'none', { PUBLIC_DEMO: 'true' });
+    const visitor = async () => {
+      const response = await fetch(`${app.url}/api/dashboard`);
+      const cookie = response.headers.get('set-cookie')?.split(';')[0];
+      assert.match(cookie || '', /^orchestrarr_demo=/);
+      return { cookie, dashboard: await response.json() };
+    };
+    const a = await visitor();
+    const b = await visitor();
+    const post = (cookie, path, body) => fetch(`${app.url}${path}`, { method: 'POST', headers: { Cookie: cookie, Origin: app.url, 'Content-Type': 'application/json' }, body: body ? JSON.stringify(body) : undefined });
+    const dashboardOf = async (cookie) => (await fetch(`${app.url}/api/dashboard`, { headers: { Cookie: cookie } })).json();
+    const pending = a.dashboard.requests.find((item) => item.state === 'Pending');
+    const failedImport = a.dashboard.pipeline.find((item) => item.importAction);
+    assert.equal((await post(a.cookie, `/api/actions/jellyseerr-request?id=${pending.requestId}&action=approve`)).status, 200);
+    assert.equal((await post(a.cookie, `/api/actions/import-arr?service=${failedImport.service}&id=${failedImport.queueId}`)).status, 200);
+    assert.equal((await post(a.cookie, '/api/actions/request-jellyseerr', { mediaType: 'movie', tmdbId: a.dashboard.requests[0].tmdbId })).status, 200);
+    const afterA = await dashboardOf(a.cookie);
+    assert.equal(afterA.requests.find((item) => item.requestId === pending.requestId).state, 'Approved');
+    assert.equal(afterA.pipeline.find((item) => item.queueId === failedImport.queueId), undefined);
+    assert.equal(afterA.requests[0].requester, 'You');
+    const afterB = await dashboardOf(b.cookie);
+    assert.equal(afterB.requests.find((item) => item.requestId === pending.requestId).state, 'Pending');
+    assert.ok(afterB.pipeline.find((item) => item.queueId === failedImport.queueId));
+    const bogus = await post(a.cookie, '/api/actions/jellyseerr-request?id=1&action=delete');
+    assert.equal(bogus.status, 500);
+  } finally { await app?.stop(); rmSync(directory, { recursive: true, force: true }); }
+});

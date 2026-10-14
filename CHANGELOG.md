@@ -7,6 +7,10 @@ All notable changes to Orchestrarr are documented here. The format follows [Keep
 ### Added
 
 - Switching demo mode on or off shows a notice while the dashboard reloads, then confirms where it landed.
+- Actions work in demo mode: approve, decline, request, import, blocklist, pause, resume, search and dismiss change your own copy of the demo data, kept in memory per browser.
+- Demo mode now includes titles that are not in the library or requested yet (Northern Signal, Daybreak Motel), so Discover shows a Request button.
+- A "Try the demo" checklist in demo mode walks through requesting, approving, declining, importing, pausing, blocklisting, inviting and removing access, and ticks off each task as you do it.
+- `PUBLIC_DEMO=true` runs a shared public demo: demo data only, settings locked, and no requests that change settings or reach other hosts.
 
 ## [0.1.0] - 2026-10-14
 
