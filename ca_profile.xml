@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CommunityApplications>
+  <Profile>Official Orchestrarr repository. Orchestrarr is an open-source, self-hosted control center for Plex and *arr media stacks. It brings playback, requests, download queues and service health into one workspace. Early beta; support and setup help are available through GitHub Discussions. Maintenance is best-effort.</Profile>
+  <Icon>https://raw.githubusercontent.com/xSpylon/orchestrarr/main/public/orchestrarr_logo.png</Icon>
+  <WebPage>https://orchestrarr.com</WebPage>
+  <Forum>https://github.com/xSpylon/orchestrarr/discussions</Forum>
+</CommunityApplications>

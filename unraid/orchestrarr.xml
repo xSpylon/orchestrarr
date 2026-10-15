@@ -9,8 +9,12 @@
   <Support>https://github.com/xSpylon/orchestrarr/discussions</Support>
   <Project>https://orchestrarr.com</Project>
   <ReadMe>https://github.com/xSpylon/orchestrarr#readme</ReadMe>
-  <Overview>One dashboard for Plex, Sonarr, Radarr, Jellyseerr, qBittorrent and the rest of your media stack: playback, requests, queues and service health, with actions like approving requests and importing downloads. On first start Orchestrarr generates an API key and prints it once; read it with "docker logs orchestrarr" and sign in with it. Then add your services under Services, using your server's LAN address and each service's port.</Overview>
+  <TemplateURL>https://raw.githubusercontent.com/xSpylon/orchestrarr/main/unraid/orchestrarr.xml</TemplateURL>
+  <Beta>true</Beta>
+  <License>https://github.com/xSpylon/orchestrarr/blob/main/LICENSE</License>
+  <Overview>Orchestrarr is an open-source, self-hosted control center for Plex and *arr media stacks. See playback, requests, download queues and service health in one workspace, then approve requests, import completed downloads, blocklist releases or pause and resume torrents. Early beta; maintenance is best-effort. Try the demo with fictional data at https://demo.orchestrarr.com before installing. On first start Orchestrarr generates an API key and prints it once; read it with "docker logs orchestrarr" and sign in with it. Then add your services under Services, using your server's LAN address and each service's port. Settings and credentials persist in /app/.data. All signed-in users have administrative access to the connected services. For remote access, keep authentication enabled and use a VPN or an HTTPS reverse proxy.</Overview>
   <Category>MediaServer:Other Tools:</Category>
+  <ExtraSearchTerms>plex sonarr radarr jellyseerr qbittorrent sabnzbd tautulli prowlarr bazarr dashboard media arr</ExtraSearchTerms>
   <WebUI>http://[IP]:[PORT:4173]</WebUI>
   <Icon>https://raw.githubusercontent.com/xSpylon/orchestrarr/main/public/orchestrarr_logo.png</Icon>
   <ExtraParams/>
