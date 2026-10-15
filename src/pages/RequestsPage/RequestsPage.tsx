@@ -10,11 +10,13 @@ import { Pagination } from '@/components/Pagination/Pagination';
 import { RequestsFilters } from '@/components/RequestsFilters/RequestsFilters';
 import { useRequestsFilters } from '@/hooks/use_requests_filters';
 import { useLocale } from '@/lib/i18n';
+import { useConfirmation } from '@/components/ConfirmationProvider/ConfirmationProvider';
 
 type RequestsPageProps = { dashboard: DashboardData; onSelect: (item: DashboardItem) => void; onNewRequest: () => void; onToast: (message: string) => void; onRefresh: () => Promise<void> };
 
 export function RequestsPage({ dashboard, onSelect, onNewRequest, onToast, onRefresh }: RequestsPageProps) {
   const { t } = useLocale();
+  const confirm = useConfirmation();
   const items = dashboard.requests || [];
   const filters = useRequestsFilters(items);
   const { filtered, visible, start } = filters;
@@ -24,7 +26,7 @@ export function RequestsPage({ dashboard, onSelect, onNewRequest, onToast, onRef
       onToast(t('requests.noId'));
       return;
     }
-    if (action === 'decline' && !window.confirm(t('requests.confirmDecline', undefined, { title: item.title }))) return;
+    if (action === 'decline' && !await confirm({ title: t('requests.confirmDecline', undefined, { title: item.title }), destructive: true })) return;
     try {
       await apiRequest(`/api/actions/jellyseerr-request?id=${encodeURIComponent(String(item.requestId))}&action=${action}`, { method: 'POST' });
       onToast(t(action === 'approve' ? 'actions.requestApproved' : 'actions.requestDeclined', undefined, { title: String(item.title) }));

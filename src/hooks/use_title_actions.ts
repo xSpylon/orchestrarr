@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { apiRequest } from '@/lib/api';
 import { useLocale } from '@/lib/i18n';
+import { useConfirmation } from '@/components/ConfirmationProvider/ConfirmationProvider';
 import type { DashboardItem } from '@/types/dashboard.types';
 import type { MediaType } from '@/types/title.types';
 
@@ -18,6 +19,7 @@ type TitleActionsInput = {
 /** Requesting the title in Jellyseerr, and approving or declining an open request. */
 export function useTitleActions({ initialTitle, initialTmdbId, mediaType, resolvedTmdbId, title, relatedRequest, onToast, onRefresh }: TitleActionsInput) {
   const { t } = useLocale();
+  const confirm = useConfirmation();
   const [requestSubmitting, setRequestSubmitting] = useState(false);
   const [requestSubmitted, setRequestSubmitted] = useState(false);
   const [requestAction, setRequestAction] = useState('');
@@ -46,7 +48,7 @@ export function useTitleActions({ initialTitle, initialTmdbId, mediaType, resolv
 
   async function manageJellyseerrRequest(action: 'approve' | 'decline') {
     if (!relatedRequest?.requestId || requestAction) return;
-    if (action === 'decline' && !window.confirm(t('actions.confirmDecline', undefined, { title }))) return;
+    if (action === 'decline' && !await confirm({ title: t('actions.confirmDecline', undefined, { title }), destructive: true })) return;
     setRequestAction(action);
     try {
       await apiRequest(`/api/actions/jellyseerr-request?id=${encodeURIComponent(String(relatedRequest.requestId))}&action=${action}`, { method: 'POST' });

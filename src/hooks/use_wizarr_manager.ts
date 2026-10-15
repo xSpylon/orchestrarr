@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { apiRequest } from '@/lib/api';
 import { useLocale } from '@/lib/i18n';
+import { useConfirmation } from '@/components/ConfirmationProvider/ConfirmationProvider';
 import type { WizarrCreatedInvite, WizarrInvitationResponse, WizarrManagement, WizarrUser } from '@/components/WizarrManager/WizarrManager.types';
 
 export type WizarrInviteOption = 'unlimitedUses' | 'allowDownloads' | 'allowLiveTv' | 'allowMobileUploads';
@@ -11,6 +12,7 @@ const toggleId = (ids: number[], id: number, on: boolean) => on ? [...ids, id] :
 /** Wizarr users and invitations: loading, removing users, and the create-invitation form. */
 export function useWizarrManager({ onToast, onChanged, refreshKey = '' }: { onToast: (message: string) => void; onChanged: () => void; refreshKey?: string }) {
   const { t } = useLocale();
+  const confirm = useConfirmation();
   const [data, setData] = useState<WizarrManagement | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -80,7 +82,7 @@ export function useWizarrManager({ onToast, onChanged, refreshKey = '' }: { onTo
 
   async function removeUser(user: WizarrUser) {
     const label = user.username || user.email || `User ${user.id}`;
-    if (!window.confirm(t('actions.confirmRemoveUser', undefined, { name: label }))) return;
+    if (!await confirm({ title: t('actions.confirmRemoveUser', undefined, { name: label }), destructive: true })) return;
     setRemovingId(user.id);
     setError('');
     try {
