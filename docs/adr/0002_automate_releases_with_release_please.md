@@ -15,4 +15,5 @@ Commits follow [Conventional Commits](https://www.conventionalcommits.org/) with
 - `CHANGELOG.md` has no `Unreleased` section any more; sections from 0.2.0 down were written by hand and stay as they are.
 - Commits without a recognized type are left out of the notes and do not trigger a release.
 - With `GITHUB_TOKEN`, CI does not run on the release pull request. A `RELEASE_PLEASE_TOKEN` secret (a fine-grained personal access token) enables it.
+- After every green push to `main`, the workflow fast-forwards `dev` to it, so the release commit reaches `dev` without a manual merge. It never merges or forces: when `dev` has its own commits, it is left as it is. Pushes made with `GITHUB_TOKEN` start no new CI run on `dev`, which is fine because the commit already passed on `main`.
 - The images are still built in the release workflow because releases and tags created with `GITHUB_TOKEN` do not trigger other workflows.

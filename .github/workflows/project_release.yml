@@ -2,7 +2,7 @@ name: Release
 
 # After CI passes on main, release-please keeps a release pull request up to date with the next version and its
 # CHANGELOG section, built from feat:/fix: commits. Merging that pull request creates the vX.Y.Z tag and the GitHub
-# release; this workflow then builds and pushes the Docker images for exactly that commit.
+# release; this workflow then builds and pushes the Docker images for exactly that commit, and fast-forwards dev.
 on:
   workflow_run:
     workflows: [CI]
@@ -31,6 +31,25 @@ jobs:
           config-file: release-please-config.json
           manifest-file: .release-please-manifest.json
           target-branch: main
+
+  # After every green push to main (a release included), bring dev along, but only as a fast-forward:
+  # if dev already has commits that main does not, it is left alone.
+  sync-dev:
+    if: github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - env:
+          SHA: ${{ github.event.workflow_run.head_sha }}
+        run: |
+          git fetch origin dev
+          if git merge-base --is-ancestor origin/dev "$SHA"; then
+            git push origin "${SHA}:refs/heads/dev"
+          else
+            echo "::notice::dev has commits that main does not, so it was not fast-forwarded."
+          fi
 
   images:
     needs: release-please
