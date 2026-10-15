@@ -2,6 +2,13 @@
 
 All notable changes to Orchestrarr are documented here. The project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html); before 1.0, minor versions may contain breaking changes. From 0.2.0 on, [release-please](https://github.com/googleapis/release-please) writes each new section from the `feat` and `fix` commits of that release (see [CONTRIBUTING.md](CONTRIBUTING.md#releases)).
 
+## [0.3.1](https://github.com/xSpylon/orchestrarr/compare/v0.3.0...v0.3.1) (2026-10-15)
+
+
+### Fixed
+
+* Load artwork when signed in with basic auth ([4b3d54a](https://github.com/xSpylon/orchestrarr/commit/4b3d54a68ee52ebc06ad72f53d32202af06d0bce))
+
 ## [0.3.0](https://github.com/xSpylon/orchestrarr/compare/v0.2.0...v0.3.0) (2026-10-14)
 
 
