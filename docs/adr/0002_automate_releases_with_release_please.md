@@ -6,7 +6,7 @@ Up to 0.2.0 a release was a hand-made commit: bump `version` in `package.json`, 
 
 ## Decision
 
-Commits follow [Conventional Commits](https://www.conventionalcommits.org/) with the gitmoji after the type (`feat: ✨ …`, `fix: 🐛 …`). After CI passes on `main`, `.github/workflows/project_release.yml` runs [release-please](https://github.com/googleapis/release-please), which keeps a release pull request open with the next version and its changelog section, built from the `feat` and `fix` commits. Merging that pull request creates the tag and the GitHub release; the same workflow then builds and pushes the images as in 0001. `release-please-config.json` maps commit types to the existing section names (Added, Fixed, Changed, Security) and `.release-please-manifest.json` holds the current version. Dependabot commits use the `chore(deps)` type so they stay out of the notes.
+Commits follow [Conventional Commits](https://www.conventionalcommits.org/) (`feat: …`, `fix: …`). After CI passes on `main`, `.github/workflows/project_release.yml` runs [release-please](https://github.com/googleapis/release-please), which keeps a release pull request open with the next version and its changelog section, built from the `feat` and `fix` commits. Merging that pull request creates the tag and the GitHub release; the same workflow then builds and pushes the images as in 0001. `release-please-config.json` maps commit types to the existing section names (Added, Fixed, Changed, Security) and `.release-please-manifest.json` holds the current version. Dependabot commits use the `chore(deps)` type so they stay out of the notes.
 
 ## Consequences
 
