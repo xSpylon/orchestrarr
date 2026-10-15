@@ -17,7 +17,7 @@
 
 Orchestrarr brings Plex, Sonarr, Radarr, Jellyseerr and related services into one dashboard. See what needs attention, inspect the details and take action without jumping between service interfaces.
 
-https://github.com/user-attachments/assets/491a1a65-13df-4e0d-a779-79e8315bde29
+https://github.com/user-attachments/assets/80bdb961-2260-4fbe-b349-b6e36f45a2e5
 
 > **Early beta** · self-hosted · [AGPL-3.0 licensed](LICENSE)
 
