@@ -70,13 +70,17 @@ For LAN or remote access, deliberately change the published host address, keep a
 
 ### On Unraid
 
-Unraid does not ship Docker Compose, so use the template instead: it fills in the port, the appdata path and the settings for you. In the Unraid terminal, download it once:
+The easiest way to install Orchestrarr on Unraid is through Community Applications. Open **Apps**, search for **Orchestrarr**, review the template and click **Install**. Use the default WebUI port unless 4173 is already in use, and keep the appdata path at `/mnt/user/appdata/orchestrarr` so your settings and credentials are included in your appdata backups.
+
+After installation, open the WebUI and retrieve the generated API key with `docker logs orchestrarr`. Add your services under **Services**, using your server's LAN address and each service's host port, for example `http://192.168.68.10:8989` for Sonarr.
+
+If Orchestrarr is not yet visible in Community Applications, use the template directly. It fills in the port, the appdata path and the settings for you. In the Unraid terminal, download it once:
 
 ```bash
 curl -fsSL -o /boot/config/plugins/dockerMan/templates-user/my-orchestrarr.xml https://raw.githubusercontent.com/xSpylon/orchestrarr/main/unraid/orchestrarr.xml
 ```
 
-Then go to **Docker → Add Container**, pick **orchestrarr** under Template, change the port if 4173 is taken and click **Apply**. Read the generated API key with `docker logs orchestrarr` and open the WebUI link. Settings live in `/mnt/user/appdata/orchestrarr`, so your appdata backup covers them, and Unraid offers updates like for any other container. Add services under **Services** with your server's LAN address and each service's host port, for example `http://192.168.68.10:8989` for Sonarr.
+Then go to **Docker → Add Container**, pick **orchestrarr** under Template, change the port if 4173 is taken and click **Apply**. The template stores settings in `/mnt/user/appdata/orchestrarr`, so your appdata backup covers them.
 
 ## Run locally
 
