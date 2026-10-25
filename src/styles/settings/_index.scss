@@ -58,34 +58,34 @@
   --motion-fast: 100ms;
   --motion-ui: 160ms;
   --ease-out: cubic-bezier(.25,.46,.45,.94);
-}
-:root[data-theme='light'] {
-  color-scheme: light;
-  --background-canvas: #f4f5f7;
-  --background-primary: #fff;
-  --background-secondary: #f8f9fa;
-  --background-tertiary: #fff;
-  --background-hover: rgb(0 0 0 / .035);
-  --background-active: rgb(0 0 0 / .06);
-  --foreground-primary: #1b1c1f;
-  --foreground-secondary: #3c4149;
-  --foreground-muted: #6b6f76;
-  --foreground-disabled: #a0a3a9;
-  --border-primary: #e6e7ea;
-  --border-subtle: #eff0f2;
-  --border-strong: #d3d5d9;
-  /* Darker teal on light surfaces keeps text and white-on-accent above 4.5:1. */
-  --accent: #0a7a71;
-  --accent-solid: #0a7a71;
-  --accent-hover: #08665e;
-  --accent-muted: rgb(10 122 113 / .1);
-  --on-accent: #fff;
-  --success: #23855a;
-  --warning: #a86f00;
-  --danger: #cd3b3b;
-  --info: #2a76c6;
-  --danger-muted: rgb(205 59 59 / .07);
-  --focus-ring: #0a7a71;
-  --backdrop: rgb(20 20 25 / .2);
-  --shadow-floating: 0 0 0 1px rgb(0 0 0 / .04), 0 4px 16px rgb(0 0 0 / .08);
+  &[data-theme='light'] {
+    color-scheme: light;
+    --background-canvas: #f4f5f7;
+    --background-primary: #fff;
+    --background-secondary: #f8f9fa;
+    --background-tertiary: #fff;
+    --background-hover: rgb(0 0 0 / .035);
+    --background-active: rgb(0 0 0 / .06);
+    --foreground-primary: #1b1c1f;
+    --foreground-secondary: #3c4149;
+    --foreground-muted: #6b6f76;
+    --foreground-disabled: #a0a3a9;
+    --border-primary: #e6e7ea;
+    --border-subtle: #eff0f2;
+    --border-strong: #d3d5d9;
+    /* Darker teal on light surfaces keeps text and white-on-accent above 4.5:1. */
+    --accent: #0a7a71;
+    --accent-solid: #0a7a71;
+    --accent-hover: #08665e;
+    --accent-muted: rgb(10 122 113 / .1);
+    --on-accent: #fff;
+    --success: #23855a;
+    --warning: #a86f00;
+    --danger: #cd3b3b;
+    --info: #2a76c6;
+    --danger-muted: rgb(205 59 59 / .07);
+    --focus-ring: #0a7a71;
+    --backdrop: rgb(20 20 25 / .2);
+    --shadow-floating: 0 0 0 1px rgb(0 0 0 / .04), 0 4px 16px rgb(0 0 0 / .08);
+  }
 }

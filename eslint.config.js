@@ -20,8 +20,14 @@ export default tseslint.config(
   },
   {
     // The Node API server, dev scripts, tests and build config.
-    files: ['server.js', 'server/**/*.js', 'scripts/**/*.mjs', 'tests/**/*.mjs', 'vite.config.ts'],
+    files: ['server.js', 'server/**/*.js', 'scripts/**/*.mjs', 'tests/**/*.{mjs,ts,tsx}', 'vite.config.ts', 'vitest.config.ts'],
     extends: [js.configs.recommended],
-    languageOptions: { globals: globals.node },
+    languageOptions: { globals: { ...globals.node, ...globals.browser, ...globals.vitest } },
+  },
+  {
+    // Frontend tests use the same TypeScript, Hooks and accessibility rules as the app.
+    files: ['tests/**/*.tsx'],
+    extends: [js.configs.recommended, ...tseslint.configs.recommended, reactHooks.configs.flat.recommended, jsxA11y.flatConfigs.recommended],
+    languageOptions: { globals: { ...globals.node, ...globals.browser, ...globals.vitest } },
   },
 );

@@ -178,10 +178,11 @@ The dashboard supports English, Nederlands, Deutsch, Français, Español, Italia
 ## Development
 
 ```bash
-yarn check          # filename conventions, ESLint, TypeScript and syntax checks
+yarn check          # filename conventions, ESLint, Stylelint (SCSS), TypeScript and syntax checks
 yarn build          # build the frontend
 yarn test           # Node integration tests and Vitest component tests
 yarn lint           # filename conventions and ESLint
+yarn lint:styles    # Stylelint checks for app SCSS
 docker build -t orchestrarr:ci .
 DOCKER_IMAGE=orchestrarr:ci yarn test:docker
 ```

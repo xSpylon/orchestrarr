@@ -45,16 +45,36 @@
   small { color: var(--foreground-muted); font-size: 12px; }
 }
 .advanced {
-  > summary { width: fit-content; color: var(--foreground-muted); cursor: pointer; font-size: 12px; font-weight: var(--weight-medium); }
-  > summary:hover { color: var(--foreground-primary); }
+  > summary {
+    width: fit-content;
+    color: var(--foreground-muted);
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: var(--weight-medium);
+    &:hover {
+      color: var(--foreground-primary);
+    }
+  }
 }
 .advancedContent { display: grid; gap: 14px; padding-top: 12px; }
 .toggleField {
   position: relative; display: grid; grid-template-columns: 28px minmax(0, 1fr); align-items: center; gap: 10px; min-height: var(--control-sm); color: var(--foreground-primary); cursor: pointer; font-size: 13px;
-  input { position: absolute; width: 1px; height: 1px; opacity: 0; }
-  input:focus-visible + .switch { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
-  input:checked + .switch { background: var(--accent-solid); }
-  input:checked + .switch::after { transform: translateX(12px); }
+  input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    &:focus-visible + .switch {
+      outline: 2px solid var(--focus-ring);
+      outline-offset: 2px;
+    }
+    &:checked + .switch {
+      background: var(--accent-solid);
+    }
+    &:checked + .switch::after {
+      transform: translateX(12px);
+    }
+  }
 }
 .switch {
   position: relative; width: 28px; height: 16px; border-radius: 8px; background: var(--border-strong); transition: background-color var(--motion-fast);

@@ -17,7 +17,6 @@ import { TitleProgress } from '../src/components/TitleProgress/TitleProgress';
 import { TitlePending } from '../src/components/TitlePending/TitlePending';
 import { LoginForm } from '../src/components/LoginForm/LoginForm';
 import { Toggle } from '../src/components/Toggle/Toggle';
-import { useAccessSettings } from '../src/hooks/use_access_settings';
 import { useActivityFilters } from '../src/hooks/use_activity_filters';
 import { useAppDrawer } from '../src/hooks/use_app_drawer';
 import { useAppShellSidebar } from '../src/hooks/use_app_shell_sidebar';
@@ -177,7 +176,7 @@ describe('LoginForm', () => {
     globalThis.fetch = fetchMock;
     render(<LoginForm mode="apikey" onAuthenticated={onAuthenticated} />);
     fireEvent.change(screen.getByLabelText('Orchestrarr API key'), { target: { value: 'secret' } });
-    fireEvent.submit(screen.getByRole('button', { name: 'Sign in' }).closest('form'));
+    fireEvent.submit(screen.getByRole('button', { name: 'Sign in' }).closest('form')!);
     await waitFor(() => expect(onAuthenticated).toHaveBeenCalledTimes(1));
     expect(fetchMock).toHaveBeenNthCalledWith(1, '/api/auth/login', expect.objectContaining({ method: 'POST', body: JSON.stringify({ key: 'secret' }) }));
     expect(fetchMock).toHaveBeenNthCalledWith(2, '/api/auth/status', expect.objectContaining({ credentials: 'same-origin' }));
@@ -192,7 +191,7 @@ describe('LoginForm', () => {
     render(<LoginForm mode="basic" onAuthenticated={onAuthenticated} />);
     fireEvent.change(screen.getByLabelText('Username'), { target: { value: 'sven' } });
     fireEvent.change(screen.getByLabelText('Password'), { target: { value: 'päss' } });
-    fireEvent.submit(screen.getByRole('button', { name: 'Sign in' }).closest('form'));
+    fireEvent.submit(screen.getByRole('button', { name: 'Sign in' }).closest('form')!);
     await waitFor(() => expect(onAuthenticated).toHaveBeenCalledTimes(1));
     expect(fetchMock).toHaveBeenNthCalledWith(1, '/api/auth/login', expect.objectContaining({ method: 'POST', body: JSON.stringify({ username: 'sven', password: 'päss' }) }));
   });
@@ -202,7 +201,7 @@ describe('LoginForm', () => {
     globalThis.fetch = vi.fn().mockResolvedValue(new Response(JSON.stringify({ error: 'Invalid access key' }), { status: 401 }));
     render(<LoginForm mode="apikey" onAuthenticated={onAuthenticated} />);
     fireEvent.change(screen.getByLabelText('Orchestrarr API key'), { target: { value: 'wrong' } });
-    fireEvent.submit(screen.getByRole('button', { name: 'Sign in' }).closest('form'));
+    fireEvent.submit(screen.getByRole('button', { name: 'Sign in' }).closest('form')!);
     expect(await screen.findByRole('alert')).toHaveTextContent('Invalid access key');
     expect(onAuthenticated).not.toHaveBeenCalled();
   });
@@ -342,9 +341,9 @@ describe('settings, filters and detail interactions', () => {
     const settings = { config: { authMode: 'none', auth: { mode: 'none', username: 'admin' } }, loaded: true, saving: false, saveConfig };
     render(<SettingsAccess settings={settings} />);
     fireEvent.change(screen.getByRole('combobox'), { target: { value: 'basic' } });
-    fireEvent.change(document.querySelector('input[autocomplete="username"]'), { target: { value: 'sven' } });
+    fireEvent.change(document.querySelector('input[autocomplete="username"]')!, { target: { value: 'sven' } });
     fireEvent.change(screen.getByPlaceholderText('Required'), { target: { value: 'secret' } });
-    fireEvent.submit(screen.getByRole('button', { name: 'Save access' }).closest('form'));
+    fireEvent.submit(screen.getByRole('button', { name: 'Save access' }).closest('form')!);
     await waitFor(() => expect(saveConfig).toHaveBeenCalled());
     expect(saveConfig.mock.calls[0][0]).toEqual({ auth: { mode: 'basic', username: 'sven', password: 'secret' } });
   });
@@ -452,7 +451,10 @@ describe('settings, filters and detail interactions', () => {
     document.body.append(titlePoster);
     const transition = { finished: Promise.resolve() };
     Object.defineProperty(window, 'matchMedia', { configurable: true, value: vi.fn(() => ({ matches: false })) });
-    document.startViewTransition = vi.fn((update) => { update(); return transition; });
+    Object.defineProperty(document, 'startViewTransition', {
+      configurable: true,
+      value: vi.fn((update: () => void) => { update(); return transition; }),
+    });
     const remembered = { element: poster, key: 'movie-123', src: '/movie.jpg' };
     transitionToTitle(remembered, () => {});
     await transition.finished;
