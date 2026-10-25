@@ -29,6 +29,12 @@ const configPath = process.env.CONFIG_PATH || join(root, 'config.json');
 const stateDir = process.env.STATE_DIR || join(root, '.data');
 // A public demo is shared by every visitor, so it always shows demo data and refuses anything that changes settings or reaches another host.
 const publicDemo = process.env.PUBLIC_DEMO === 'true';
+const publicDemoSitemap = [
+  '<?xml version="1.0" encoding="UTF-8"?>',
+  '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+  '<url><loc>https://demo.orchestrarr.com/</loc></url>',
+  '</urlset>',
+].join('');
 const demoActionPaths = ['/api/actions/jellyseerr-request', '/api/actions/request-jellyseerr', '/api/actions/import-arr', '/api/actions/blocklist-arr', '/api/actions/pause-qbittorrent', '/api/actions/resume-qbittorrent', '/api/actions/search-arr', '/api/actions/search-sonarr-availability', '/api/actions/resolve'];
 const publicDemoWrites = ['/api/auth/login', '/api/auth/logout', '/api/refresh', '/api/wizarr/invitations', ...demoActionPaths];
 const demoActions = createDemoActions();
@@ -1731,6 +1737,7 @@ const server = createServer(async (request, response) => {
     if (request.url === '/api/config' && request.method === 'PUT') { const raw = await readBody(request); const result = updateConfig(JSON.parse(raw || '{}')); json(response, result.ok ? 200 : 400, result); return; }
     if (request.url?.startsWith('/api/discovery-artwork') && request.method === 'GET') { if (await serveDiscoveryArtwork(request, response)) return; }
     if (await serveArtwork(request, response)) return;
+    if (publicDemo && ['GET', 'HEAD'].includes(request.method) && request.url?.split('?')[0] === '/sitemap.xml') { response.writeHead(200, { 'Content-Type': 'application/xml; charset=utf-8', 'Cache-Control': 'public, max-age=3600', 'X-Content-Type-Options': 'nosniff' }); response.end(request.method === 'HEAD' ? '' : publicDemoSitemap); return; }
     serveStatic(request, response, join(root, 'dist'));
   } catch (error) { json(response, 500, { error: error.message }); }
 });

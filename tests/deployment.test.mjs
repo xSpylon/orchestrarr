@@ -163,6 +163,10 @@ test('public demo stays in demo mode and refuses writes that change settings or 
     assert.equal(dashboard.mode, 'demo');
     assert.equal(dashboard.publicDemo, true);
     assert.equal((await (await fetch(`${app.url}/api/config`)).json()).publicDemo, true);
+    const sitemap = await fetch(`${app.url}/sitemap.xml`);
+    assert.equal(sitemap.status, 200);
+    assert.match(sitemap.headers.get('content-type') || '', /application\/xml/);
+    assert.ok((await sitemap.text()).includes('<loc>https://demo.orchestrarr.com/</loc>'));
     for (const [path, method, body] of [
       ['/api/config', 'PUT', { demoMode: false }],
       ['/api/config', 'PUT', { demoProfile: 'large' }],
